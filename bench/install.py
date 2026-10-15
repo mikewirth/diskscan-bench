@@ -72,7 +72,8 @@ def place(name, url, inner=None, sha=None):
     else:
         shutil.copy(fn, os.path.join(BIN, exe)); os.chmod(os.path.join(BIN, exe), 0o755); return
     want = inner or exe
-    for d, _, fs in os.walk(tmp):
+    cands = sorted(os.walk(tmp), key=lambda w: ("x64" not in w[0] and "amd64" not in w[0], "arm64" in w[0]))
+    for d, _, fs in cands:
         if want in fs:
             src = d
             # GUI apps: copy the whole folder content (dlls, resources)

@@ -65,7 +65,7 @@ TOOLS = [
          method="Official CLI: /SaveTo scans without showing the main window, writes CSV, exits. Wall time = process lifetime."),
     dict(id="spacesniffer", name="SpaceSniffer", homepage="http://www.uderzo.it/main_products/space_sniffer/", pin="1.3.0.2", track="gui",
          platforms=["windows"], cmd=["SpaceSniffer.exe", "scan", "{path}", "export", "Grouped by folder", "{out}.txt", "autoclose"],
-         metric="logical", parse="none", precision="none", version=None, version_static="1.3.0.2",
+         metric="logical", parse="none", precision="none", version=None, version_static="1.3.0.2", optional=True,
          method="Official CLI: scan + export + autoclose. Opens the treemap window; wall time = until autoclose after export."),
 ]
 

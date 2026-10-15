@@ -48,7 +48,7 @@ def walk(root, manifest=False):
         except OSError:
             continue
         for e in it:
-            st = e.stat(follow_symlinks=False)
+            st = os.lstat(e.path) if os.name == "nt" else e.stat(follow_symlinks=False)
             erel = f"{rel}/{e.name}" if rel else e.name
             r["entries"] += 1
             if stat.S_ISLNK(st.st_mode):

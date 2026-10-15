@@ -128,6 +128,8 @@ def judge(t, val, ref):
         canon = "logical_dedup"; cands = ["logical_dedup", "logical", "logical_with_dirs_dedup"]
     tol = {"exact": 0.001, "kib": 0.001, "human": 0.06}.get(t["precision"], 0.001)
     def diff(k): return (val - ref[k]) / ref[k] if ref[k] else 0.0
+    if not ref[canon]:
+        return dict(status="unknown", note="reference total is 0")
     d = diff(canon)
     best = min(cands, key=lambda k: abs(diff(k)))
     ok = abs(d) <= tol
