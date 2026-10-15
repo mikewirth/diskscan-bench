@@ -62,7 +62,7 @@ CSS = """
 a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 header.top{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
 header.top .in{max-width:1080px;margin:auto;padding:12px 20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-header.top .brand{font-weight:800;letter-spacing:-.02em;color:var(--fg);font-size:17px}header.top nav{display:flex;gap:16px;font-size:14px}
+header.top .brand{font-weight:800;letter-spacing:-.02em;color:var(--fg);font-size:17px}header.top nav{display:flex;gap:16px;font-size:14px;flex-wrap:wrap}
 header.top nav a{color:var(--mut)}header.top nav a:hover{color:var(--fg)}
 main{max-width:1080px;margin:auto;padding:24px 20px 60px}
 h1{font-size:34px;letter-spacing:-.03em;margin:8px 0 4px}h2{letter-spacing:-.02em;margin-top:40px}
