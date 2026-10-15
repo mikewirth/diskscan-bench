@@ -57,7 +57,7 @@ Apps that would need UI automation or a commercial licence on CI are listed as *
 | app | platform | method | status |
 |---|---|---|---|
 | WinDirStat 2.9.3 | Windows | `WinDirStat.exe /SaveTo out.csv <dir>`: scans without showing the main window, writes CSV, exits | implemented |
-| SpaceSniffer 1.3.0.2 | Windows | `SpaceSniffer.exe scan <dir> export "Grouped by folder" out.txt autoclose` | implemented (no total parsed) |
+| SpaceSniffer 1.3.0.2 | Windows | `SpaceSniffer.exe scan <dir> export "Grouped by folder" out.txt autoclose` | planned: process never exits on the hosted runner (modal/first-run dialog suspected) |
 | WizTree | Windows | `/export= /admin=1` CLI exists | planned: EULA is free for personal use only |
 | TreeSize Free | Windows | no CLI in the Free edition | planned: UI automation |
 | GrandPerspective | macOS | CLI launch starts a scan, but there is no completion or exit signal | planned: needs Accessibility (TCC), which can't be granted on hosted runners |

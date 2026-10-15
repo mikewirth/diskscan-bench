@@ -49,7 +49,6 @@ T = {  # (platform, arch) -> url ; {exe} names the binary inside the archive
            ("macos","x86_64"): ("cargo", ["--git", "https://github.com/healeycodes/dumac", "--rev", "1ffbe3c38d1066c45cac9b4ec1e31eb74edc1076"])},
  "du64": {("windows","x86_64"): ("https://download.sysinternals.com/files/DU.zip", "du64.exe")},
  "WinDirStat": {("windows","x86_64"): (f"{GH}/windirstat/windirstat/releases/download/release/v2.9.3/WinDirStat.zip", "WinDirStat.exe")},
- "SpaceSniffer": {("windows","x86_64"): ("http://www.uderzo.it/main_products/space_sniffer/files/spacesniffer_1_3_0_2.zip", "SpaceSniffer.exe")},
 }
 
 def fetch(url, sha=None):

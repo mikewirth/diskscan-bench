@@ -1,7 +1,7 @@
 # diskscan-bench
 
 A neutral, reproducible benchmark of **disk-usage scanners**: `du`, diskus, dust, dua-cli, gdu, ncdu, pdu, erdtree, dumac,
-Sysinternals du, and GUI analyzers such as WinDirStat and SpaceSniffer. It covers **macOS, Linux and Windows**, measures
+Sysinternals du, and GUI analyzers (WinDirStat today; more planned). It covers **macOS, Linux and Windows**, measures
 **cold and warm cache separately**, and has a **correctness table** that compares each tool's total with a reference walker.
 
 **Results:** https://mikewirth.github.io/diskscan-bench/ · **Methodology:** https://mikewirth.github.io/diskscan-bench/methodology.html · raw JSON in [`results/`](results/)

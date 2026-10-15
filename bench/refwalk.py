@@ -12,7 +12,7 @@ import os, sys, json, hashlib, stat
 
 def walk(root, manifest=False):
     r = dict(files=0, dirs=0, symlinks=0, entries=0,
-             logical=0, logical_dedup=0, logical_with_dirs_dedup=0,
+             logical=0, logical_dedup=0, logical_with_dirs=0, logical_with_dirs_dedup=0,
              alloc_du=0, alloc_files_dedup=0, alloc_nodedup=0, alloc_files_nodedup=0,
              hardlinked_inodes=0)
     seen = set()
@@ -29,6 +29,7 @@ def walk(root, manifest=False):
             r["hardlinked_inodes"] += 1
         seen.add(key)
         r["alloc_nodedup"] += alloc
+        r["logical_with_dirs"] += st.st_size
         if first:
             r["alloc_du"] += alloc
             r["logical_with_dirs_dedup"] += st.st_size

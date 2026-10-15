@@ -125,7 +125,7 @@ def judge(t, val, ref):
     if t["metric"] == "allocated" and ref.get("alloc_du") is not None:
         canon = "alloc_du"; cands = ["alloc_du", "alloc_files_dedup", "alloc_nodedup", "alloc_files_nodedup"]
     else:
-        canon = "logical_dedup"; cands = ["logical_dedup", "logical", "logical_with_dirs_dedup"]
+        canon = "logical_dedup"; cands = ["logical_dedup", "logical", "logical_with_dirs_dedup", "logical_with_dirs"]
     tol = {"exact": 0.001, "kib": 0.001, "human": 0.06}.get(t["precision"], 0.001)
     def diff(k): return (val - ref[k]) / ref[k] if ref[k] else 0.0
     if not ref[canon]:

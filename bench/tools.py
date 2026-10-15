@@ -63,10 +63,6 @@ TOOLS = [
          platforms=["windows"], cmd=["WinDirStat.exe", "/SaveTo", "{out}.csv", "{path}"], metric="logical",
          parse="windirstat_csv", precision="exact", version=None, version_static="2.9.3",
          method="Official CLI: /SaveTo scans without showing the main window, writes CSV, exits. Wall time = process lifetime."),
-    dict(id="spacesniffer", name="SpaceSniffer", homepage="http://www.uderzo.it/main_products/space_sniffer/", pin="1.3.0.2", track="gui",
-         platforms=["windows"], cmd=["SpaceSniffer.exe", "scan", "{path}", "export", "Grouped by folder", "{out}.txt", "autoclose"],
-         metric="logical", parse="none", precision="none", version=None, version_static="1.3.0.2", optional=True,
-         method="Official CLI: scan + export + autoclose. Opens the treemap window; wall time = until autoclose after export."),
 ]
 
 PLANNED_GUI = [
@@ -76,6 +72,7 @@ PLANNED_GUI = [
     ("macos", "Disk Inventory X", "Free/GPL, no CLI; UI automation needed (planned). Older builds are Intel-only."),
     ("macos", "SquirrelDisk", "Open source (Tauri) and scans by spawning pdu internally, so its engine time is approximately pdu's; GUI has no completion signal. Planned."),
     ("windows", "WizTree", "Has a proper CLI export (/export=... /admin=1, MFT scan) and would be easy to automate, but the EULA allows free use for personal use only; running it on CI for a public benchmark needs a supporter licence or the vendor's permission. Planned pending permission."),
+    ("windows", "SpaceSniffer", "Documented CLI (scan <dir> export <config> <file> autoclose) was implemented, but on windows-latest the process never exits (likely a first-run/modal dialog on the headless desktop); needs UI automation or a pre-seeded config. Planned."),
     ("windows", "TreeSize Free", "Free edition exposes no scan/export command-line switches (CLI is Professional-only). Would need UI automation (pywinauto) waiting for the scan to finish. Planned."),
     ("linux", "Baobab (GNOME Disk Usage Analyzer)", "No export/exit mode; completion only in UI. Needs AT-SPI automation under Xvfb. Planned."),
     ("linux", "QDirStat", "GUI has no scan-and-exit mode; its bundled qdirstat-cache-writer is a separate Perl script, not the GUI's engine. Planned (UI automation or a --slow-update-free headless mode if upstream adds one)."),
