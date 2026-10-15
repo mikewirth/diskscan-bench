@@ -78,3 +78,15 @@ Results land in `results/<date>/<runner-label>/results.json`.
 The maintainer's own engine is included through its public CLI download only (manifest
 `https://assets.nulldisk.app/releases/cli/latest.json`). It is shown as *pending* until that download is live.
 No private code is part of this repository.
+
+## Leaderboard score
+**Speed score** = the geometric mean, over every scored (dataset, cache mode) cell, of `baseline median time / tool median time`.
+
+- The baseline is the platform's `du`: GNU du on Linux, BSD du on macOS, Sysinternals du on Windows. The baseline scores exactly 1.00×; 2.00× means twice as fast as `du` on a typical cell. Higher is better.
+- Cells are each dataset × {cold, warm}. On Windows they are warm only, because cold cache isn't measured there yet.
+- We use the geometric mean so that no single dataset dominates and a 2× win and a 2× loss cancel out.
+- A cell is skipped when the timed runs failed or exited differently from the instrumented run. A tool must cover at least half of the cells to be ranked.
+- A dataset is held out of scoring when its reference is suspect. That means no exact-output tool matches the reference within 0.1% while at least 3 tools agree with each other. Datasets can also be held out explicitly. Currently held out: **macOS `node_modules`**. BSD du and the reference walker agree there, but every other tool reports exactly 2.3% less, and we are investigating.
+- Accuracy issues never remove a tool from the ranking; they add a ⚠ marker that links to the correctness table.
+- The GUI track is ranked separately against the same baseline. GUI times include app launch and export, so only compare GUI apps with each other.
+- Cold and Warm on the leaderboard are the geometric mean of the tool's median times across scored datasets.
