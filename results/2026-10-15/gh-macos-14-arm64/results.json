@@ -1,0 +1,2445 @@
+{
+ "schema": 1,
+ "generated_utc": "2026-10-15T06:38:04+00:00",
+ "profile": "full",
+ "runner": {
+  "platform": "macos",
+  "os": "macOS-14.8.9-arm64-arm-64bit",
+  "machine": "arm64",
+  "cpus": 3,
+  "python": "3.12.10",
+  "image": "macos14",
+  "image_version": "20260831.0302.1",
+  "runner_name": "GitHub Actions 1000000147",
+  "runner_environment": "github-hosted",
+  "label": "gh-macos-14-arm64",
+  "github_run": "38693471289",
+  "commit": "5715eff3f31f54bd616c983008d0d3c4143c8b98",
+  "cpu_model": "Apple M1 (Virtual)",
+  "mem_bytes": 7516192768,
+  "macos": "14.8.9",
+  "filesystem": "apfs (dedicated disk image)"
+ },
+ "cache_modes": {
+  "warm": true,
+  "cold": true
+ },
+ "cold_method": "detach + `purge` + reattach of a dedicated APFS disk image before every run",
+ "tools": {
+  "du": {
+   "name": "du (system)",
+   "homepage": "https://www.gnu.org/software/coreutils/",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": null,
+   "status": "active",
+   "version": "BSD du (macOS 14.8.9)",
+   "cmd": [
+    "du",
+    "-sk",
+    "{path}"
+   ],
+   "notes": "GNU coreutils on Linux, BSD du on macOS (version = OS build).",
+   "method": null
+  },
+  "diskus": {
+   "name": "diskus",
+   "homepage": "https://github.com/sharkdp/diskus",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "0.9.0",
+   "status": "active",
+   "version": "diskus 0.9.0",
+   "cmd": [
+    "diskus",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "dust": {
+   "name": "dust",
+   "homepage": "https://github.com/bootandy/dust",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "1.2.6",
+   "status": "active",
+   "version": "Dust 1.2.6",
+   "cmd": [
+    "dust",
+    "-d",
+    "0",
+    "-b",
+    "-o",
+    "b",
+    "-P",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "dua": {
+   "name": "dua-cli",
+   "homepage": "https://github.com/Byron/dua-cli",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "2.45.1",
+   "status": "active",
+   "version": "dua 2.45.1",
+   "cmd": [
+    "dua",
+    "-f",
+    "bytes",
+    "aggregate",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "gdu": {
+   "name": "gdu",
+   "homepage": "https://github.com/dundee/gdu",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "5.38.0",
+   "status": "active",
+   "version": "Version:\t v5.38.0",
+   "cmd": [
+    "gdu",
+    "-n",
+    "-s",
+    "-p",
+    "--no-prefix",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "ncdu": {
+   "name": "ncdu (JSON export)",
+   "homepage": "https://dev.yorhel.nl/ncdu",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "2.9.1",
+   "status": "active",
+   "version": "ncdu 2.9.2",
+   "cmd": [
+    "ncdu",
+    "-0",
+    "-x",
+    "-o",
+    "{out}",
+    "{path}"
+   ],
+   "notes": "Non-interactive export mode (-o); includes writing the JSON export.",
+   "method": null
+  },
+  "pdu": {
+   "name": "pdu (parallel-disk-usage)",
+   "homepage": "https://github.com/KSXGitHub/parallel-disk-usage",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "0.24.0",
+   "status": "active",
+   "version": "pdu 0.24.0",
+   "cmd": [
+    "pdu",
+    "--quantity=block-size",
+    "--bytes-format=plain",
+    "--max-depth=1",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "erdtree": {
+   "name": "erdtree (erd)",
+   "homepage": "https://github.com/solidiquis/erdtree",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "3.1.2",
+   "status": "active",
+   "version": "erdtree 3.1.2",
+   "cmd": [
+    "erd",
+    "-i",
+    "--hidden",
+    "-d",
+    "physical",
+    "-L",
+    "1",
+    "-y",
+    "iflat",
+    "--color",
+    "none",
+    "{path}"
+   ],
+   "notes": "-i/--hidden so .gitignore'd and hidden files are counted like every other tool.",
+   "method": null
+  },
+  "dumac": {
+   "name": "dumac",
+   "homepage": "https://github.com/healeycodes/dumac",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "git:1ffbe3c38d1066c45cac9b4ec1e31eb74edc1076",
+   "status": "active",
+   "version": "git 1ffbe3c",
+   "cmd": [
+    "dumac",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "nulldisk": {
+   "name": "NullDisk CLI",
+   "homepage": "https://nulldisk.app",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": null,
+   "status": "pending",
+   "version": null,
+   "cmd": [
+    "nulldisk",
+    "scan",
+    "{path}",
+    "--json"
+   ],
+   "notes": "Maintainer's own tool (see disclosure). Installed from the public manifest https://assets.nulldisk.app/releases/cli/latest.json (override with NULLDISK_CLI_MANIFEST); listed as pending while the download is not published.",
+   "method": null
+  }
+ },
+ "datasets": {
+  "tiny": {
+   "files": 150000,
+   "dirs": 2408,
+   "symlinks": 0,
+   "entries": 152408,
+   "logical": 307072848,
+   "logical_dedup": 307072848,
+   "logical_with_dirs": 312104080,
+   "logical_with_dirs_dedup": 312104080,
+   "alloc_du": 614244352,
+   "alloc_files_dedup": 614244352,
+   "alloc_nodedup": 614244352,
+   "alloc_files_nodedup": 614244352,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "3711ca3f4a185e3a7c47e16a5eb67d978c11396bdd06762c9daf6b00a9f7e74f"
+  },
+  "wide": {
+   "files": 50000,
+   "dirs": 1,
+   "symlinks": 0,
+   "entries": 50001,
+   "logical": 12787907,
+   "logical_dedup": 12787907,
+   "logical_with_dirs": 14388067,
+   "logical_with_dirs_dedup": 14388067,
+   "alloc_du": 204292096,
+   "alloc_files_dedup": 204292096,
+   "alloc_nodedup": 204292096,
+   "alloc_files_nodedup": 204292096,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "58e5155c70835b871958d906bdeeefc7b62b43e016ad8409963e8302a076122e"
+  },
+  "mixed": {
+   "files": 13282,
+   "dirs": 150,
+   "symlinks": 204,
+   "entries": 13432,
+   "logical": 10744516660,
+   "logical_dedup": 10351300660,
+   "logical_with_dirs": 10744956148,
+   "logical_with_dirs_dedup": 10351740148,
+   "alloc_du": 1771732992,
+   "alloc_files_dedup": 1771732992,
+   "alloc_nodedup": 2164948992,
+   "alloc_files_nodedup": 2164948992,
+   "hardlinked_inodes": 2000,
+   "manifest_sha256": "e10dd42e950503bf7b43deb0d22100974b97798a50a1986f53441a1b279143c2"
+  },
+  "node_modules": {
+   "files": 11354,
+   "dirs": 1628,
+   "symlinks": 37,
+   "entries": 12982,
+   "logical": 108732151,
+   "logical_dedup": 108732151,
+   "logical_with_dirs": 109251831,
+   "logical_with_dirs_dedup": 109251831,
+   "alloc_du": 144670720,
+   "alloc_files_dedup": 144670720,
+   "alloc_nodedup": 144670720,
+   "alloc_files_nodedup": 144670720,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "90a541659c749e96b102830a9a0639a8bf45b31e2e3e2eab4284586beb28fe49"
+  },
+  "linux_kernel": {
+   "files": 81753,
+   "dirs": 5317,
+   "symlinks": 63,
+   "entries": 87070,
+   "logical": 1353502157,
+   "logical_dedup": 1353502157,
+   "logical_with_dirs": 1356628749,
+   "logical_with_dirs_dedup": 1356628749,
+   "alloc_du": 1547952128,
+   "alloc_files_dedup": 1547952128,
+   "alloc_nodedup": 1547952128,
+   "alloc_files_nodedup": 1547952128,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "1ee0c2c8c9307b1e922e48322c74060c2aa8d46e06e3a5263f4963757edf5e81"
+  }
+ },
+ "results": [
+  {
+   "tool": "du",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1556480,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "599848\t/Users/runner/work/_temp/dsbmnt/data/tiny/tree\n",
+   "warm": {
+    "median_s": 0.2834791245,
+    "mean_s": 0.31493027490000003,
+    "stddev_s": 0.0662331843449875,
+    "min_s": 0.247743875,
+    "max_s": 0.42642716700000005,
+    "runs": 10,
+    "times_s": [
+     0.28062533300000003,
+     0.263237333,
+     0.269253917,
+     0.31140700000000004,
+     0.270514292,
+     0.42642716700000005,
+     0.410407416,
+     0.3833535,
+     0.247743875,
+     0.286332916
+    ],
+    "user_s": 0.0189581,
+    "system_s": 0.2766156,
+    "peak_rss_median_bytes": 1605632.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.91835075,
+    "mean_s": 5.32319555,
+    "stddev_s": 7.809147286737197,
+    "min_s": 1.5024543750000001,
+    "max_s": 19.281282167,
+    "runs": 5,
+    "times_s": [
+     1.6043621250000002,
+     19.281282167,
+     1.5024543750000001,
+     1.91835075,
+     2.3095283330000003
+    ],
+    "user_s": 0.0227086,
+    "system_s": 0.5949863999999999,
+    "peak_rss_median_bytes": 1589248.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3637248,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "614244352\n",
+   "warm": {
+    "median_s": 0.7333795205,
+    "mean_s": 0.7591645458,
+    "stddev_s": 0.1602559997617345,
+    "min_s": 0.555268167,
+    "max_s": 1.164809542,
+    "runs": 10,
+    "times_s": [
+     0.76108525,
+     0.555268167,
+     0.796599542,
+     0.674595833,
+     0.8094470420000001,
+     0.7176648750000001,
+     0.686850625,
+     0.676230416,
+     0.749094166,
+     1.164809542
+    ],
+    "user_s": 0.1573581,
+    "system_s": 1.025347,
+    "peak_rss_median_bytes": 3940352.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 2.476158542,
+    "mean_s": 29.193794491399995,
+    "stddev_s": 60.48422501736574,
+    "min_s": 1.493771791,
+    "max_s": 137.387884083,
+    "runs": 5,
+    "times_s": [
+     137.387884083,
+     2.7113440410000003,
+     1.493771791,
+     1.8998140000000001,
+     2.476158542
+    ],
+    "user_s": 0.32092059999999994,
+    "system_s": 2.5046057999999998,
+    "peak_rss_median_bytes": 3948544.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 46956544,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "614244352B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 1.12329075,
+    "mean_s": 1.1031856749000002,
+    "stddev_s": 0.18544784052153027,
+    "min_s": 0.70518175,
+    "max_s": 1.350208375,
+    "runs": 10,
+    "times_s": [
+     0.916873166,
+     1.1057555,
+     1.173766166,
+     1.248116542,
+     1.078914083,
+     1.1408260000000001,
+     1.260457709,
+     0.70518175,
+     1.051757458,
+     1.350208375
+    ],
+    "user_s": 0.142348,
+    "system_s": 1.3629587,
+    "peak_rss_median_bytes": 47235072.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.543176709,
+    "mean_s": 5.3200986502,
+    "stddev_s": 8.565696088649194,
+    "min_s": 1.272907208,
+    "max_s": 20.638222375,
+    "runs": 5,
+    "times_s": [
+     1.272907208,
+     1.33362525,
+     1.543176709,
+     20.638222375,
+     1.8125617090000001
+    ],
+    "user_s": 0.1592662,
+    "system_s": 1.6011456000000002,
+    "peak_rss_median_bytes": 47628288.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 7274496,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "   9428992 b d2c\n   9428992 b d31\n   9428992 b d38\n   9433088 b d2a\n   9433088 b d2d\n   9433088 b d2e\n   9433088 b d32\n   9433088 b d33\n   9433088 b d36\n   9433088 b d37\n   9433088 b d39\n   9433088 b d3a\n   9433088 b d3d\n   9433088 b d3f\n   9437184 b d28\n   9437184 b d29\n   9437184 b d2b\n   9437184 ",
+   "warm": {
+    "median_s": 0.142736521,
+    "mean_s": 0.14879660840000003,
+    "stddev_s": 0.026844422621970062,
+    "min_s": 0.10961466700000001,
+    "max_s": 0.20233837500000001,
+    "runs": 10,
+    "times_s": [
+     0.11812104100000001,
+     0.14035545900000002,
+     0.1642615,
+     0.10961466700000001,
+     0.20233837500000001,
+     0.165741,
+     0.14511758300000002,
+     0.1661815,
+     0.137315625,
+     0.138919334
+    ],
+    "user_s": 0.045103000000000004,
+    "system_s": 0.3531178,
+    "peak_rss_median_bytes": 6930432.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.674056417,
+    "mean_s": 21.7501770166,
+    "stddev_s": 44.591793936184466,
+    "min_s": 1.6088005,
+    "max_s": 101.516558166,
+    "runs": 5,
+    "times_s": [
+     1.6193618330000001,
+     1.6088005,
+     1.674056417,
+     101.516558166,
+     2.332108167
+    ],
+    "user_s": 0.0885834,
+    "system_s": 1.0976652,
+    "peak_rss_median_bytes": 7454720.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 27623424,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "614244352 tree\n",
+   "warm": {
+    "median_s": 1.3041107915,
+    "mean_s": 1.3366249916000001,
+    "stddev_s": 0.17744075778761648,
+    "min_s": 1.033619416,
+    "max_s": 1.750286333,
+    "runs": 10,
+    "times_s": [
+     1.349783792,
+     1.306155291,
+     1.26647025,
+     1.411462958,
+     1.378118292,
+     1.298114542,
+     1.750286333,
+     1.27017275,
+     1.3020662920000001,
+     1.033619416
+    ],
+    "user_s": 0.3485232,
+    "system_s": 1.8640149000000001,
+    "peak_rss_median_bytes": 28770304.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in benchmark iteration 2. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 1,
+   "peak_rss_bytes": 1802240,
+   "reported_bytes": null,
+   "correctness": {
+    "status": "unknown",
+    "note": "exit code 1"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.022321875,
+    "mean_s": 0.0245393083,
+    "stddev_s": 0.006227875469876421,
+    "min_s": 0.019039875,
+    "max_s": 0.0362345,
+    "runs": 10,
+    "times_s": [
+     0.023231416,
+     0.0362345,
+     0.022867125000000002,
+     0.030998917,
+     0.020346917000000003,
+     0.019039875,
+     0.019394834,
+     0.032123666,
+     0.021776625,
+     0.019379208000000002
+    ],
+    "user_s": 0.0027297999999999997,
+    "system_s": 0.0025633,
+    "peak_rss_median_bytes": 1654784.0,
+    "exit_codes": [
+     1
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 9748480,
+   "reported_bytes": 0,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 614244352,
+    "diff_pct": -100.0,
+    "closest_semantics": null
+   },
+   "stdout_head": "0 \u250c\u2500\u2500/Users/runner/work/_temp/dsbmnt/data/tiny/tree\u2502                                                                                             \u2502  0%\n",
+   "warm": {
+    "median_s": 0.023517791500000003,
+    "mean_s": 0.026806433300000005,
+    "stddev_s": 0.008520655378821344,
+    "min_s": 0.021456000000000003,
+    "max_s": 0.049511916,
+    "runs": 10,
+    "times_s": [
+     0.022027750000000002,
+     0.021456000000000003,
+     0.021938417,
+     0.031729,
+     0.049511916,
+     0.025021417,
+     0.023387333,
+     0.02617575,
+     0.023648250000000003,
+     0.0231685
+    ],
+    "user_s": 0.010955299999999998,
+    "system_s": 0.01014,
+    "peak_rss_median_bytes": 9748480.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 1,
+   "peak_rss_bytes": 4472832,
+   "reported_bytes": null,
+   "correctness": {
+    "status": "unknown",
+    "note": "exit code 1"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.0026798125000000003,
+    "mean_s": 0.0026668752000000005,
+    "stddev_s": 0.000280057143116583,
+    "min_s": 0.0023028750000000002,
+    "max_s": 0.0031287090000000004,
+    "runs": 10,
+    "times_s": [
+     0.0026845830000000004,
+     0.0031287090000000004,
+     0.0028003750000000003,
+     0.002458333,
+     0.0026750420000000003,
+     0.0028307920000000004,
+     0.003008709,
+     0.002367292,
+     0.0023028750000000002,
+     0.002412042
+    ],
+    "user_s": 0.0013528999999999998,
+    "system_s": 0.0009035000000000001,
+    "peak_rss_median_bytes": 4079616.0,
+    "exit_codes": [
+     1
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dumac",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 1,
+   "peak_rss_bytes": 1900544,
+   "reported_bytes": null,
+   "correctness": {
+    "status": "unknown",
+    "note": "exit code 1"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.0013944375,
+    "mean_s": 0.0016313834999999999,
+    "stddev_s": 0.0006132212924864255,
+    "min_s": 0.001260667,
+    "max_s": 0.0032127920000000003,
+    "runs": 10,
+    "times_s": [
+     0.001349417,
+     0.0012696250000000001,
+     0.001260667,
+     0.001326417,
+     0.0014562090000000002,
+     0.0014116250000000001,
+     0.00137725,
+     0.0014900830000000001,
+     0.00215975,
+     0.0032127920000000003
+    ],
+    "user_s": 0.0006208000000000001,
+    "system_s": 0.0007672,
+    "peak_rss_median_bytes": 1802240.0,
+    "exit_codes": [
+     1
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 15155200,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "199504\t/Users/runner/work/_temp/dsbmnt/data/wide/tree\n",
+   "warm": {
+    "median_s": 0.096167917,
+    "mean_s": 0.0942143208,
+    "stddev_s": 0.010463391568260306,
+    "min_s": 0.070525708,
+    "max_s": 0.10921204200000001,
+    "runs": 10,
+    "times_s": [
+     0.070525708,
+     0.101281833,
+     0.091228166,
+     0.09334708300000001,
+     0.09935416600000001,
+     0.10921204200000001,
+     0.09868075000000001,
+     0.099009042,
+     0.085849334,
+     0.093655084
+    ],
+    "user_s": 0.005345,
+    "system_s": 0.0699955,
+    "peak_rss_median_bytes": 15171584.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 10452992,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "204292096\n",
+   "warm": {
+    "median_s": 0.12336852100000001,
+    "mean_s": 0.11681963739999998,
+    "stddev_s": 0.027844211099964725,
+    "min_s": 0.07281612500000001,
+    "max_s": 0.14605020800000001,
+    "runs": 10,
+    "times_s": [
+     0.07281612500000001,
+     0.11031075000000001,
+     0.14142400000000002,
+     0.136426292,
+     0.14605020800000001,
+     0.100848041,
+     0.077229,
+     0.10226383300000001,
+     0.138539417,
+     0.142288708
+    ],
+    "user_s": 0.025008600000000002,
+    "system_s": 0.1250245,
+    "peak_rss_median_bytes": 10657792.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 85590016,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "204292096B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.095818291,
+    "mean_s": 0.10804222910000001,
+    "stddev_s": 0.03197702865578617,
+    "min_s": 0.081301125,
+    "max_s": 0.181377542,
+    "runs": 10,
+    "times_s": [
+     0.181377542,
+     0.12379037500000001,
+     0.098807166,
+     0.09282941600000001,
+     0.083288625,
+     0.085753459,
+     0.088206583,
+     0.10490033300000001,
+     0.081301125,
+     0.140167667
+    ],
+    "user_s": 0.0373425,
+    "system_s": 0.1242365,
+    "peak_rss_median_bytes": 86441984.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5128192,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": " 204292096 b wide\n",
+   "warm": {
+    "median_s": 0.08676772900000002,
+    "mean_s": 0.0924784957,
+    "stddev_s": 0.01737869295691529,
+    "min_s": 0.07286279200000001,
+    "max_s": 0.128425291,
+    "runs": 10,
+    "times_s": [
+     0.084959583,
+     0.08067120800000001,
+     0.07286279200000001,
+     0.084055166,
+     0.08857587500000001,
+     0.08474954200000001,
+     0.118631417,
+     0.08862837500000001,
+     0.093225708,
+     0.128425291
+    ],
+    "user_s": 0.011855599999999999,
+    "system_s": 0.08279729999999999,
+    "peak_rss_median_bytes": 5144576.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 31031296,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "204292096 tree\n",
+   "warm": {
+    "median_s": 0.1540085,
+    "mean_s": 0.147332054,
+    "stddev_s": 0.01735042457737393,
+    "min_s": 0.117737458,
+    "max_s": 0.166257666,
+    "runs": 10,
+    "times_s": [
+     0.151335417,
+     0.16131125000000002,
+     0.162057125,
+     0.16188829200000002,
+     0.156681583,
+     0.132391708,
+     0.136515416,
+     0.166257666,
+     0.127144625,
+     0.117737458
+    ],
+    "user_s": 0.06002829999999999,
+    "system_s": 0.10050129999999999,
+    "peak_rss_median_bytes": 31154176.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1818624,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.10794714650000001,
+    "mean_s": 0.11376495020000002,
+    "stddev_s": 0.016175423491647533,
+    "min_s": 0.10087470800000001,
+    "max_s": 0.1523275,
+    "runs": 10,
+    "times_s": [
+     0.109746334,
+     0.10743120900000001,
+     0.10355054200000001,
+     0.127789291,
+     0.108463084,
+     0.10087470800000001,
+     0.10222329200000001,
+     0.103125584,
+     0.1523275,
+     0.12211795800000001
+    ],
+    "user_s": 0.012095899999999998,
+    "system_s": 0.0978865,
+    "peak_rss_median_bytes": 1728512.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 11862016,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "204292096 \u250c\u2500\u2500/Users/runner/work/_temp/dsbmnt/data/wide/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.17296829200000002,
+    "mean_s": 0.1587952043,
+    "stddev_s": 0.05468021647652793,
+    "min_s": 0.081260542,
+    "max_s": 0.22690362500000003,
+    "runs": 10,
+    "times_s": [
+     0.21468641700000002,
+     0.22690362500000003,
+     0.19337937500000002,
+     0.087237625,
+     0.081260542,
+     0.15684504200000002,
+     0.087162083,
+     0.174377209,
+     0.17155937500000001,
+     0.19454075
+    ],
+    "user_s": 0.0388798,
+    "system_s": 0.16593189999999997,
+    "peak_rss_median_bytes": 11902976.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 55427072,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "204292096 B   tree\n204292096 B   wide\n\n1 directory, 50000 files\n",
+   "warm": {
+    "median_s": 0.1124698965,
+    "mean_s": 0.113713675,
+    "stddev_s": 0.018730532178731524,
+    "min_s": 0.091202958,
+    "max_s": 0.146039166,
+    "runs": 10,
+    "times_s": [
+     0.11369783400000001,
+     0.091202958,
+     0.104603583,
+     0.146039166,
+     0.11913087500000001,
+     0.114856542,
+     0.142941333,
+     0.111241959,
+     0.091532,
+     0.10189050000000001
+    ],
+    "user_s": 0.0752699,
+    "system_s": 0.16233979999999998,
+    "peak_rss_median_bytes": 57737216.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dumac",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 4472832,
+   "reported_bytes": 204262604,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 204292096,
+    "diff_pct": -0.014,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "194.8M\t/Users/runner/work/_temp/dsbmnt/data/wide/tree\n",
+   "warm": {
+    "median_s": 0.066862375,
+    "mean_s": 0.06684348770000001,
+    "stddev_s": 0.007185781581821517,
+    "min_s": 0.054369084000000005,
+    "max_s": 0.079401292,
+    "runs": 10,
+    "times_s": [
+     0.07469954200000001,
+     0.067997125,
+     0.079401292,
+     0.069661542,
+     0.065727625,
+     0.06896983400000001,
+     0.065106167,
+     0.063383333,
+     0.059119333,
+     0.054369084000000005
+    ],
+    "user_s": 0.0040042,
+    "system_s": 0.06154609999999999,
+    "peak_rss_median_bytes": 4481024.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3768320,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1730208\t/Users/runner/work/_temp/dsbmnt/data/mixed/tree\n",
+   "warm": {
+    "median_s": 0.014406771000000002,
+    "mean_s": 0.019506070799999997,
+    "stddev_s": 0.010576916243929164,
+    "min_s": 0.013661334,
+    "max_s": 0.043263083,
+    "runs": 10,
+    "times_s": [
+     0.014443833000000001,
+     0.013661334,
+     0.014369709000000001,
+     0.018421625,
+     0.043263083,
+     0.034818625,
+     0.013861833,
+     0.013887875000000001,
+     0.014465750000000001,
+     0.013867041
+    ],
+    "user_s": 0.0018692000000000001,
+    "system_s": 0.012178,
+    "peak_rss_median_bytes": 3768320.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5029888,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1771732992\n",
+   "warm": {
+    "median_s": 0.055017458500000005,
+    "mean_s": 0.0570134959,
+    "stddev_s": 0.031039071353146767,
+    "min_s": 0.024079334,
+    "max_s": 0.10476858300000001,
+    "runs": 10,
+    "times_s": [
+     0.081414708,
+     0.10476858300000001,
+     0.092588375,
+     0.077641,
+     0.044957042,
+     0.024849458,
+     0.06507787500000001,
+     0.030365375000000003,
+     0.024079334,
+     0.024393209000000003
+    ],
+    "user_s": 0.007283300000000001,
+    "system_s": 0.060013399999999995,
+    "peak_rss_median_bytes": 4833280.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 22544384,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1771732992B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.0639089375,
+    "mean_s": 0.0632014709,
+    "stddev_s": 0.02328456772178385,
+    "min_s": 0.031527375,
+    "max_s": 0.104714,
+    "runs": 10,
+    "times_s": [
+     0.031527375,
+     0.08796179200000001,
+     0.059362625,
+     0.074554916,
+     0.061191125000000006,
+     0.070069834,
+     0.06662675,
+     0.104714,
+     0.043634792000000006,
+     0.032371500000000004
+    ],
+    "user_s": 0.0138191,
+    "system_s": 0.0793918,
+    "peak_rss_median_bytes": 22683648.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 6111232,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "    131072 b sparse\n   1048576 b symlinks\n  20480000 b misc\n 131072000 b hardlinks\n 545259520 b clones\n1073741824 b large\n1771732992 b total\n",
+   "warm": {
+    "median_s": 0.014310916500000001,
+    "mean_s": 0.014131733400000002,
+    "stddev_s": 0.0015834962280824594,
+    "min_s": 0.012179500000000001,
+    "max_s": 0.016744583,
+    "runs": 10,
+    "times_s": [
+     0.012652625,
+     0.012460625000000001,
+     0.012824459000000002,
+     0.012179500000000001,
+     0.013739833000000002,
+     0.014924542,
+     0.015010333,
+     0.014882000000000001,
+     0.015898834,
+     0.016744583
+    ],
+    "user_s": 0.005412999999999999,
+    "system_s": 0.015778800000000003,
+    "peak_rss_median_bytes": 6070272.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 24051712,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1771732992 tree\n",
+   "warm": {
+    "median_s": 0.051948813,
+    "mean_s": 0.05475974190000001,
+    "stddev_s": 0.006731218863167314,
+    "min_s": 0.047787375,
+    "max_s": 0.06979420900000001,
+    "runs": 10,
+    "times_s": [
+     0.06979420900000001,
+     0.051303,
+     0.054533292000000004,
+     0.052276209000000004,
+     0.049778625,
+     0.060779542000000006,
+     0.047787375,
+     0.051621417,
+     0.050168959000000006,
+     0.059554791
+    ],
+    "user_s": 0.0198621,
+    "system_s": 0.0511786,
+    "peak_rss_median_bytes": 24076288.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1802240,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.041401688000000006,
+    "mean_s": 0.0421538461,
+    "stddev_s": 0.0021851796148841434,
+    "min_s": 0.040333125000000004,
+    "max_s": 0.047590417,
+    "runs": 10,
+    "times_s": [
+     0.041064084,
+     0.040333125000000004,
+     0.042243833,
+     0.040683625,
+     0.041623834000000005,
+     0.042073167,
+     0.040728209,
+     0.041179542,
+     0.047590417,
+     0.044018625000000006
+    ],
+    "user_s": 0.004300899999999999,
+    "system_s": 0.037097,
+    "peak_rss_median_bytes": 1802240.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 10207232,
+   "reported_bytes": 2164948992,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 22.194,
+    "closest_semantics": "alloc_nodedup"
+   },
+   "stdout_head": "2164948992 \u250c\u2500\u2500/Users/runner/work/_temp/dsbmnt/data/mixed/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.05401827050000001,
+    "mean_s": 0.0540303915,
+    "stddev_s": 0.004910500486692331,
+    "min_s": 0.046148,
+    "max_s": 0.062051625000000006,
+    "runs": 10,
+    "times_s": [
+     0.0533915,
+     0.056055708,
+     0.059052958,
+     0.046148,
+     0.052617375,
+     0.05378075,
+     0.062051625000000006,
+     0.046698083,
+     0.056252125,
+     0.054255791000000005
+    ],
+    "user_s": 0.016390999999999996,
+    "system_s": 0.0676406,
+    "peak_rss_median_bytes": 10240000.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 21757952,
+   "reported_bytes": 1771732992,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1771732992 B   tree\n1073741824 B   large\n 545259520 B   clones\n 131072000 B   hardlinks\n  20480000 B   misc\n   1048576 B   symlinks\n    131072 B   sparse\n\n150 directories, 13078 files, 204 links\n",
+   "warm": {
+    "median_s": 0.055446437,
+    "mean_s": 0.05590409580000001,
+    "stddev_s": 0.005782151407416539,
+    "min_s": 0.048663083,
+    "max_s": 0.065510209,
+    "runs": 10,
+    "times_s": [
+     0.06466745900000001,
+     0.049431791,
+     0.065510209,
+     0.058831542,
+     0.055731916000000006,
+     0.050737500000000005,
+     0.055339833000000005,
+     0.055553041000000004,
+     0.048663083,
+     0.054574584
+    ],
+    "user_s": 0.020036500000000002,
+    "system_s": 0.060049299999999986,
+    "peak_rss_median_bytes": 21028864.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dumac",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3096576,
+   "reported_bytes": 1825361100,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1771732992,
+    "diff_pct": 3.027,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1.7G\t/Users/runner/work/_temp/dsbmnt/data/mixed/tree\n",
+   "warm": {
+    "median_s": 0.008468854000000001,
+    "mean_s": 0.008878270800000001,
+    "stddev_s": 0.0013619694888646289,
+    "min_s": 0.007461709,
+    "max_s": 0.011255833000000002,
+    "runs": 10,
+    "times_s": [
+     0.008613292,
+     0.009144292,
+     0.011255833000000002,
+     0.007675208,
+     0.008324416000000001,
+     0.007882958,
+     0.010633958,
+     0.0076572920000000004,
+     0.01013375,
+     0.007461709
+    ],
+    "user_s": 0.0019162000000000003,
+    "system_s": 0.0116253,
+    "peak_rss_median_bytes": 3088384.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2129920,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "141280\t/Users/runner/work/_temp/dsbmnt/data/node_modules/tree\n",
+   "warm": {
+    "median_s": 0.043521541500000004,
+    "mean_s": 0.0483451042,
+    "stddev_s": 0.014402379546090121,
+    "min_s": 0.034910375,
+    "max_s": 0.07744100000000001,
+    "runs": 10,
+    "times_s": [
+     0.042286250000000004,
+     0.061944625,
+     0.034911500000000005,
+     0.034910375,
+     0.062269250000000005,
+     0.037653542000000005,
+     0.04965175,
+     0.07744100000000001,
+     0.044756833,
+     0.037625917
+    ],
+    "user_s": 0.0036734000000000003,
+    "system_s": 0.0363463,
+    "peak_rss_median_bytes": 1785856.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 4980736,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "144670720\n",
+   "warm": {
+    "median_s": 0.024956209,
+    "mean_s": 0.0292120046,
+    "stddev_s": 0.0094091180283683,
+    "min_s": 0.022098709,
+    "max_s": 0.047525459000000006,
+    "runs": 10,
+    "times_s": [
+     0.022707,
+     0.047525459000000006,
+     0.023652709,
+     0.029053334,
+     0.023716084000000002,
+     0.029636500000000003,
+     0.0450935,
+     0.022098709,
+     0.026196334,
+     0.022440417
+    ],
+    "user_s": 0.009736899999999998,
+    "system_s": 0.0540974,
+    "peak_rss_median_bytes": 4956160.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 12550144,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "144670720B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.031621083,
+    "mean_s": 0.03368116680000001,
+    "stddev_s": 0.008020754567366796,
+    "min_s": 0.026253167,
+    "max_s": 0.049473917000000006,
+    "runs": 10,
+    "times_s": [
+     0.033128042,
+     0.026785959,
+     0.030699458000000002,
+     0.038462,
+     0.027452,
+     0.04448925,
+     0.032542708000000004,
+     0.049473917000000006,
+     0.027525167000000003,
+     0.026253167
+    ],
+    "user_s": 0.0151085,
+    "system_s": 0.058917699999999996,
+    "peak_rss_median_bytes": 12460032.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 6340608,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "      4096 b package.json\n    290816 b package-lock.json\n 144375808 b node_modules\n 144670720 b total\n",
+   "warm": {
+    "median_s": 0.020911375000000003,
+    "mean_s": 0.0210516707,
+    "stddev_s": 0.001411152017823188,
+    "min_s": 0.019008583000000003,
+    "max_s": 0.023313,
+    "runs": 10,
+    "times_s": [
+     0.019008583000000003,
+     0.019640292,
+     0.021822125,
+     0.020134791000000003,
+     0.023045792000000002,
+     0.020976750000000002,
+     0.020118458000000002,
+     0.021610916,
+     0.023313,
+     0.020846
+    ],
+    "user_s": 0.009629,
+    "system_s": 0.039387799999999994,
+    "peak_rss_median_bytes": 6389760.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 23609344,
+   "reported_bytes": 144338944,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": -0.229,
+    "closest_semantics": null
+   },
+   "stdout_head": "144338944 tree\n",
+   "warm": {
+    "median_s": 0.0358891665,
+    "mean_s": 0.04503191670000001,
+    "stddev_s": 0.020563215995617213,
+    "min_s": 0.033915833,
+    "max_s": 0.095492959,
+    "runs": 10,
+    "times_s": [
+     0.038997958,
+     0.036215375,
+     0.095492959,
+     0.035836625000000004,
+     0.035121208,
+     0.033915833,
+     0.035140834,
+     0.068650417,
+     0.035941708,
+     0.03500625
+    ],
+    "user_s": 0.025945599999999996,
+    "system_s": 0.054489300000000004,
+    "peak_rss_median_bytes": 23756800.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1720320,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.0522195835,
+    "mean_s": 0.05829554590000001,
+    "stddev_s": 0.013901359696913666,
+    "min_s": 0.048010500000000005,
+    "max_s": 0.089385666,
+    "runs": 10,
+    "times_s": [
+     0.049890209000000005,
+     0.050595458,
+     0.076214375,
+     0.06173908300000001,
+     0.089385666,
+     0.053843709000000003,
+     0.049808250000000005,
+     0.048010500000000005,
+     0.048127792,
+     0.055340417
+    ],
+    "user_s": 0.006457299999999999,
+    "system_s": 0.0481992,
+    "peak_rss_median_bytes": 1843200.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 9977856,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "144670720 \u250c\u2500\u2500/Users/runner/work/_temp/dsbmnt/data/node_modules/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.045276854000000005,
+    "mean_s": 0.0451230501,
+    "stddev_s": 0.0023478696142056315,
+    "min_s": 0.041619084,
+    "max_s": 0.047752958000000005,
+    "runs": 10,
+    "times_s": [
+     0.047744709,
+     0.043883750000000006,
+     0.046853709,
+     0.041619084,
+     0.0476045,
+     0.045547208000000006,
+     0.045006500000000005,
+     0.042715167000000005,
+     0.047752958000000005,
+     0.042502916
+    ],
+    "user_s": 0.0187353,
+    "system_s": 0.060221000000000004,
+    "peak_rss_median_bytes": 9994240.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 20201472,
+   "reported_bytes": 144670720,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "144670720 B   tree\n144375808 B   node_modules\n   290816 B   package-lock.json\n     4096 B   package.json\n\n1628 directories, 11317 files, 37 links\n",
+   "warm": {
+    "median_s": 0.07169443750000001,
+    "mean_s": 0.0728147708,
+    "stddev_s": 0.012931690335586664,
+    "min_s": 0.051620833000000005,
+    "max_s": 0.096881083,
+    "runs": 10,
+    "times_s": [
+     0.07226262500000001,
+     0.078778792,
+     0.096881083,
+     0.08821287500000001,
+     0.064851333,
+     0.075030209,
+     0.07112625,
+     0.064157083,
+     0.06522662500000001,
+     0.051620833000000005
+    ],
+    "user_s": 0.0425861,
+    "system_s": 0.107612,
+    "peak_rss_median_bytes": 20668416.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dumac",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5718016,
+   "reported_bytes": 144703488,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 144670720,
+    "diff_pct": 0.023,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "138.0M\t/Users/runner/work/_temp/dsbmnt/data/node_modules/tree\n",
+   "warm": {
+    "median_s": 0.025885729000000003,
+    "mean_s": 0.029821550000000002,
+    "stddev_s": 0.012923456576020252,
+    "min_s": 0.015474333000000002,
+    "max_s": 0.05123475,
+    "runs": 10,
+    "times_s": [
+     0.015474333000000002,
+     0.016822209,
+     0.016359291,
+     0.041355583,
+     0.025514166,
+     0.026257292,
+     0.024582875,
+     0.034106167,
+     0.05123475,
+     0.046508834000000006
+    ],
+    "user_s": 0.0075358,
+    "system_s": 0.04415139999999999,
+    "peak_rss_median_bytes": 5627904.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2375680,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1511672\t/Users/runner/work/_temp/dsbmnt/data/linux_kernel/tree\n",
+   "warm": {
+    "median_s": 0.189917104,
+    "mean_s": 0.18475860440000003,
+    "stddev_s": 0.014867848367359639,
+    "min_s": 0.167602,
+    "max_s": 0.200588292,
+    "runs": 10,
+    "times_s": [
+     0.187551833,
+     0.200588292,
+     0.16783129200000002,
+     0.16796612500000002,
+     0.19982258400000003,
+     0.16877570900000002,
+     0.167602,
+     0.19718591700000002,
+     0.192282375,
+     0.197979917
+    ],
+    "user_s": 0.015497399999999998,
+    "system_s": 0.1673152,
+    "peak_rss_median_bytes": 2088960.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 6586368,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1547952128\n",
+   "warm": {
+    "median_s": 0.1097542085,
+    "mean_s": 0.11245722090000002,
+    "stddev_s": 0.009225467175215605,
+    "min_s": 0.105371875,
+    "max_s": 0.13282395900000002,
+    "runs": 10,
+    "times_s": [
+     0.111987292,
+     0.105371875,
+     0.112332208,
+     0.105453,
+     0.124764625,
+     0.13282395900000002,
+     0.10803433400000001,
+     0.106669,
+     0.10566183300000001,
+     0.111474083
+    ],
+    "user_s": 0.0494114,
+    "system_s": 0.2761546,
+    "peak_rss_median_bytes": 6234112.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 39813120,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1547952128B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.12263916700000001,
+    "mean_s": 0.12309080430000001,
+    "stddev_s": 0.0015565604012712745,
+    "min_s": 0.121097833,
+    "max_s": 0.126461125,
+    "runs": 10,
+    "times_s": [
+     0.12437854200000001,
+     0.12197816700000001,
+     0.122312208,
+     0.121097833,
+     0.12267591700000001,
+     0.126461125,
+     0.122602417,
+     0.12332100000000001,
+     0.12192154200000001,
+     0.124159292
+    ],
+    "user_s": 0.06976299999999999,
+    "system_s": 0.27111290000000005,
+    "peak_rss_median_bytes": 39182336.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 6733824,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1547952128 b linux-6.6\n",
+   "warm": {
+    "median_s": 0.08716485400000001,
+    "mean_s": 0.0966064831,
+    "stddev_s": 0.022002067778234168,
+    "min_s": 0.076459208,
+    "max_s": 0.12807216600000002,
+    "runs": 10,
+    "times_s": [
+     0.07650654200000001,
+     0.102206459,
+     0.088939708,
+     0.12433904100000001,
+     0.12807216600000002,
+     0.12695725000000002,
+     0.07957966600000001,
+     0.076459208,
+     0.077614791,
+     0.08539000000000001
+    ],
+    "user_s": 0.040264499999999995,
+    "system_s": 0.21836309999999998,
+    "peak_rss_median_bytes": 6856704.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 26787840,
+   "reported_bytes": 1522188288,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": -1.664,
+    "closest_semantics": null
+   },
+   "stdout_head": "1522188288 tree\n",
+   "warm": {
+    "median_s": 0.1367579585,
+    "mean_s": 0.13816155010000003,
+    "stddev_s": 0.02105859232078275,
+    "min_s": 0.11563337500000001,
+    "max_s": 0.188783375,
+    "runs": 10,
+    "times_s": [
+     0.141132208,
+     0.13404237500000002,
+     0.13949775,
+     0.12280362500000001,
+     0.11563337500000001,
+     0.153152125,
+     0.188783375,
+     0.139473542,
+     0.12211158400000001,
+     0.124985542
+    ],
+    "user_s": 0.10291829999999999,
+    "system_s": 0.2713903999999999,
+    "peak_rss_median_bytes": 26173440.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1900544,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.3024219375,
+    "mean_s": 0.30980091239999996,
+    "stddev_s": 0.04995304982858635,
+    "min_s": 0.251574291,
+    "max_s": 0.424465541,
+    "runs": 10,
+    "times_s": [
+     0.26018645900000004,
+     0.327125583,
+     0.317353792,
+     0.299962416,
+     0.424465541,
+     0.28083325000000003,
+     0.304881459,
+     0.347970958,
+     0.251574291,
+     0.28365537500000004
+    ],
+    "user_s": 0.030897600000000004,
+    "system_s": 0.260474,
+    "peak_rss_median_bytes": 1900544.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 10125312,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1547952128 \u250c\u2500\u2500/Users/runner/work/_temp/dsbmnt/data/linux_kernel/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.13766406250000002,
+    "mean_s": 0.14513133339999998,
+    "stddev_s": 0.023187267810318896,
+    "min_s": 0.124509667,
+    "max_s": 0.19446616700000002,
+    "runs": 10,
+    "times_s": [
+     0.156104125,
+     0.125641667,
+     0.153152917,
+     0.124509667,
+     0.19446616700000002,
+     0.169275125,
+     0.125490041,
+     0.1273455,
+     0.13462175,
+     0.14070637500000002
+    ],
+    "user_s": 0.05565319999999999,
+    "system_s": 0.2767969,
+    "peak_rss_median_bytes": 10084352.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 81002496,
+   "reported_bytes": 1547952128,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1547952128 B   tree\n1547952128 B   linux-6.6\n\n5317 directories, 81690 files, 63 links\n",
+   "warm": {
+    "median_s": 0.21325393750000002,
+    "mean_s": 0.2301948082,
+    "stddev_s": 0.03916101637624354,
+    "min_s": 0.18886408300000002,
+    "max_s": 0.302455625,
+    "runs": 10,
+    "times_s": [
+     0.191808208,
+     0.23975716600000002,
+     0.284586917,
+     0.21058075,
+     0.18886408300000002,
+     0.20252925000000002,
+     0.21055495800000001,
+     0.302455625,
+     0.21592712500000003,
+     0.254884
+    ],
+    "user_s": 0.15889259999999997,
+    "system_s": 0.34923669999999996,
+    "peak_rss_median_bytes": 80920576.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  },
+  {
+   "tool": "dumac",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 7110656,
+   "reported_bytes": 1503238553,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1547952128,
+    "diff_pct": -2.889,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1.4G\t/Users/runner/work/_temp/dsbmnt/data/linux_kernel/tree\n",
+   "warm": {
+    "median_s": 0.10393535400000001,
+    "mean_s": 0.09994759169999999,
+    "stddev_s": 0.029942040401324147,
+    "min_s": 0.058124416000000005,
+    "max_s": 0.139703917,
+    "runs": 10,
+    "times_s": [
+     0.11914675000000001,
+     0.120615625,
+     0.083732834,
+     0.058124416000000005,
+     0.093209292,
+     0.139703917,
+     0.114661416,
+     0.135180875,
+     0.07378950000000001,
+     0.061311292
+    ],
+    "user_s": 0.021050500000000003,
+    "system_s": 0.16295649999999998,
+    "peak_rss_median_bytes": 7159808.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "error": "Error: The preparation command failed: Command 'bash /Users/runner/work/diskscan-bench/diskscan-bench/bench/macos_remount.sh' terminated with non-zero exit code 1 in the first benchmark run. Use the '--show-output' option to debug what went wrong. Append ' || true' to the command if this failure can be ignored.\n"
+   }
+  }
+ ],
+ "planned_gui": [
+  {
+   "platform": "macos",
+   "name": "GrandPerspective",
+   "reason": "Accepts a folder on the command line and starts scanning, but has no auto-save/exit or completion signal. Needs Accessibility (UI scripting) to detect the finished window; GitHub macOS runners cannot grant TCC Accessibility permission non-interactively. Planned for dedicated machines."
+  },
+  {
+   "platform": "macos",
+   "name": "DaisyDisk",
+   "reason": "Commercial (trial). No CLI/AppleScript scan dictionary; would need UI automation + a licence for CI. Planned for dedicated machines with the vendor's OK."
+  },
+  {
+   "platform": "macos",
+   "name": "OmniDiskSweeper",
+   "reason": "Free, but no scripting/CLI; completion only visible in UI. Needs Accessibility automation (planned, dedicated machine)."
+  },
+  {
+   "platform": "macos",
+   "name": "Disk Inventory X",
+   "reason": "Free/GPL, no CLI; UI automation needed (planned). Older builds are Intel-only."
+  },
+  {
+   "platform": "macos",
+   "name": "SquirrelDisk",
+   "reason": "Open source (Tauri) and scans by spawning pdu internally, so its engine time is approximately pdu's; GUI has no completion signal. Planned."
+  },
+  {
+   "platform": "windows",
+   "name": "WizTree",
+   "reason": "Has a proper CLI export (/export=... /admin=1, MFT scan) and would be easy to automate, but the EULA allows free use for personal use only; running it on CI for a public benchmark needs a supporter licence or the vendor's permission. Planned pending permission."
+  },
+  {
+   "platform": "windows",
+   "name": "SpaceSniffer",
+   "reason": "Documented CLI (scan <dir> export <config> <file> autoclose) was implemented, but on windows-latest the process never exits (likely a first-run/modal dialog on the headless desktop); needs UI automation or a pre-seeded config. Planned."
+  },
+  {
+   "platform": "windows",
+   "name": "TreeSize Free",
+   "reason": "Free edition exposes no scan/export command-line switches (CLI is Professional-only). Would need UI automation (pywinauto) waiting for the scan to finish. Planned."
+  },
+  {
+   "platform": "linux",
+   "name": "Baobab (GNOME Disk Usage Analyzer)",
+   "reason": "No export/exit mode; completion only in UI. Needs AT-SPI automation under Xvfb. Planned."
+  },
+  {
+   "platform": "linux",
+   "name": "QDirStat",
+   "reason": "GUI has no scan-and-exit mode; its bundled qdirstat-cache-writer is a separate Perl script, not the GUI's engine. Planned (UI automation or a --slow-update-free headless mode if upstream adds one)."
+  },
+  {
+   "platform": "all",
+   "name": "dua / gdu / ncdu interactive TUIs",
+   "reason": "Excluded: interactive mode renders to a terminal; their non-interactive modes are measured in the CLI track instead."
+  }
+ ],
+ "dataset_errors": {
+  "deep": "[Errno 63] File name too long: '/Users/runner/work/_temp/dsbmnt/data/deep/tree/l000/l001/l002/l003/l004/l005/l006/l007/l008/l009/l010/l011/l012/l013/l014/l015/l016/l017/l018/l019/l020/l021/l022/l023/l024/l025/l026/l027/l028/l029/l030/l031/l032/l033/l034/l035/l036/l037/l038/l039/l040/l041/l042/l043/l044/l045/l046/l047/l048/l049/l050/l051/l052/l053/l054/l055/l056/l057/l058/l059/l060/l061/l062/l063/l064/l065/l066/l067/l068/l069/l070/l071/l072/l073/l074/l075/l076/l077/l078/l079/l080/l081/l082/l083/l"
+ }
+}
