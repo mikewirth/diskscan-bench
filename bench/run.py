@@ -178,7 +178,7 @@ def hyperfine(argv, runs, warmup, prepare, jf):
     cmd = ["hyperfine", "-N", "-i", "--runs", str(runs), "--export-json", jf, "--style", "basic"]
     if warmup: cmd += ["--warmup", str(warmup)]
     if prepare: cmd += ["--prepare", prepare]
-    cmd.append(shlex.join(argv) if PLAT != "windows" else subprocess.list2cmdline(argv))
+    cmd.append(shlex.join(argv))  # hyperfine -N splits POSIX-style; single quotes keep Windows backslashes literal
     p = sh(cmd, timeout=7200)
     if p.returncode != 0:
         return dict(error=(p.stderr or p.stdout)[-800:])
@@ -294,6 +294,11 @@ def main():
                 entry["correctness"]["note"] = f"exit code {code}"
             entry["warm"] = hyperfine(argv, prof["warm_runs"], prof["warmup"], None, scratch + ".warm.json")
             entry["cold"] = hyperfine(argv, prof["cold_runs"], 0, prep, scratch + ".cold.json") if prep else None
+            for mode in ("warm", "cold"):  # a timed run that failed is not a valid time
+                m = entry.get(mode) or {}
+                bad = [c for c in m.get("exit_codes", []) if c not in t.get("ok_exit", [0])]
+                if bad and code in t.get("ok_exit", [0]):
+                    m["invalid"] = f"timed runs exited with {bad} but the instrumented run exited {code}"
             print(json.dumps({k: entry[k] for k in ("reported_bytes", "correctness")}),
                   "warm", entry["warm"].get("median_s"), "cold", (entry["cold"] or {}).get("median_s"), flush=True)
             res["results"].append(entry)

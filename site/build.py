@@ -107,7 +107,7 @@ def main():
                 idx.append(f"<h4>{E(ds)} <small>— {d['files']:,} files, {d['dirs']:,} dirs, {fmt_b(d['logical_dedup'])} logical, "
                            f"{fmt_b(d.get('alloc_du'))} allocated · manifest <code>{d['manifest_sha256'][:12]}</code></small></h4>")
                 for mode in ("cold", "warm"):
-                    pts = [(tv[x["tool"]]["name"], (x.get(mode) or {}).get("median_s"), (x.get(mode) or {}).get("stddev_s"),
+                    pts = [(tv[x["tool"]]["name"], None if (x.get(mode) or {}).get("invalid") else (x.get(mode) or {}).get("median_s"), (x.get(mode) or {}).get("stddev_s"),
                             x["correctness"]["status"] == "disagrees") for x in rows]
                     idx.append(bars(pts, f"{ds} · {mode} cache · {label}"))
                 idx.append("<table><tr><th>tool</th><th>cold median</th><th>±sd</th><th>warm median</th><th>±sd</th><th>peak RSS</th><th>total</th></tr>" +
