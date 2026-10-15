@@ -28,7 +28,7 @@ Synthetic datasets are produced by [`bench/gen.py`](https://github.com/mikewirth
 |---|---|
 | `small` | smoke test: 2k tiny files, depth-50 chain, 1k-entry dir, 2×8 MiB, 2 sparse, 20 hard-link groups, symlinks incl. loops, 4 APFS clones (macOS) |
 | `tiny` | 150,000 files of 0–4 KiB in a two-level fan-out |
-| `deep` | a 400-level directory chain, 2 files per level (100 on Windows: MAX_PATH) |
+| `deep` | a 400-level chain of 1-character directory names, 2 files per level (100 levels on Windows) |
 | `wide` | 50,000 entries in a single directory |
 | `mixed` | 4×256 MiB files, 8 sparse 1 GiB files (4 KiB allocated), 2,000 files ×3 hard links, 200 symlinks + loop/self/dangling/dir links, 64 APFS clones of an 8 MiB file (macOS, `cp -c`), 5k misc files |
 | `node_modules` | `npm ci --ignore-scripts` of a pinned lockfile ([datasets/node_modules](https://github.com/mikewirth/diskscan-bench/tree/main/datasets/node_modules)); optional per-OS binaries differ slightly by platform |

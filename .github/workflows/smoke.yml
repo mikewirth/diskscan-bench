@@ -25,6 +25,7 @@ jobs:
           IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
           hdiutil create -size 2g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
           hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on
+          sudo mdutil -i off "$MNT" || true; touch "$MNT/.metadata_never_index"
           echo "DSB_DMG=$IMG" >> $GITHUB_ENV; echo "DSB_MNT=$MNT" >> $GITHUB_ENV; echo "DSB_DATA=$MNT/data" >> $GITHUB_ENV
       - uses: actions/cache@v4
         if: runner.os == 'macOS'

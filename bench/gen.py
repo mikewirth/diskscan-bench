@@ -38,12 +38,10 @@ def tiny_files(root, rng, n, fanout=64, maxsize=4096):
 def deep_tree(root, rng, depth, files_per_level=2):
     p = root
     for lvl in range(depth):
-        p = os.path.join(p, f"l{lvl:03d}")
+        p = os.path.join(p, "d")  # 1-char names: 400 levels stays under macOS PATH_MAX (1024)
         os.makedirs(p, exist_ok=True)
         for j in range(files_per_level):
             write_file(os.path.join(p, f"f{j}.txt"), rng.randrange(0, 2048), rng)
-        if len(p) > 3000 and IS_WIN:
-            break
 
 
 def wide_dir(root, rng, n):

@@ -1,8 +1,17 @@
 #!/bin/bash
 # Cold-cache prepare step on macOS: evict the dataset volume from the unified buffer cache.
-# DSB_DMG = disk image path, DSB_MNT = mountpoint. Detaching drops all cached pages for the volume.
-set -e
+# DSB_DMG = disk image path, DSB_MNT = mountpoint. Detaching drops all cached pages for the volume;
+# `purge` additionally flushes the host-side cache of the image file itself.
+LOG="${TMPDIR:-/tmp}/dsb-remount.log"
 sync
-hdiutil detach "$DSB_MNT" -force -quiet || diskutil unmount force "$DSB_MNT" >/dev/null
+for i in 1 2 3 4 5 6; do
+  mount | grep -q " on $DSB_MNT " || break
+  hdiutil detach "$DSB_MNT" -quiet 2>>"$LOG" || hdiutil detach "$DSB_MNT" -force -quiet 2>>"$LOG" || sleep 2
+done
 sudo purge
-hdiutil attach "$DSB_DMG" -mountpoint "$DSB_MNT" -nobrowse -noverify -noautofsck -owners on -quiet
+for i in 1 2 3 4 5 6; do
+  mount | grep -q " on $DSB_MNT " && exit 0
+  hdiutil attach "$DSB_DMG" -mountpoint "$DSB_MNT" -nobrowse -noverify -noautofsck -owners on -quiet 2>>"$LOG" && exit 0
+  sleep 2
+done
+echo "remount failed, see $LOG" >&2; exit 1
