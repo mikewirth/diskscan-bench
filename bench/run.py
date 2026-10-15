@@ -267,8 +267,13 @@ def main():
                                      cmd=t["cmd"], notes=t.get("notes"), method=t.get("method"))
     for ds in datasets:
         print(f"== dataset {ds}", flush=True)
-        path = os.path.join(build_dataset(ds, a.data_root), "tree")
-        ref = refwalk.walk(path, manifest=True)
+        try:
+            path = os.path.join(build_dataset(ds, a.data_root), "tree")
+            ref = refwalk.walk(path, manifest=True)
+        except Exception as e:
+            print("dataset failed:", ds, e, flush=True)
+            res.setdefault("dataset_errors", {})[ds] = str(e)[:500]
+            continue
         res["datasets"][ds] = ref
         print(json.dumps(ref), flush=True)
         for t in tools:
