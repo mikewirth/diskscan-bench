@@ -52,12 +52,13 @@ TOOLS = [
          platforms=["macos"], cmd=["dumac", "{path}"], metric="allocated", parse="human", precision="human",
          version=None, version_static="git 1ffbe3c"),
     dict(id="nulldisk", name="NullDisk CLI", homepage="https://nulldisk.app",
-         platforms=["macos", "linux"], cmd=["nulldisk", "scan", "{path}", "--json"],
+         platforms=["macos", "linux"], cmd=["nulldisk", "scan", "{path}", "--json", "--depth", "0"],
          metric="allocated", parse="nulldisk_json", precision="exact", version=["nulldisk", "--version"],
-         optional=True, ok_exit=[0, 3],
+         optional=True, ok_exit=[0, 3], pin="manifest latest.json",
          notes="Maintainer's own tool (see disclosure). Installed from the public manifest "
                "https://assets.nulldisk.app/releases/cli/latest.json (override with NULLDISK_CLI_MANIFEST); "
-               "listed as pending while the download is not published."),
+               "listed as pending while the download is not published. '--depth 0' prints only the root total "
+               "(like du -s); 'size' is allocated bytes with hard links counted once (per `nulldisk scan --help`). Not available for Windows."),
     # ---------------- GUI track ----------------
     dict(id="windirstat", name="WinDirStat", homepage="https://windirstat.net", pin="2.9.3", track="gui",
          platforms=["windows"], cmd=["WinDirStat.exe", "/SaveTo", "{out}.csv", "{path}"], metric="logical",

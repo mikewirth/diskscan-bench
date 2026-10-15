@@ -108,7 +108,9 @@ def windirstat_total(fn):
     return max(int(float(r[col])) for r in rows[1:] if len(r) > col and r[col].replace(".", "").isdigit())
 
 def find_bytes(j):
-    """NullDisk JSON: prefer explicit allocated totals; schema is the vendor's."""
+    """NullDisk JSON (schemaVersion 1): tree.size = allocated bytes of the root, hard links once."""
+    if isinstance(j, dict) and isinstance(j.get("tree"), dict) and isinstance(j["tree"].get("size"), int):
+        return j["tree"]["size"]
     for k in ("allocated_bytes", "total_allocated_bytes", "allocated", "size_on_disk", "disk_bytes", "total_bytes", "bytes", "size"):
         if isinstance(j, dict) and isinstance(j.get(k), int): return j[k]
     if isinstance(j, dict):

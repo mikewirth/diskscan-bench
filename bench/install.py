@@ -5,6 +5,7 @@ Release binaries are used where upstream publishes them; otherwise
 `cargo install --locked` with an exact version / git rev. Versions live here and
 in tools.py `pin` – bump both in one PR.
 """
+import urllib.error
 import os, sys, platform, shutil, subprocess, tarfile, zipfile, urllib.request, json, hashlib, stat, tempfile
 from tools import PLAT
 
@@ -52,8 +53,13 @@ T = {  # (platform, arch) -> url ; {exe} names the binary inside the archive
 }
 
 def fetch(url, sha=None):
-    req = urllib.request.Request(url, headers={"User-Agent": "diskscan-bench"})
-    data = urllib.request.urlopen(req, timeout=120).read()
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "diskscan-bench/1 (+https://github.com/mikewirth/diskscan-bench)"})
+        data = urllib.request.urlopen(req, timeout=120).read()
+    except urllib.error.HTTPError as e:
+        if e.code != 403:
+            raise
+        data = subprocess.run(["curl", "-sSfL", url], capture_output=True, check=True).stdout  # CDN bot filter fallback
     if sha and hashlib.sha256(data).hexdigest() != sha:
         raise SystemExit(f"sha256 mismatch for {url}")
     return data
@@ -88,7 +94,7 @@ def place(name, url, inner=None, sha=None):
     raise SystemExit(f"{want} not found in {url}")
 
 def install_nulldisk():
-    manifest = os.environ.get("NULLDISK_CLI_MANIFEST", "https://assets.nulldisk.app/releases/cli/latest.json")
+    manifest = os.environ.get("NULLDISK_CLI_MANIFEST") or "https://assets.nulldisk.app/releases/cli/latest.json"  # empty CI var -> default
     plat = {"macos": "macos", "linux": "linux"}.get(PLAT)
     if not plat:
         return "unsupported platform"
@@ -96,7 +102,9 @@ def install_nulldisk():
     try:
         m = json.loads(fetch(manifest))
         a = m["assets"][key]
-        place("nulldisk", a["url"], "nulldisk", a.get("sha256"))
+        if not a.get("sha256"):
+            raise ValueError("manifest has no sha256")
+        place("nulldisk", a["url"], "nulldisk", a["sha256"])
         return f"installed {m.get('version')}"
     except Exception as e:  # 404 until the download is published: skip gracefully
         return f"pending ({type(e).__name__}: {e})"
