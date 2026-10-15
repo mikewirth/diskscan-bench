@@ -1,0 +1,46 @@
+name: smoke
+on:
+  pull_request:
+  push: {branches: [main], paths: ["bench/**", ".github/workflows/smoke.yml"]}
+permissions: {contents: read}
+jobs:
+  smoke:
+    strategy:
+      fail-fast: false
+      matrix: {os: [ubuntu-latest, macos-14, windows-latest]}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    defaults: {run: {shell: bash}}
+    env: {DSB_RUNNER_LABEL: "smoke-${{ matrix.os }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - if: runner.os == 'Linux'
+        run: sudo apt-get install -y -qq time
+      - if: runner.os == 'Windows'
+        run: pip install psutil
+      - if: runner.os == 'macOS'
+        run: |
+          IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
+          hdiutil create -size 2g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
+          hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on
+          echo "DSB_DMG=$IMG" >> $GITHUB_ENV; echo "DSB_MNT=$MNT" >> $GITHUB_ENV; echo "DSB_DATA=$MNT/data" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        if: runner.os == 'macOS'
+        with: {path: .tools, key: "tools-${{ matrix.os }}-${{ hashFiles('bench/install.py') }}"}
+      - run: python bench/install.py
+      - run: python bench/run.py --profile smoke --out "smoke-out/$DSB_RUNNER_LABEL"
+      - name: Fail on broken tools
+        run: |
+          python - <<'PY'
+          import json,glob
+          r=json.load(open(glob.glob("smoke-out/*/results.json")[0]))
+          bad=[x["tool"] for x in r["results"] if "error" in x or "error" in (x.get("warm") or {})]
+          miss=[k for k,v in r["tools"].items() if v["status"]=="missing"]
+          print("errors:",bad,"missing:",miss)
+          assert not bad and not miss
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: "smoke-${{ matrix.os }}", path: smoke-out/}

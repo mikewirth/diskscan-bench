@@ -1,0 +1,37 @@
+name: Submit your tool
+description: Propose a disk-usage tool (CLI or GUI) for the benchmark, or change how an existing one is run
+title: "[tool] "
+labels: ["tool-submission"]
+body:
+  - type: input
+    id: name
+    attributes: {label: Tool name and homepage}
+    validations: {required: true}
+  - type: dropdown
+    id: track
+    attributes: {label: Track, options: ["CLI", "GUI (scriptable scan/export)"]}
+    validations: {required: true}
+  - type: checkboxes
+    id: platforms
+    attributes:
+      label: Platforms
+      options: [{label: macOS}, {label: Linux}, {label: Windows}]
+  - type: input
+    id: version
+    attributes: {label: Release version to pin, description: Download URL or package manager}
+    validations: {required: true}
+  - type: textarea
+    id: cmd
+    attributes: {label: Exact command to scan a folder and print a total, render: shell}
+    validations: {required: true}
+  - type: dropdown
+    id: metric
+    attributes: {label: Reported quantity, options: ["allocated / disk usage", "logical / apparent size"]}
+  - type: input
+    id: license
+    attributes: {label: Licence, description: Does it allow automated use on CI runners?}
+  - type: checkboxes
+    id: relation
+    attributes:
+      label: Relationship
+      options: [{label: I am an author/maintainer of this tool}]

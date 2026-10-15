@@ -1,0 +1,78 @@
+name: bench
+on:
+  workflow_dispatch:
+    inputs:
+      profile: {description: "smoke or full", default: full, type: choice, options: [full, smoke]}
+  schedule:
+    - cron: "17 3 * * 1"   # weekly, Monday 03:17 UTC
+permissions: {contents: write, pages: write, id-token: write}
+concurrency: {group: bench, cancel-in-progress: false}
+env:
+  PROFILE: ${{ inputs.profile || 'full' }}
+jobs:
+  bench:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, label: gh-ubuntu-latest-x64}
+          - {os: macos-14, label: gh-macos-14-arm64}
+          - {os: windows-latest, label: gh-windows-latest-x64}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 300
+    env: {DSB_RUNNER_LABEL: "${{ matrix.label }}", NULLDISK_CLI_MANIFEST: "${{ vars.NULLDISK_CLI_MANIFEST }}"}
+    defaults: {run: {shell: bash}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "20"}
+      - name: Prepare (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq time
+          if sudo mkdir -p /mnt/dsb 2>/dev/null && sudo chown "$USER" /mnt/dsb; then echo "DSB_DATA=/mnt/dsb" >> $GITHUB_ENV; else echo "DSB_DATA=$RUNNER_TEMP/dsb" >> $GITHUB_ENV; fi
+      - name: Prepare (macOS) - dedicated APFS disk image for cold-cache runs
+        if: runner.os == 'macOS'
+        run: |
+          IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
+          hdiutil create -size 16g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
+          hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on
+          echo "DSB_DMG=$IMG" >> $GITHUB_ENV; echo "DSB_MNT=$MNT" >> $GITHUB_ENV; echo "DSB_DATA=$MNT/data" >> $GITHUB_ENV
+      - name: Prepare (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          pip install psutil
+          echo "DSB_DATA=$RUNNER_TEMP/dsb" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        if: runner.os == 'macOS'
+        with: {path: .tools, key: "tools-${{ matrix.os }}-${{ hashFiles('bench/install.py') }}"}
+      - name: Install pinned tools
+        run: python bench/install.py
+      - name: Run benchmark
+        run: python bench/run.py --profile "$PROFILE" --out "results/$(date -u +%F)/$DSB_RUNNER_LABEL"
+      - uses: actions/upload-artifact@v4
+        with: {name: "results-${{ matrix.label }}", path: results/}
+  publish:
+    needs: bench
+    if: always()
+    runs-on: ubuntu-latest
+    environment: {name: github-pages, url: "${{ steps.deploy.outputs.page_url }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {pattern: "results-*", path: _artifacts}
+      - name: Merge and commit results
+        run: |
+          for d in _artifacts/*/; do cp -r "$d"* results/; done
+          git config user.name "diskscan-bench bot"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results && (git diff --cached --quiet || git commit -m "results: $(date -u +%F) ($PROFILE) run ${{ github.run_id }}")
+          git pull --rebase -q && git push
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install markdown && python site/build.py
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: _site}
+      - id: deploy
+        uses: actions/deploy-pages@v4
