@@ -226,7 +226,7 @@ h1,h2,h3,h4{line-height:1.2;letter-spacing:-.02em;margin:0}
 .nav a[aria-current=page]{color:var(--fg);background:var(--surface2)}
 .nav .gh{margin-left:auto}
 .themebtn{flex:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:grid;place-items:center}
-.themebtn:hover{background:var(--surface2)}
+.themebtn:hover{background:var(--surface2)}.themebtn[hidden]{display:none}
 /* hero */
 .hero{padding:56px 0 30px;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:40px;align-items:center}
 .winners{display:grid;gap:10px}.wl{margin:0 0 2px;font-size:12px;font-weight:650;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}
@@ -417,13 +417,14 @@ JS = """(function(){var d=document,h=d.documentElement,ls;try{ls=window.localSto
 function get(k){try{return ls&&ls.getItem(k)}catch(e){}}function set(k,v){try{ls&&ls.setItem(k,v)}catch(e){}}
 var b=d.getElementById('theme');if(b){b.hidden=false;b.addEventListener('click',function(){var dark=h.dataset.theme?h.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
 h.dataset.theme=dark?'light':'dark';set('dsb-theme',h.dataset.theme);});}
-function group(name,key,useHash){var ins=[].slice.call(d.querySelectorAll('input[name='+name+']'));if(!ins.length)return;
+function group(name,key,useHash,scroll){var ins=[].slice.call(d.querySelectorAll('input[name='+name+']'));if(!ins.length)return;
 var hv=useHash?decodeURIComponent(location.hash.slice(1)):'',pick=null,sv=get(key);
 ins.forEach(function(i){if(hv&&(i.value===hv||(' '+(i.dataset.alias||'')+' ').indexOf(' '+hv+' ')>=0))pick=i;});
+if(pick)set(key,pick.value);if(pick&&scroll){var sec=pick.closest('section');if(sec)sec.scrollIntoView({behavior:'smooth'});}
 if(!pick&&sv)ins.forEach(function(i){if(i.value===sv)pick=i;});if(pick)pick.checked=true;
-ins.forEach(function(i){i.addEventListener('change',function(){set(key,i.value);if(useHash&&history.replaceState)history.replaceState(null,'','#'+i.value);});});}
+if(!scroll)ins.forEach(function(i){i.addEventListener('change',function(){set(key,i.value);if(useHash&&history.replaceState)history.replaceState(null,'','#'+i.value);});});}
 group('os','dsb-os',true);group('view','dsb-view',false);
-window.addEventListener('hashchange',function(){group('os','dsb-os',true);});})();
+window.addEventListener('hashchange',function(){group('os','dsb-os',true,true);});})();
 """
 
 ICON_LOGO = ('<svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">'
@@ -508,6 +509,10 @@ def badge(left, right, color="#4c7"):
             f'<rect width="{lw}" height="20" fill="#3b3f4a"/><rect x="{lw}" width="{rw}" height="20" fill="{color}"/></g>'
             f'<g fill="#fff" font-family="Verdana,DejaVu Sans,sans-serif" font-size="11">'
             f'<text x="6" y="14">{E(left)}</text><text x="{lw+6}" y="14">{E(right)}</text></g></svg>')
+
+def rich(t):
+    """Escape text and render `backticks` as inline code."""
+    return re.sub(r"`([^`]+)`", r"<code>\1</code>", E(t or ""))
 
 def ratio_cls(x): return "ok" if x >= 1 else "mut"
 
@@ -612,7 +617,7 @@ class Site:
         items = [x for x in items if x[1]["state"] == "planned" or x[0].get("planned")]
         if not items: return ""
         return ('<ul class="plist">' + "".join(
-            f'<li><details><summary>{E(e["name"])} <span class="why">{E(s["tag"])}</span>{status_badge(s["state"])}</summary><p>{E(s["reason"])}</p></details></li>'
+            f'<li><details><summary>{E(e["name"])} <span class="why">{E(s["tag"])}</span>{status_badge(s["state"])}</summary><p>{rich(s["reason"])}</p></details></li>'
             for e, s in items) + "</ul>")
 
     def leaderboard(self):
@@ -625,7 +630,7 @@ class Site:
             label, r = self.by_plat[p]; sc, base, _ = scores(r, "cli")
             if sc:
                 d = sc[0]
-                win.append(f'<a class="card wcard" href="#{p}" onclick="var i=document.getElementById(\'os-{p}\');if(i){{i.checked=true;i.dispatchEvent(new Event(\'change\'))}}">'
+                win.append(f'<a class="card wcard" href="#{p}">'
                            f'<span class="os">{PLAT_NAME[p]}</span><span class="wn">{rank_badge(1)}<b>{E(split_name(self.tool_name(r, d["tool"]))[0])}</b></span>'
                            f'<span class="ws">{d["score"]:.2f}<small>× du</small></span></a>')
         h = [f'<section class="hero"><div class="hero-t"><span class="eyebrow"><span class="dot"></span>Latest run {E(dates[-1] if dates else "–")}</span>'
@@ -694,7 +699,7 @@ class Site:
             nm, sub = split_name(first["name"]); track = first.get("track", "cli")
             plats = [p for p in self.order if tid in self.by_plat[p][1]["tools"]]
             h = [f'<section class="page-h"><div class="th"><div style="flex:1;min-width:260px"><p style="margin:0 0 8px"><a href="../index.html">← Leaderboard</a></p>'
-                 f'<h1>{E(nm)} {kind_pill(e.get("kind") or track)}</h1>' + (f'<p class="lede">{E(e["blurb"])}</p>' if e.get("blurb") else (f'<p class="lede">{E(sub)}</p>' if sub else "")) +
+                 f'<h1>{E(nm)} {kind_pill(e.get("kind") or track)}</h1>' + (f'<p class="lede">{rich(e["blurb"])}</p>' if e.get("blurb") else (f'<p class="lede">{E(sub)}</p>' if sub else "")) +
                  '<div class="facts">' + (f'<span><a href="{E(first.get("homepage") or e.get("url", ""))}">Homepage ↗</a></span>' if (first.get("homepage") or e.get("url")) else "") +
                  (f'<span>License: {E(e["license"])}</span>' if e.get("license") else "") +
                  f'<span>{"GUI track" if track != "cli" else "CLI track"}</span><span>Runs on: {", ".join(PLAT_NAME[p] for p in plats)}</span></div></div></div></section>']
@@ -782,7 +787,12 @@ class Site:
                 if state == "bench": es.sort(key=lambda e: (self.rank.get((p, e["status"][p]["tool"]), {}).get("track", "z"),
                                                             self.rank.get((p, e["status"][p]["tool"]), {}).get("rank", 99)))
                 if not es: continue
+                if state == "not": es.sort(key=lambda e: (-sum(1 for f in es if f["status"][p]["tag"] == e["status"][p]["tag"]), e["status"][p]["tag"], e["name"].lower()))
                 h.append(f'<div class="cgroup"><h3>{status_badge(state)} <span>on {PLAT_NAME[p]}</span> <span class="tver">{len(es)}</span></h3>')
+                if state == "not":
+                    tags = list(dict.fromkeys(e["status"][p]["tag"] for e in es))
+                    h.append('<p class="foot" style="margin:-4px 0 12px">By reason: ' + " · ".join(
+                        f'{E(t)} <b>{sum(1 for e in es if e["status"][p]["tag"] == t)}</b>' for t in tags) + "</p>")
                 h.append('<div class="bgrid2">' if state == "bench" else '<ul class="clist">')
                 for e in es:
                     s = e["status"][p]
@@ -800,9 +810,9 @@ class Site:
                     else:
                         why = s["reason"]
                         why = re.sub(r"^" + re.escape(s["tag"]) + r"\s*[:.-]\s*", "", why, flags=re.I)
-                        blurb = f'<p class="blurb">{E(e["blurb"])}</p>' if e.get("blurb") else ""
+                        blurb = f'<p class="blurb">{rich(e["blurb"])}</p>' if e.get("blurb") else ""
                         h.append(f'<li class="crow"><div class="ci"><div class="ph">{link}</div><div class="meta">{"".join(meta)}</div>{blurb}</div>'
-                                 f'<p class="reason"><span class="why">{E(s["tag"])}</span> {E(why)}</p></li>')
+                                 f'<p class="reason"><span class="why">{E(s["tag"])}</span> {rich(why)}</p></li>')
                 h.append("</div></div>" if state == "bench" else "</ul></div>")
             h.append("</div></div>")
         h.append("</div></section>")

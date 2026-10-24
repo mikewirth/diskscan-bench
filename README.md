@@ -33,6 +33,7 @@ On macOS, cold-cache runs need the dataset on a dedicated disk image (see `.gith
 | `bench/run.py` | runner: hyperfine warm/cold, peak RSS, correctness, runner specs, JSON output |
 | `results/<date>/<runner>/results.json` | versioned results (CC-BY-4.0) |
 | `site/build.py` | static site, charts, correctness table and SVG badges, published by GitHub Pages |
+| `site/catalog.py` | every known disk analyzer (benchmarked or not) with licence and the reason it isn't benchmarked; merged with `bench/tools.py` on the site's *All programs* page |
 
 ## Badges
 Each tool gets a badge, e.g. `https://mikewirth.github.io/diskscan-bench/badges/dust.svg`. See the [badges page](https://mikewirth.github.io/diskscan-bench/badges.html).
