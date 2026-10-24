@@ -2,7 +2,7 @@
 
 ## Inclusion rules
 A tool is included if it:
-1. computes the size of a directory tree (a CLI, or a GUI with a scriptable scan-and-exit or export mode);
+1. computes the size of a directory tree (a CLI, or a GUI with a scriptable scan-and-exit/export mode or a completion signal and total that UI automation can read reliably, see the GUI track in the methodology);
 2. has a public, versioned release we can download in CI. Its licence must allow automated use on CI;
 3. can print or export a total (or a full tree we can sum) without interaction.
 

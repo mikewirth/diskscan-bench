@@ -50,22 +50,46 @@ A tool **agrees** if it is within 0.1% of the canonical value; tools that print 
 twice"). Disagreeing tools stay in the charts, drawn orange with a `*`. These are differences of definition, not necessarily bugs.
 
 ## GUI track
-GUI apps are timed only when the app itself can be told to scan a folder **and signal completion** (exit after an export).
-They are timed from process launch to exit, which includes app start-up and writing the export, so GUI times are **not comparable** with CLI times.
-Apps that would need UI automation or a commercial licence on CI are listed as *planned* with the reason.
+GUI apps are timed from **process launch until the app signals that the scan is complete**, which includes app start-up
+(and, where the signal is an export, writing it). GUI times are therefore **not comparable** with CLI times; GUI apps are ranked
+only against each other (same `du` baseline, same datasets and cache modes, same correctness check).
 
-| app | platform | method | status |
-|---|---|---|---|
-| WinDirStat 2.9.3 | Windows | `WinDirStat.exe /SaveTo out.csv <dir>`: scans without showing the main window, writes CSV, exits | implemented |
-| SpaceSniffer 1.3.0.2 | Windows | `SpaceSniffer.exe scan <dir> export "Grouped by folder" out.txt autoclose` | planned: process never exits on the hosted runner (modal/first-run dialog suspected) |
-| WizTree | Windows | `/export= /admin=1` CLI exists | planned: EULA is free for personal use only |
-| TreeSize Free | Windows | no CLI in the Free edition | planned: UI automation |
-| GrandPerspective | macOS | CLI launch starts a scan, but there is no completion or exit signal | planned: needs Accessibility (TCC), which can't be granted on hosted runners |
-| DaisyDisk | macOS | commercial, no scripting | planned |
-| OmniDiskSweeper, Disk Inventory X | macOS | no scripting | planned: UI automation |
-| SquirrelDisk | macOS | uses pdu internally | planned |
-| Baobab, QDirStat | Linux | no scan-and-exit mode | planned: AT-SPI / Xvfb automation |
-| dua / gdu / ncdu TUIs | all | interactive | excluded: their non-interactive modes are in the CLI track |
+**Completion signal.** Either the app's own command line (scan, export, exit), or a signal that UI automation can observe
+without touching the scan: a window title, a status-bar text in the accessibility tree, or a line in a log file the app
+writes. **Reported total**: always read from the app itself (its export file, window title or accessibility tree), then
+judged against the reference walker exactly like a CLI tool (`human` tolerance when the app only displays rounded sizes).
+
+**Harness.** Each automated app has a small wrapper in [`bench/gui/`](https://github.com/mikewirth/diskscan-bench/tree/main/bench/gui)
+that launches the app on the dataset, polls for the completion signal **every 20 ms**, reads the total, closes the app and prints
+one JSON line. The wrapper is run by hyperfine (warm-up, runs, cold-cache preparation) like every other tool, but the time we
+report is the one the wrapper measures itself: from just before process launch until the signal is observed. Polling adds at most
+20 ms (on average ~10 ms) to each time; reading the total and shutting the app down are not timed (the wrapper's own lifetime is kept
+in the raw JSON as `wrapper_wall`). A run that doesn't complete within the timeout fails and invalidates the cell.
+Peak memory for wrapped apps is the app's own peak (Linux `VmHWM`, Windows peak working set, macOS lifetime max physical footprint).
+
+**Environment.** Linux apps run under Xvfb with a private D-Bus session and the AT-SPI accessibility bus
+([`bench/gui/linux_session.sh`](https://github.com/mikewirth/diskscan-bench/blob/main/bench/gui/linux_session.sh)); they are the
+**apt packages of the runner's Ubuntu release** (versions are pinned by the release, recorded per run with `dpkg-query`).
+macOS apps are sha256-pinned disk-image downloads; GitHub's macOS images run with SIP disabled and already grant the runner's
+process tree Accessibility and Screen Recording in TCC, so window titles and the accessibility tree are readable without changes.
+Windows apps are sha256-pinned zip downloads.
+
+| app | platform | completion signal | total read from | status |
+|---|---|---|---|---|
+| WinDirStat 2.9.3 | Windows | `WinDirStat.exe /SaveTo out.csv <dir>` exits after writing the CSV | CSV export (exact) | implemented |
+| SpaceSniffer 1.3.0.2 | Windows | `SpaceSniffer.exe scan <dir> export "diskscan-bench total" out.txt autoclose` exits after the export | export using a pre-seeded export configuration (`<%sizebytes%>` of the root, exact) | implemented |
+| QDirStat (Ubuntu apt) | Linux | the app's log `/tmp/qdirstat-$USER/qdirstat.log` gets "Reading finished" for this PID | root row *Size* via AT-SPI (human-readable) | implemented |
+| K4DirStat (Ubuntu apt) | Linux | status bar becomes "Finished. Elapsed time: …" (AT-SPI) | root row *Subtree Total* via AT-SPI (human-readable) | implemented |
+| OmniDiskSweeper 1.16 | macOS | window title changes from "… (still calculating)" to "<dir> - <size>" (CGWindowList) | that title (human-readable) | implemented |
+| GrandPerspective 3.8.0 | macOS | the view window "<dir> @ <date>" appears after the "Scanning in progress" panel (CGWindowList) | view status line via the accessibility tree (human-readable) | implemented |
+| Disk Inventory X 1.3 | macOS | the document window "<folder> (<size>)" appears after the "Loading folder contents…" panel (CGWindowList) | that title (human-readable) | implemented; Intel-only build, runs under Rosetta 2 |
+| TreeSize Free 4.8.1 | Windows | – | – | blocked: shows a modal "Windows Server is not supported" licence dialog (since 4.7.3) and never scans; the hosted runner is Windows Server 2025 |
+| Baobab 46.0 (Ubuntu 24.04) | Linux | charts appear when done (AT-SPI) | – | blocked: GTK 4.14 exposes no list rows to AT-SPI and the total is only painted in the chart. Baobab 48/GTK 4.18 works with the same harness |
+| Filelight 23.08 (Ubuntu 24.04) | Linux | status bar shows "N files" | – | blocked: total only painted in the radial map (no accessible text, no export/CLI) |
+| WizTree | Windows | `/export= /admin=1` CLI exists | – | planned: EULA is free for personal use only |
+| DaisyDisk | macOS | – | – | planned: commercial, no scripting |
+| SquirrelDisk | macOS | – | – | planned: uses pdu internally |
+| dua / gdu / ncdu TUIs | all | – | – | excluded: their non-interactive modes are in the CLI track |
 
 ## Hardware and noise
 Runs currently use **GitHub-hosted runners** (`ubuntu-latest` x86-64, `macos-14` Apple Silicon, `windows-latest`).
@@ -88,5 +112,5 @@ No private code is part of this repository.
 - A cell is skipped when the timed runs failed or exited differently from the instrumented run. A tool must cover at least half of the cells to be ranked.
 - A dataset is held out of scoring when its reference is suspect. That means no exact-output tool matches the reference within 0.1% while at least 3 tools agree with each other. Datasets can also be held out explicitly. Currently held out: **macOS `node_modules`**. BSD du and the reference walker agree there, but every other tool reports exactly 2.3% less, and we are investigating.
 - Accuracy issues never remove a tool from the ranking; they add a ⚠ marker that links to the correctness table.
-- The GUI track is ranked separately against the same baseline. GUI times include app launch and export, so only compare GUI apps with each other.
+- The GUI track is ranked separately against the same baseline. GUI times include app launch (and export or the harness's completion signal), so only compare GUI apps with each other.
 - Cold and Warm on the leaderboard are the geometric mean of the tool's median times across scored datasets.

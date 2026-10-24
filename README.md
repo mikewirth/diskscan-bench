@@ -1,7 +1,7 @@
 # diskscan-bench
 
 A neutral, reproducible benchmark of **disk-usage scanners**: `du`, diskus, dust, dua-cli, gdu, ncdu, pdu, erdtree, dumac,
-Sysinternals du, and GUI analyzers (WinDirStat today; more planned). It covers **macOS, Linux and Windows**, measures
+Sysinternals du, and GUI analyzers (WinDirStat, SpaceSniffer, QDirStat, K4DirStat, OmniDiskSweeper, GrandPerspective, Disk Inventory X; ranked separately). It covers **macOS, Linux and Windows**, measures
 **cold and warm cache separately**, and has a **correctness table** that compares each tool's total with a reference walker.
 
 **Results:** https://mikewirth.github.io/diskscan-bench/ · **Methodology:** https://mikewirth.github.io/diskscan-bench/methodology.html · raw JSON in [`results/`](results/)
@@ -31,6 +31,7 @@ On macOS, cold-cache runs need the dataset on a dedicated disk image (see `.gith
 | `bench/gen.py` | deterministic dataset generator (seed 42) |
 | `bench/refwalk.py` | reference walker and dataset manifest |
 | `bench/run.py` | runner: hyperfine warm/cold, peak RSS, correctness, runner specs, JSON output |
+| `bench/gui/` | GUI-track harnesses: launch an app, wait for its completion signal (UI automation), read its total |
 | `results/<date>/<runner>/results.json` | versioned results (CC-BY-4.0) |
 | `site/build.py` | static site, charts, correctness table and SVG badges, published by GitHub Pages |
 | `site/catalog.py` | every known disk analyzer (benchmarked or not) with licence and the reason it isn't benchmarked; merged with `bench/tools.py` on the site's *All programs* page |
