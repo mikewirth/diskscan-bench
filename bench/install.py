@@ -50,6 +50,15 @@ T = {  # (platform, arch) -> url ; {exe} names the binary inside the archive
            ("macos","x86_64"): ("cargo", ["--git", "https://github.com/healeycodes/dumac", "--rev", "1ffbe3c38d1066c45cac9b4ec1e31eb74edc1076"])},
  "du64": {("windows","x86_64"): ("https://download.sysinternals.com/files/DU.zip", "du64.exe")},
  "WinDirStat": {("windows","x86_64"): (f"{GH}/windirstat/windirstat/releases/download/release/v2.9.3/WinDirStat.zip", "WinDirStat.exe")},
+ # macOS GUI apps: ("dmg", url, sha256, bundle) -> .tools/apps/<bundle>
+ "GrandPerspective": {("macos","arm64"): ("dmg", "https://downloads.sourceforge.net/project/grandperspectiv/grandperspective/3.8.0/GrandPerspective-3_8_0.dmg",
+                                         "32f04ad4d3a84511a9a9cfa2752d85a98ba365d462f80a7201635c8e249e09d3", "GrandPerspective.app")},
+ "OmniDiskSweeper": {("macos","arm64"): ("dmg", "https://downloads.omnigroup.com/software/macOS/11/OmniDiskSweeper-1.16.dmg",
+                                        "cea5153769290a17c11c58696ac9e32423e4128cec6565ef9a9b5f2c73b0df5c", "OmniDiskSweeper.app")},
+ "DiskInventoryX": {("macos","arm64"): ("dmg", "https://www.derlien.com/diskinventoryx/downloads/Disk%20Inventory%20X%201.3.dmg",
+                                       "78af3506435adaa53d8cc2ce601cac2e13b56e708358eb3bde2c3aa322bad8e5", "Disk Inventory X.app")},
+ "SpaceSniffer": {("windows","x86_64"): ("http://www.uderzo.it/main_products/space_sniffer/files/spacesniffer_1_3_0_2.zip", "SpaceSniffer.exe",
+                                         "156c45cb53a283d0b919ca8b1e0faf3b967c896b8a580b962e493a27c7f465c2")},
 }
 
 def fetch(url, sha=None):
@@ -93,6 +102,19 @@ def place(name, url, inner=None, sha=None):
             return
     raise SystemExit(f"{want} not found in {url}")
 
+def install_dmg(url, sha, bundle):
+    """Copy <bundle> out of a sha256-verified disk image into .tools/apps (no quarantine attribute: fetched by us)."""
+    apps = os.path.join(ROOT, ".tools", "apps"); os.makedirs(apps, exist_ok=True)
+    tmp = tempfile.mkdtemp(); dmg = os.path.join(tmp, "app.dmg"); mnt = os.path.join(tmp, "mnt")
+    open(dmg, "wb").write(fetch(url, sha))
+    # 'yes' accepts a licence agreement embedded in the image (OmniDiskSweeper)
+    subprocess.run(f"yes | hdiutil attach -nobrowse -noverify -noautoopen -mountpoint '{mnt}' '{dmg}' >/dev/null", shell=True, check=True)
+    try:
+        shutil.rmtree(os.path.join(apps, bundle), ignore_errors=True)
+        subprocess.run(["ditto", os.path.join(mnt, bundle), os.path.join(apps, bundle)], check=True)
+    finally:
+        subprocess.run(["hdiutil", "detach", mnt], capture_output=True)
+
 def install_nulldisk():
     manifest = os.environ.get("NULLDISK_CLI_MANIFEST") or "https://assets.nulldisk.app/releases/cli/latest.json"  # empty CI var -> default
     plat = {"macos": "macos", "linux": "linux"}.get(PLAT)
@@ -121,10 +143,14 @@ def main():
                 place(name, spec)
             elif spec[0] == "cargo":
                 subprocess.run(["cargo", "install", "--locked", "--root", os.path.dirname(BIN)] + spec[1], check=True)
+            elif spec[0] == "dmg":
+                install_dmg(*spec[1:])
             elif spec[0] == "brew":
                 subprocess.run(["brew", "install", spec[1]], check=True)
             else:
                 place(name, *spec)
+            if name == "SpaceSniffer":  # app defaults + the "diskscan-bench total" export configuration
+                shutil.copy(os.path.join(ROOT, "bench", "gui", "SpaceSnifferConfig.xml"), os.path.join(BIN, "SpaceSnifferConfig.xml"))
             report[name] = "ok"
         except Exception as e:
             report[name] = f"FAILED: {e}"
