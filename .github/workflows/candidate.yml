@@ -74,6 +74,11 @@ jobs:
             cargo build --locked --release --manifest-path Tools/cli-rs/Cargo.toml --bin nulldisk -q
             BIN=Tools/cli-rs/target/release/nulldisk
           fi
+          # Native engine tests (darwin bulk/native tests only run on a Mac); failures are reported, bench still runs.
+          for c in scan-core-rs cli-rs; do
+            if ! cargo test --locked --release --manifest-path Tools/$c/Cargo.toml -q > "$RUNNER_TEMP/t-$c.log" 2>&1; then echo "::error::$c tests failed on $RUNNER_OS"; fi
+            grep -E "test result|FAILED|panicked|failures:|^    [a-z_:]+$" "$RUNNER_TEMP/t-$c.log" || true
+          done
           cp "$BIN" "$GITHUB_WORKSPACE/.tools/bin/nulldisk"; chmod 755 "$GITHUB_WORKSPACE/.tools/bin/nulldisk"
           "$GITHUB_WORKSPACE/.tools/bin/nulldisk" --version
           rm -rf "$RUNNER_TEMP/nd"
