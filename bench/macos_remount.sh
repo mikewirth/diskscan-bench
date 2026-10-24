@@ -11,7 +11,7 @@ done
 sudo purge
 for i in 1 2 3 4 5 6; do
   mount | grep -q " on $DSB_MNT " && exit 0
-  hdiutil attach "$DSB_DMG" -mountpoint "$DSB_MNT" -nobrowse -noverify -noautofsck -owners on -quiet 2>>"$LOG" && exit 0
+  hdiutil attach "$DSB_DMG" -mountpoint "$DSB_MNT" -nobrowse -noverify -noautofsck -owners on -quiet 2>>"$LOG" && { sudo mdutil -i off "$DSB_MNT" >>"$LOG" 2>&1; exit 0; }
   sleep 2
 done
 echo "remount failed, see $LOG" >&2; exit 1
