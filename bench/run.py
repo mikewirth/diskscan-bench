@@ -81,6 +81,9 @@ def parse_total(t, out, scratch, path):
             return windirstat_total(scratch + ".csv")
         if p == "nulldisk_json":
             return find_bytes(json.loads(out))
+        if p == "gui_json":  # bench/gui harnesses: last stdout line is JSON with the total read from the app
+            j = json.loads(lines[-1])
+            return j["total_bytes"] if "total_bytes" in j else f"harness error: {j.get('error')}"
     except Exception as e:
         return f"parse error: {e}"
     return None
@@ -140,7 +143,29 @@ def judge(t, val, ref):
 
 # ---------------- execution ----------------
 def fill(cmd, path, scratch):
-    return [c.replace("{path}", path).replace("{out}", scratch) for c in cmd]
+    return [c.replace("{path}", path).replace("{out}", scratch).replace("{gui}", os.path.join(HERE, "gui")) for c in cmd]
+
+def harness_timing(m, times, runs, warmup):
+    """GUI harness tools: replace the wrapper's lifetime by the launch->completion-signal time each run measured itself
+    (appended to $DSB_GUI_TIMES). The wrapper's own wall times are kept under wrapper_wall."""
+    if not m or "error" in m:
+        return m
+    keep = ("median_s", "mean_s", "stddev_s", "min_s", "max_s", "times_s")
+    m["wrapper_wall"] = {k: m.get(k) for k in keep}
+    m["peak_rss_median_bytes"] = None  # hyperfine measured the wrapper, not the app
+    if len(times) != runs + warmup:
+        m["invalid"] = f"harness reported {len(times)} completion times for {runs + warmup} runs"
+        return m
+    ts = times[warmup:]
+    m.update(median_s=statistics.median(ts), mean_s=statistics.fmean(ts), stddev_s=statistics.stdev(ts) if len(ts) > 1 else None,
+             min_s=min(ts), max_s=max(ts), times_s=ts, timing="harness: process launch -> completion signal")
+    return m
+
+def read_times(fn):
+    try:
+        return [float(x) for x in open(fn).read().split()]
+    except OSError:
+        return []
 
 def instrumented(argv, timeout=900):
     """Run once; return (stdout, exit, seconds, peak_rss_bytes)."""
@@ -262,7 +287,8 @@ def main():
                             "windows": "not supported on hosted runners yet (planned: VHD detach/attach)"}[PLAT],
                tools={}, datasets={}, results=[], planned_gui=[dict(platform=p, name=n, reason=r) for p, n, r in PLANNED_GUI])
     for t in tools:
-        present = shutil.which(t["cmd"][0]) is not None
+        req = t.get("requires") or t["cmd"][0]
+        present = os.path.exists(os.path.join(ROOT, req)) if req.startswith(".tools/") else shutil.which(req) is not None
         st = t["status"] if present else ("pending" if t.get("optional") else "missing")
         res["tools"][t["id"]] = dict(name=t["name"], homepage=t["homepage"], track=t["track"], metric=t["metric"],
                                      pin=t.get("pin"), status=st, version=tool_version(t) if present else None,
@@ -285,6 +311,12 @@ def main():
             argv = fill(t["cmd"], path, scratch)
             print(f"-- {t['id']} {shlex.join(argv)}", flush=True)
             entry = dict(tool=t["id"], dataset=ds, track=t["track"])
+            harness = t.get("timing") == "harness"
+            times_fn = scratch + ".times"
+            if harness:
+                os.environ["DSB_GUI_TIMES"] = times_fn
+            else:
+                os.environ.pop("DSB_GUI_TIMES", None)
             try:
                 stdout, code, secs, rss = instrumented(argv, timeout=300 if t['track'] == 'gui' else 900)
             except subprocess.TimeoutExpired:
@@ -294,8 +326,19 @@ def main():
                          correctness=judge(t, total, ref), stdout_head=stdout[:300])
             if code not in t.get("ok_exit", [0]):
                 entry["correctness"]["note"] = f"exit code {code}"
-            entry["warm"] = hyperfine(argv, prof["warm_runs"], prof["warmup"], None, scratch + ".warm.json")
-            entry["cold"] = hyperfine(argv, prof["cold_runs"], 0, prep, scratch + ".cold.json") if prep else None
+            if harness:
+                try:
+                    h = json.loads(stdout.strip().splitlines()[-1])
+                    entry.update(peak_rss_bytes=h.get("peak_rss_bytes"), harness={k: h.get(k) for k in ("elapsed_s", "signal", "displayed", "poll_s")})
+                except (ValueError, IndexError):
+                    pass
+            for mode, runs, warmup, pre in (("warm", prof["warm_runs"], prof["warmup"], None), ("cold", prof["cold_runs"], 0, prep)):
+                if mode == "cold" and not prep:
+                    entry["cold"] = None; continue
+                open(times_fn, "w").close()
+                entry[mode] = hyperfine(argv, runs, warmup, pre, scratch + f".{mode}.json")
+                if harness:
+                    entry[mode] = harness_timing(entry[mode], read_times(times_fn), runs, warmup)
             for mode in ("warm", "cold"):  # a timed run that failed is not a valid time
                 m = entry.get(mode) or {}
                 bad = [c for c in m.get("exit_codes", []) if c not in t.get("ok_exit", [0])]
