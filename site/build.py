@@ -34,6 +34,11 @@ def load():
     return runs, latest
 
 # ---------------- formatting ----------------
+PRECISION = {t["id"]: t.get("precision") for t in TOOLS}
+
+def fmt_score(x):
+    return f"{x:.2f}" if x >= 0.1 else f"{x:.2g}"  # GUI apps can be far below du: keep two significant digits
+
 def fmt_t(s):
     if s is None: return "–"
     return f"{s*1000:.1f} ms" if s < 1 else f"{s:.2f} s"
@@ -580,7 +585,8 @@ class Site:
             if d["tool"] == base: tags += '<span class="tag">baseline</span>'
             if d["tool"] == "nulldisk": tags += '<span class="tag md" title="Made by this benchmark\'s maintainer">maintainer\'s tool</span>'
             acc = (f'<a class="acc w" href="tools/{E(d["tool"])}.html#{p}-correctness" title="{E("Differs from reference: " + "; ".join(d["warn"]))}">{ICON_WARN}Differs</a>'
-                   if d["warn"] else f'<span class="acc ok" title="Totals match the reference walker">{ICON_OK}Exact</span>')
+                   if d["warn"] else f'<span class="acc ok" title="Shows rounded sizes only; total matches the reference walker within rounding">{ICON_OK}Rounded</span>'
+                   if gui and PRECISION.get(d["tool"]) == "human" else f'<span class="acc ok" title="Totals match the reference walker">{ICON_OK}Exact</span>')
             acc_sm = f' <a class="acc w show-sm" href="tools/{E(d["tool"])}.html#{p}-correctness" aria-label="Accuracy differs">{ICON_WARN}</a>' if d["warn"] else ""
             bw = 100 * d["score"] / top
             mark = f'<b style="left:{100 / top:.1f}%" title="{E(base)} = 1.00×"></b>' if top > 1.05 and d["tool"] != base else ""
@@ -588,7 +594,7 @@ class Site:
                      f'<td class="tcell"><a class="tn" href="tools/{E(d["tool"])}.html#{p}">{E(nm)}</a>{f"<span class=tsub>{E(sub)}</span>" if sub else ""}{acc_sm}'
                      f'<div class="tver">{E(ver)}{tags}</div></td>'
                      f'<td class="sc"><div class="scw"><div class="bar" aria-hidden="true"><i style="width:{bw:.1f}%"></i>{mark}</div>'
-                     f'<span class="sv">{d["score"]:.2f}<small>×</small></span></div></td>' +
+                     f'<span class="sv">{fmt_score(d["score"])}<small>×</small></span></div></td>' +
                      "".join(f'<td class="num hide-sm tm">{fmt_t(d[m])}</td>' for m, _ in tcols) +
                      f'<td class="hide-sm">{acc}</td></tr>')
         h.append("</tbody></table>")
@@ -661,7 +667,8 @@ class Site:
             plan = self.planned_list(p)
             h.append('<div class="gui-box"><div class="track"><h3>GUI apps</h3><span class="pill gui">separate ranking</span></div>'
                      f'<p class="callout gui">{ICON_INFO}<span><b>Only compare GUI apps with each other.</b> GUI times run from app launch until '
-                     'the app\'s own export finishes and it exits, so they include start-up and are not comparable with the CLI table above.</span></p>')
+                     'the app signals that its scan is complete (its own export, or a window/status/log signal read by a UI-automation harness), so they include start-up and are not comparable with the CLI table above. '
+                     '<a href="methodology.html#gui-track">How GUI apps are timed</a>.</span></p>')
             for track in gtracks:
                 for v in ("all", "cold", "warm"):
                     h.append(f'<div class="view view-{v}">{self.board(p, r, track, v)}</div>')
@@ -705,15 +712,15 @@ class Site:
                  f'<span>{"GUI track" if track != "cli" else "CLI track"}</span><span>Runs on: {", ".join(PLAT_NAME[p] for p in plats)}</span></div></div></div></section>']
             if tid == "nulldisk": h.append(disclosure("../"))
             if track != "cli":
-                h.append(f'<p class="callout gui">{ICON_INFO}<span><b>GUI track.</b> Times run from app launch until its export finishes and it exits; '
+                h.append(f'<p class="callout gui">{ICON_INFO}<span><b>GUI track.</b> Times run from app launch until the app signals completion (see Method below); '
                          'compare only with other GUI apps.</span></p>')
             h.append('<div class="rcards">')
             for p in plats:
                 rk = self.rank.get((p, tid))
                 if rk:
                     h.append(f'<a class="card rcard" href="#{p}"><div class="os">{PLAT_NAME[p]} · {"GUI" if rk["track"] != "cli" else "CLI"}</div>'
-                             f'<div class="big">#{rk["rank"]} <small>of {rk["of"]}</small></div><div class="of">{rk["score"]:.2f}× vs {E(rk["base"])}'
-                             f'{" · ⚠ totals differ" if rk["warn"] else " · ✓ exact"}</div></a>')
+                             f'<div class="big">#{rk["rank"]} <small>of {rk["of"]}</small></div><div class="of">{fmt_score(rk["score"])}× vs {E(rk["base"])}'
+                             f'{" · ⚠ totals differ" if rk["warn"] else (" · ✓ within rounding" if rk["track"] != "cli" and PRECISION.get(tid) == "human" else " · ✓ exact")}</div></a>')
                 else:
                     h.append(f'<a class="card rcard" href="#{p}"><div class="os">{PLAT_NAME[p]}</div><div class="big">–</div><div class="of">not ranked (too few valid cells)</div></a>')
             h.append("</div>")
@@ -804,7 +811,7 @@ class Site:
                     if state == "bench":
                         rk = self.rank.get((p, s["tool"]))
                         res = (f'#{rk["rank"]} of {rk["of"]} {"GUI apps" if rk["track"] != "cli" else "CLI tools"}' if rk else "Results")
-                        sc = f'<span class="ws">{rk["score"]:.2f}<small>×</small></span>' if rk else ""
+                        sc = f'<span class="ws">{fmt_score(rk["score"])}<small>×</small></span>' if rk else ""
                         h.append(f'<a class="card bprog" href="tools/{E(s["tool"])}.html#{p}"><span class="bn">{E(e["name"])} {kind_pill(e.get("kind", "cli"))}</span>'
                                  f'<span class="br">{res}</span>{sc}</a>')
                     else:
@@ -847,7 +854,7 @@ class Site:
                 trs = [x for x in r["results"] if x.get("track", "cli") == track]
                 gui = track != "cli"
                 h.append(f'<h3 style="margin:30px 0 4px">{"GUI apps" if gui else "Command-line tools"} · per-dataset times</h3>'
-                         + (f'<p class="callout gui">{ICON_INFO}<span>GUI track: launch-to-exit times including the app\'s own export; compare GUI apps only with each other.</span></p>' if gui else
+                         + (f'<p class="callout gui">{ICON_INFO}<span>GUI track: times from app launch until the app signals completion (its export, or a window/status/log signal); compare GUI apps only with each other.</span></p>' if gui else
                             '<p class="foot" style="margin-top:0">Median per tool, whiskers ±1 stddev, fastest first. <span class="bad">Orange / *</span> = total disagrees with the reference walker.</p>'))
                 for ds, d in r["datasets"].items():
                     rows = [x for x in trs if x["dataset"] == ds]
