@@ -16,6 +16,11 @@ for t in ("du", "dumac", "dua", "diskus", "pdu", "gdu"):
     if tt and shutil.which(tt[0]["cmd"][0]): cfgs.append((t, tt[0]["cmd"]))
 base = ["nulldisk", "scan", "{path}", "--json", "--depth", "0"]
 for j in JOBS: cfgs.append((f"nd-j{j}", base + ([] if j == "0" else ["--jobs", j])))
+PROBE = os.environ.get("PROBE")
+if PROBE and os.path.exists(PROBE):
+    for st in (os.environ.get("PROBE_STRATS") or "0,1,2,3,4").split(","):
+        for t in (os.environ.get("PROBE_THREADS") or "1,3,6").split(","):
+            cfgs.append((f"probe-s{st}-t{t}", [PROBE, st, t, "{path}"]))
 for e in EXTRA: cfgs.append((f"nd[{e}]", base + e.split()))
 prep = run.cold_prepare()
 out, tmp = {}, tempfile.mkdtemp()

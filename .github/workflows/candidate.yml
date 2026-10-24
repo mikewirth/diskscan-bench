@@ -87,7 +87,11 @@ jobs:
           rm -rf "$RUNNER_TEMP/nd"
       - name: Sweep (when SWEEP=1)
         if: env.SWEEP == '1'
-        run: python candidate/sweep.py
+        run: |
+          if [ "$RUNNER_OS" = macOS ] && [ -f candidate/probe/bulkprobe.c ]; then
+            cc -O2 -o "$RUNNER_TEMP/bulkprobe" candidate/probe/bulkprobe.c && echo "PROBE=$RUNNER_TEMP/bulkprobe" >> $GITHUB_ENV && export PROBE="$RUNNER_TEMP/bulkprobe"
+          fi
+          python candidate/sweep.py
       - name: Run benchmark
         if: env.SWEEP != '1'
         run: |
