@@ -39,6 +39,8 @@ def settle(path):
         after = refwalk.walk(path)["alloc_du"]
         print(f"settle {path}: alloc_du before flush {before}, after {after} (diff {before - after})", flush=True)
 
+SPLIT = os.environ.get("DSB_SPLIT_PHASES") == "1"  # candidate-only methodology variant
+
 def build_dataset(name, root):
     path = os.path.join(root, name)
     if os.path.exists(os.path.join(path, ".dsb-done")):
@@ -292,6 +294,7 @@ def main():
             continue
         res["datasets"][ds] = ref
         print(json.dumps(ref), flush=True)
+        pending_cold = []
         for t in tools:
             if res["tools"][t["id"]]["status"] != "active":
                 continue
@@ -309,7 +312,10 @@ def main():
             if code not in t.get("ok_exit", [0]):
                 entry["correctness"]["note"] = f"exit code {code}"
             entry["warm"] = hyperfine(argv, prof["warm_runs"], prof["warmup"], None, scratch + ".warm.json")
-            entry["cold"] = hyperfine(argv, prof["cold_runs"], 0, prep, scratch + ".cold.json") if prep else None
+            if SPLIT:  # warm phase for every tool first (no remounts between tools), cold phase afterwards
+                entry["cold"] = None; pending_cold.append((entry, argv, scratch))
+            else:
+                entry["cold"] = hyperfine(argv, prof["cold_runs"], 0, prep, scratch + ".cold.json") if prep else None
             for mode in ("warm", "cold"):  # a timed run that failed is not a valid time
                 m = entry.get(mode) or {}
                 bad = [c for c in m.get("exit_codes", []) if c not in t.get("ok_exit", [0])]
@@ -318,6 +324,13 @@ def main():
             print(json.dumps({k: entry[k] for k in ("reported_bytes", "correctness")}),
                   "warm", entry["warm"].get("median_s"), "cold", (entry["cold"] or {}).get("median_s"), flush=True)
             res["results"].append(entry)
+        for entry, argv, scratch in pending_cold:
+            entry["cold"] = hyperfine(argv, prof["cold_runs"], 0, prep, scratch + ".cold.json") if prep else None
+            t = next(x for x in tools if x["id"] == entry["tool"]); m = entry["cold"] or {}
+            bad = [c for c in m.get("exit_codes", []) if c not in t.get("ok_exit", [0])]
+            if bad and entry.get("exit_code") in t.get("ok_exit", [0]):
+                m["invalid"] = f"timed runs exited with {bad} but the instrumented run exited {entry.get('exit_code')}"
+            print(entry["tool"], ds, "cold", m.get("median_s"), flush=True)
     with open(os.path.join(out, "results.json"), "w") as f:
         json.dump(res, f, indent=1)
     print("wrote", os.path.join(out, "results.json"))
