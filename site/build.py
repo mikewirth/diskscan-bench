@@ -594,7 +594,7 @@ class Site:
         h.append("</tbody></table>")
         cells = sc[0]["cells"]
         h.append(f'<p class="foot">Score = geometric mean of <span class="mono">{E(base)}</span> time ÷ tool time over {cells} dataset × cache '
-                 f'cell{"s" if cells != 1 else ""}; {E(split_name(self.tool_name(r, base))[0])} = 1.00×, higher is faster. '
+                 f'cell{"s" if cells != 1 else ""}; {E(split_name(self.tool_name(r, base))[0])} = 1.00× (the tick on each bar), higher is faster. '
                  'Times = geometric mean of the median times. '
                  + (f'Held out of scoring (reference under review): {E(", ".join(sorted(bad)))}. ' if bad else "")
                  + "</p>")
@@ -614,7 +614,7 @@ class Site:
     def planned_list(self, p, gui_only=True):
         items = [(e, e["status"][p]) for e in self.catalog if p in e["status"] and e["status"][p]["state"] != "bench"
                  and (e.get("kind") == "gui" or not gui_only)]
-        items = [x for x in items if x[1]["state"] == "planned" or x[0].get("planned")]
+        items = [x for x in items if x[1]["state"] == "planned" or any(q["platform"] in (p, "all") for q in x[0].get("planned", []))]
         if not items: return ""
         return ('<ul class="plist">' + "".join(
             f'<li><details><summary>{E(e["name"])} <span class="why">{E(s["tag"])}</span>{status_badge(s["state"])}</summary><p>{rich(s["reason"])}</p></details></li>'
@@ -666,7 +666,7 @@ class Site:
                 for v in ("all", "cold", "warm"):
                     h.append(f'<div class="view view-{v}">{self.board(p, r, track, v)}</div>')
             if not gtracks:
-                h.append(f'<p class="empty">No GUI app on {PLAT_NAME[p]} can be scripted to scan and exit on hosted runners yet. Planned:</p>')
+                h.append(f'<p class="empty">No GUI app is benchmarked on {PLAT_NAME[p]} yet. Planned:</p>')
             elif plan:
                 h.append('<p class="foot" style="margin-top:18px"><b>Not yet benchmarked here:</b></p>')
             h.append(plan)
