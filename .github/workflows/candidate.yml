@@ -37,6 +37,9 @@ jobs:
           echo "PROFILE=${PROFILE:-full}" >> $GITHUB_ENV
           echo "DATASETS=${DATASETS:-}" >> $GITHUB_ENV
           echo "TOOLS=${!T:-}" >> $GITHUB_ENV
+          echo "SWEEP=${SWEEP:-0}" >> $GITHUB_ENV
+          for v in SWEEP_DATASETS SWEEP_JOBS SWEEP_EXTRA SWEEP_WARM SWEEP_COLD; do [ -n "${!v:-}" ] && echo "$v=${!v}" >> $GITHUB_ENV; done
+          true
           cat candidate/config.env
       - name: Prepare (Linux)
         if: runner.os == 'Linux'
@@ -82,14 +85,18 @@ jobs:
           cp "$BIN" "$GITHUB_WORKSPACE/.tools/bin/nulldisk"; chmod 755 "$GITHUB_WORKSPACE/.tools/bin/nulldisk"
           "$GITHUB_WORKSPACE/.tools/bin/nulldisk" --version
           rm -rf "$RUNNER_TEMP/nd"
+      - name: Sweep (when SWEEP=1)
+        if: env.SWEEP == '1'
+        run: python candidate/sweep.py
       - name: Run benchmark
+        if: env.SWEEP != '1'
         run: |
           ARGS=(--profile "$PROFILE" --out "results-candidate/$DSB_RUNNER_LABEL")
           [ -n "$DATASETS" ] && ARGS+=(--datasets "$DATASETS")
           [ -n "$TOOLS" ] && ARGS+=(--tools "$TOOLS")
           python bench/run.py "${ARGS[@]}"
       - name: Scores
-        if: always()
+        if: always() && env.SWEEP != '1'
         run: python candidate/score.py results-candidate/*/results.json || true
       - uses: actions/upload-artifact@v4
         if: always()
