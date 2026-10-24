@@ -24,19 +24,44 @@ if PROBE and os.path.exists(PROBE):
 for e in EXTRA: cfgs.append((f"nd[{e}]", base + e.split()))
 prep = run.cold_prepare()
 out, tmp = {}, tempfile.mkdtemp()
-ORDER = os.environ.get("SWEEP_ORDER")  # e.g. "!probe-s0-t3,probe-s3-t3,probe-s0-t3": run in this order; "!" = cold_prepare (remount/purge) first
+ORDER = os.environ.get("SWEEP_ORDER")
+# SWEEP_ORDER: comma list run in order. "!x" = cold_prepare (remount/purge) first; "~x" = WARM single runs
+# timed one by one (no warmup) with seconds since the last remount; "sleepN"; "ps" = log top CPU processes.
+import time, subprocess
+def single(argv):
+    t = time.time(); subprocess.run(argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL); return time.time() - t
 if ORDER:
-    byname = dict(cfgs); cfgs = [(f"{i:02d}{'!' if n.startswith('!') else '-'}{n.lstrip('!')}", byname[n.lstrip("!")]) for i, n in enumerate(ORDER.split(",")) if n.lstrip("!") in byname]
+    byname = dict(cfgs); steps = [t.strip() for t in ORDER.split(",") if t.strip()]
 for ds in DS:
     path = os.path.join(run.build_dataset(ds, root), "tree")
-    for name, cmd in cfgs:
-        if ORDER and name[2] == "!" and prep:
-            run.sh(prep)
-        argv = run.fill(cmd, path, os.path.join(tmp, "o"))
-        w = run.hyperfine(argv, WARM, 3, None, os.path.join(tmp, "w.json"))
-        c = run.hyperfine(argv, COLD, 0, prep, os.path.join(tmp, "c.json")) if (prep and COLD) else {}
-        out[f"{ds}/{name}"] = dict(warm=w, cold=c)
-        f = lambda m: "%7.1f (u%5.0f s%6.0f)" % (m["median_s"]*1e3, (m.get("user_s") or 0)*1e3, (m.get("system_s") or 0)*1e3) if m.get("median_s") else "   -   "
-        print(f"{ds:13s} {name:16s} warm {f(w)}   cold {f(c)}", flush=True)
+    if not ORDER:
+        for name, cmd in cfgs:
+            argv = run.fill(cmd, path, os.path.join(tmp, "o"))
+            w = run.hyperfine(argv, WARM, 3, None, os.path.join(tmp, "w.json"))
+            c = run.hyperfine(argv, COLD, 0, prep, os.path.join(tmp, "c.json")) if (prep and COLD) else {}
+            out[f"{ds}/{name}"] = dict(warm=w, cold=c)
+            f = lambda m: "%7.1f (u%5.0f s%6.0f)" % (m["median_s"]*1e3, (m.get("user_s") or 0)*1e3, (m.get("system_s") or 0)*1e3) if m.get("median_s") else "   -   "
+            print(f"{ds:13s} {name:16s} warm {f(w)}   cold {f(c)}", flush=True)
+        continue
+    t_mount = time.time()
+    for i, step in enumerate(steps):
+        key = f"{ds}/{i:02d}{step}"
+        if step.startswith("sleep"):
+            time.sleep(float(step[5:])); continue
+        if step == "ps":
+            p = subprocess.run("ps -Ao pcpu,time,comm -r | head -8", shell=True, capture_output=True, text=True)
+            print(f"{key} t+{time.time()-t_mount:.0f}s\n{p.stdout}", flush=True); out[key] = dict(ps=p.stdout); continue
+        n = step.lstrip("!~")
+        if n not in byname: print("unknown step", step); continue
+        if step.startswith("!") and prep:
+            run.sh(prep); t_mount = time.time()
+        argv = run.fill(byname[n], path, os.path.join(tmp, "o"))
+        if step.lstrip("!").startswith("~"):
+            ts = [(round(time.time() - t_mount, 1), round(single(argv) * 1e3, 1)) for _ in range(WARM)]
+            out[key] = dict(seq=ts); print(f"{key:40s} seq (t+s, ms) {ts}", flush=True)
+        else:
+            w = run.hyperfine(argv, WARM, 3, None, os.path.join(tmp, "w.json"))
+            out[key] = dict(warm=w, cold={}, t=round(time.time() - t_mount, 1))
+            print(f"{key:40s} warm {w.get('median_s',0)*1e3:8.1f} ms  sys {(w.get('system_s') or 0)*1e3:6.0f}  t+{time.time()-t_mount:.0f}s", flush=True)
 os.makedirs("results-candidate", exist_ok=True)
 json.dump(out, open(os.path.join("results-candidate", f"sweep-{os.environ.get('DSB_RUNNER_LABEL','local')}.json"), "w"), indent=1)
