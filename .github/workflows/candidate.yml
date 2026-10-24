@@ -1,0 +1,91 @@
+name: candidate
+# Benchmarks an unreleased NullDisk build from source WITHOUT touching the public leaderboard.
+# Trigger: push to a candidate/** branch. The private NullDisk source is shipped as
+# candidate/nulldisk-src.tar.gz.enc (AES-256, key in the NULLDISK_CANDIDATE_KEY secret); the binary is
+# built on the runner and is not uploaded. Other tools are installed exactly as in bench.yml.
+# Results go to run artifacts only (no publish job, no commit to results/, no Pages deploy).
+# candidate/config.env: PROFILE, DATASETS (optional), TOOLS_MACOS / TOOLS_LINUX (optional comma lists).
+on:
+  push:
+    branches: ["candidate/**"]
+    paths: ["candidate/**", ".github/workflows/candidate.yml", "bench/**"]
+  workflow_dispatch:
+permissions: {contents: read}
+concurrency: {group: "candidate-${{ github.ref }}", cancel-in-progress: true}
+jobs:
+  bench:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, label: gh-ubuntu-latest-x64, plat: linux}
+          - {os: macos-14, label: gh-macos-14-arm64, plat: macos}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 300
+    env: {DSB_RUNNER_LABEL: "${{ matrix.label }}"}
+    defaults: {run: {shell: bash}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "20"}
+      - name: Config
+        run: |
+          set -a; source candidate/config.env; set +a
+          T=TOOLS_${{ matrix.plat == 'macos' && 'MACOS' || 'LINUX' }}
+          echo "PROFILE=${PROFILE:-full}" >> $GITHUB_ENV
+          echo "DATASETS=${DATASETS:-}" >> $GITHUB_ENV
+          echo "TOOLS=${!T:-}" >> $GITHUB_ENV
+          cat candidate/config.env
+      - name: Prepare (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq time musl-tools
+          if sudo mkdir -p /mnt/dsb 2>/dev/null && sudo chown "$USER" /mnt/dsb; then echo "DSB_DATA=/mnt/dsb" >> $GITHUB_ENV; else echo "DSB_DATA=$RUNNER_TEMP/dsb" >> $GITHUB_ENV; fi
+      - name: Prepare (macOS) - dedicated APFS disk image for cold-cache runs
+        if: runner.os == 'macOS'
+        run: |
+          IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
+          hdiutil create -size 16g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
+          hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on
+          sudo mdutil -i off "$MNT" || true; touch "$MNT/.metadata_never_index"
+          echo "DSB_DMG=$IMG" >> $GITHUB_ENV; echo "DSB_MNT=$MNT" >> $GITHUB_ENV; echo "DSB_DATA=$MNT/data" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        if: runner.os == 'macOS'
+        with: {path: .tools, key: "tools-${{ matrix.os }}-${{ hashFiles('bench/install.py') }}"}
+      - name: Install pinned tools
+        run: python bench/install.py
+      - name: Build candidate NullDisk from source
+        env: {KEY: "${{ secrets.NULLDISK_CANDIDATE_KEY }}"}
+        run: |
+          set -euo pipefail
+          test -n "$KEY" || { echo "::error::NULLDISK_CANDIDATE_KEY secret missing"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/nd"
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass env:KEY -in candidate/nulldisk-src.tar.gz.enc | tar -xz -C "$RUNNER_TEMP/nd"
+          cd "$RUNNER_TEMP/nd"; cat CANDIDATE.txt || true
+          if [ "$RUNNER_OS" = Linux ]; then
+            rustup target add x86_64-unknown-linux-musl
+            # Same shape as the published Linux binary: static musl.
+            CC_x86_64_unknown_linux_musl=musl-gcc CARGO_TARGET_X86_64_UNKNOWN_LINUX_MUSL_RUSTFLAGS="-C target-feature=+crt-static" \
+              cargo build --locked --release --manifest-path Tools/cli-rs/Cargo.toml --target x86_64-unknown-linux-musl --bin nulldisk -q
+            BIN=Tools/cli-rs/target/x86_64-unknown-linux-musl/release/nulldisk; file "$BIN"
+          else
+            cargo build --locked --release --manifest-path Tools/cli-rs/Cargo.toml --bin nulldisk -q
+            BIN=Tools/cli-rs/target/release/nulldisk
+          fi
+          cp "$BIN" "$GITHUB_WORKSPACE/.tools/bin/nulldisk"; chmod 755 "$GITHUB_WORKSPACE/.tools/bin/nulldisk"
+          "$GITHUB_WORKSPACE/.tools/bin/nulldisk" --version
+          rm -rf "$RUNNER_TEMP/nd"
+      - name: Run benchmark
+        run: |
+          ARGS=(--profile "$PROFILE" --out "results-candidate/$DSB_RUNNER_LABEL")
+          [ -n "$DATASETS" ] && ARGS+=(--datasets "$DATASETS")
+          [ -n "$TOOLS" ] && ARGS+=(--tools "$TOOLS")
+          python bench/run.py "${ARGS[@]}"
+      - name: Scores
+        if: always()
+        run: python candidate/score.py results-candidate/*/results.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: "candidate-${{ matrix.label }}", path: "results-candidate/"}

@@ -27,6 +27,18 @@ def sh(cmd, **kw):
     return subprocess.run(cmd, shell=isinstance(cmd, str), capture_output=True, text=True, errors="replace", **kw)
 
 # ---------------- datasets ----------------
+def settle(path):
+    """Flush freshly written data before the reference walk. On APFS, files just written (e.g. by
+    `npm ci`) can report extra st_blocks (speculative preallocation) until they are flushed; the
+    reference walk and the first tool would then see different sizes than every later tool.
+    On macOS with the dedicated image this remounts it (same step as the cold-cache prepare)."""
+    before = refwalk.walk(path)["alloc_du"] if PLAT == "macos" else None
+    prep = cold_prepare()
+    subprocess.run(prep if prep and PLAT == "macos" else "sync", shell=True)
+    if before is not None:
+        after = refwalk.walk(path)["alloc_du"]
+        print(f"settle {path}: alloc_du before flush {before}, after {after} (diff {before - after})", flush=True)
+
 def build_dataset(name, root):
     path = os.path.join(root, name)
     if os.path.exists(os.path.join(path, ".dsb-done")):
@@ -51,6 +63,8 @@ def build_dataset(name, root):
         os.makedirs(os.path.join(path, "tree"))
         subprocess.run(["tar", "-xJf", tmp, "-C", os.path.join(path, "tree")], check=True)
         os.remove(tmp)
+    if PLAT != "windows":
+        settle(os.path.join(path, "tree"))
     open(os.path.join(path, ".dsb-done"), "w").write(str(time.time() - t0))
     return path
 
