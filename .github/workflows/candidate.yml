@@ -38,7 +38,7 @@ jobs:
           echo "DATASETS=${DATASETS:-}" >> $GITHUB_ENV
           echo "TOOLS=${!T:-}" >> $GITHUB_ENV
           echo "SWEEP=${SWEEP:-0}" >> $GITHUB_ENV
-          for v in SWEEP_DATASETS SWEEP_JOBS SWEEP_EXTRA SWEEP_WARM SWEEP_COLD; do [ -n "${!v:-}" ] && echo "$v=${!v}" >> $GITHUB_ENV; done
+          for v in SWEEP_DATASETS SWEEP_JOBS SWEEP_EXTRA SWEEP_WARM SWEEP_COLD SWEEP_ORDER PROBE_STRATS PROBE_THREADS; do [ -n "${!v:-}" ] && echo "$v=${!v}" >> $GITHUB_ENV; done
           true
           cat candidate/config.env
       - name: Prepare (Linux)
@@ -80,7 +80,7 @@ jobs:
           # Native engine tests (darwin bulk/native tests only run on a Mac); failures are reported, bench still runs.
           for c in scan-core-rs cli-rs; do
             if ! cargo test --locked --release --manifest-path Tools/$c/Cargo.toml -q > "$RUNNER_TEMP/t-$c.log" 2>&1; then echo "::error::$c tests failed on $RUNNER_OS"; fi
-            grep -E "test result|FAILED|panicked|failures:|^    [a-z_:]+$" "$RUNNER_TEMP/t-$c.log" || true
+            grep -E "test result" "$RUNNER_TEMP/t-$c.log" || true; sed -n '/^failures:$/,/^test result/p' "$RUNNER_TEMP/t-$c.log" | head -400
           done
           cp "$BIN" "$GITHUB_WORKSPACE/.tools/bin/nulldisk"; chmod 755 "$GITHUB_WORKSPACE/.tools/bin/nulldisk"
           "$GITHUB_WORKSPACE/.tools/bin/nulldisk" --version

@@ -24,9 +24,14 @@ if PROBE and os.path.exists(PROBE):
 for e in EXTRA: cfgs.append((f"nd[{e}]", base + e.split()))
 prep = run.cold_prepare()
 out, tmp = {}, tempfile.mkdtemp()
+ORDER = os.environ.get("SWEEP_ORDER")  # e.g. "!probe-s0-t3,probe-s3-t3,probe-s0-t3": run in this order; "!" = cold_prepare (remount/purge) first
+if ORDER:
+    byname = dict(cfgs); cfgs = [(f"{i:02d}{'!' if n.startswith('!') else '-'}{n.lstrip('!')}", byname[n.lstrip("!")]) for i, n in enumerate(ORDER.split(",")) if n.lstrip("!") in byname]
 for ds in DS:
     path = os.path.join(run.build_dataset(ds, root), "tree")
     for name, cmd in cfgs:
+        if ORDER and name[2] == "!" and prep:
+            run.sh(prep)
         argv = run.fill(cmd, path, os.path.join(tmp, "o"))
         w = run.hyperfine(argv, WARM, 3, None, os.path.join(tmp, "w.json"))
         c = run.hyperfine(argv, COLD, 0, prep, os.path.join(tmp, "c.json")) if (prep and COLD) else {}
