@@ -14,7 +14,6 @@ jobs:
       matrix:
         include:
           - {os: ubuntu-latest, label: gh-ubuntu-latest-x64, tools: "du,qdirstat,k4dirstat"}
-          - {os: macos-14, label: gh-macos-14-arm64, tools: "du,omnidisksweeper,grandperspective,diskinventoryx"}
           - {os: windows-latest, label: gh-windows-latest-x64, tools: "du-sysinternals,windirstat,spacesniffer"}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 300
@@ -36,7 +35,6 @@ jobs:
       - name: Prepare (macOS) - dedicated APFS disk image for cold-cache runs
         if: runner.os == 'macOS'
         run: |
-          python -m pip install --quiet pyobjc-framework-Quartz pyobjc-framework-ApplicationServices pyobjc-framework-Cocoa  # GUI harness
           IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
           hdiutil create -size 16g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
           hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on

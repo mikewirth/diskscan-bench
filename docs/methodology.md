@@ -70,8 +70,9 @@ Peak memory for wrapped apps is the app's own peak (Linux `VmHWM`, Windows peak 
 **Environment.** Linux apps run under Xvfb with a private D-Bus session and the AT-SPI accessibility bus
 ([`bench/gui/linux_session.sh`](https://github.com/mikewirth/diskscan-bench/blob/main/bench/gui/linux_session.sh)); they are the
 **apt packages of the runner's Ubuntu release** (versions are pinned by the release, recorded per run with `dpkg-query`).
-macOS apps are sha256-pinned disk-image downloads; GitHub's macOS images run with SIP disabled and already grant the runner's
-process tree Accessibility and Screen Recording in TCC, so window titles and the accessibility tree are readable without changes.
+On macOS there is currently **no benchmarked GUI app** (see below): the automation itself works (GitHub's macOS images run with SIP
+disabled and already grant the runner's process tree Accessibility and Screen Recording in TCC, so window titles and the accessibility
+tree are readable), but the apps scan the benchmark's dataset volume far slower than the same tree on the boot disk.
 Windows apps are sha256-pinned zip downloads.
 
 | app | platform | completion signal | total read from | status |
@@ -80,9 +81,9 @@ Windows apps are sha256-pinned zip downloads.
 | SpaceSniffer 1.3.0.2 | Windows | `SpaceSniffer.exe scan <dir> export "diskscan-bench total" out.txt autoclose` exits after the export | export using a pre-seeded export configuration (`<%sizebytes%>` of the root, exact) | implemented |
 | QDirStat (Ubuntu apt) | Linux | the app's log `/tmp/qdirstat-$USER/qdirstat.log` gets "Reading finished" for this PID | root row *Size* via AT-SPI (human-readable) | implemented |
 | K4DirStat (Ubuntu apt) | Linux | status bar becomes "Finished. Elapsed time: …" (AT-SPI) | root row *Subtree Total* via AT-SPI (human-readable) | implemented |
-| OmniDiskSweeper 1.16 | macOS | window title changes from "… (still calculating)" to "<dir> - <size>" (CGWindowList) | that title (human-readable) | implemented |
-| GrandPerspective 3.8.0 | macOS | the view window "<dir> @ <date>" appears after the "Scanning in progress" panel (CGWindowList) | view status line via the accessibility tree (human-readable) | implemented |
-| Disk Inventory X 1.3 | macOS | the document window "<folder> (<size>)" appears after the "Loading folder contents…" panel (CGWindowList) | that title (human-readable) | implemented; Intel-only build, runs under Rosetta 2 |
+| OmniDiskSweeper 1.16 | macOS | window title changes from "… (still calculating)" to "<dir> - <size>" (CGWindowList) | that title (human-readable) | **on hold**: see below |
+| GrandPerspective 3.8.0 | macOS | the view window "<dir> @ <date>" appears after the "Scanning in progress" panel (CGWindowList) | view status line via the accessibility tree (human-readable) | **on hold**: see below |
+| Disk Inventory X 1.3 | macOS | the document window "<folder> (<size>)" appears after the "Loading folder contents…" panel (CGWindowList) | that title (human-readable) | **on hold**: see below (Intel-only build, runs under Rosetta 2) |
 | TreeSize Free 4.8.1 | Windows | – | – | blocked: shows a modal "Windows Server is not supported" licence dialog (since 4.7.3) and never scans; the hosted runner is Windows Server 2025 |
 | Baobab 46.0 (Ubuntu 24.04) | Linux | charts appear when done (AT-SPI) | – | blocked: GTK 4.14 exposes no list rows to AT-SPI and the total is only painted in the chart. Baobab 48/GTK 4.18 works with the same harness |
 | Filelight 23.08 (Ubuntu 24.04) | Linux | status bar shows "N files" | – | blocked: total only painted in the radial map (no accessible text, no export/CLI) |
@@ -90,6 +91,15 @@ Windows apps are sha256-pinned zip downloads.
 | DaisyDisk | macOS | – | – | planned: commercial, no scripting |
 | SquirrelDisk | macOS | – | – | planned: uses pdu internally |
 | dua / gdu / ncdu TUIs | all | – | – | excluded: their non-interactive modes are in the CLI track |
+
+**macOS GUI apps on hold.** OmniDiskSweeper, GrandPerspective and Disk Inventory X have working harnesses
+([`bench/gui/macos_app.py`](https://github.com/mikewirth/diskscan-bench/blob/main/bench/gui/macos_app.py)) and pass their
+correctness checks, but on `macos-14` their scans of the benchmark's dataset volume (the dedicated APFS disk image that makes cold-cache
+runs possible) are 50–75× slower than the same tree on the runner's boot disk: for the 150k-file `tiny` tree OmniDiskSweeper takes
+~115 s, GrandPerspective ~50–70 s and Disk Inventory X ~190 s, against a few seconds on the boot disk. It is not caused by the mount
+options (`-nobrowse` and case-sensitivity tested) nor by TCC (Full Disk Access / removable-volume grants tested), and `du` and the CLI
+tools are unaffected. Timing it would measure the runner's disk-image layer rather than the app, and it does not fit the 300-minute job
+budget, so they are listed as planned until they can run on a dedicated machine.
 
 ## Hardware and noise
 Runs currently use **GitHub-hosted runners** (`ubuntu-latest` x86-64, `macos-14` Apple Silicon, `windows-latest`).
