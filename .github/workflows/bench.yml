@@ -32,10 +32,13 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq time
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends qdirstat k4dirstat at-spi2-core gir1.2-atspi-2.0 python3-gi xvfb dbus-x11 x11-utils x11-xserver-utils  # GUI track (apt versions of the runner's Ubuntu release)
+          bash bench/gui/linux_session.sh >> $GITHUB_ENV  # Xvfb + D-Bus + AT-SPI bus for the GUI harnesses
           if sudo mkdir -p /mnt/dsb 2>/dev/null && sudo chown "$USER" /mnt/dsb; then echo "DSB_DATA=/mnt/dsb" >> $GITHUB_ENV; else echo "DSB_DATA=$RUNNER_TEMP/dsb" >> $GITHUB_ENV; fi
       - name: Prepare (macOS) - dedicated APFS disk image for cold-cache runs
         if: runner.os == 'macOS'
         run: |
+          python -m pip install --quiet pyobjc-framework-Quartz pyobjc-framework-ApplicationServices pyobjc-framework-Cocoa  # GUI harness
           IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
           hdiutil create -size 16g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
           hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on

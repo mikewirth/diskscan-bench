@@ -2,6 +2,7 @@ name: smoke
 on:
   pull_request:
   push: {branches: [main], paths: ["bench/**", ".github/workflows/smoke.yml"]}
+  workflow_dispatch:
 permissions: {contents: read}
 jobs:
   smoke:
@@ -17,11 +18,15 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - if: runner.os == 'Linux'
-        run: sudo apt-get install -y -qq time
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq time
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends qdirstat k4dirstat at-spi2-core gir1.2-atspi-2.0 python3-gi xvfb dbus-x11 x11-utils x11-xserver-utils
+          bash bench/gui/linux_session.sh >> $GITHUB_ENV
       - if: runner.os == 'Windows'
         run: pip install psutil
       - if: runner.os == 'macOS'
         run: |
+          python -m pip install --quiet pyobjc-framework-Quartz pyobjc-framework-ApplicationServices pyobjc-framework-Cocoa  # GUI harness
           IMG="$RUNNER_TEMP/dsb.sparseimage"; MNT="$RUNNER_TEMP/dsbmnt"; mkdir -p "$MNT"
           hdiutil create -size 2g -type SPARSE -fs "Case-sensitive APFS" -volname dsb "$IMG"
           hdiutil attach "$IMG" -mountpoint "$MNT" -nobrowse -noverify -owners on
@@ -37,7 +42,8 @@ jobs:
           python - <<'PY'
           import json,glob
           r=json.load(open(glob.glob("smoke-out/*/results.json")[0]))
-          bad=[x["tool"] for x in r["results"] if "error" in x or "error" in (x.get("warm") or {})]
+          bad=[x["tool"] for x in r["results"] if "error" in x or "error" in (x.get("warm") or {})
+               or (x.get("track") == "gui" and (x.get("reported_bytes") is None or (x.get("warm") or {}).get("invalid")))]
           miss=[k for k,v in r["tools"].items() if v["status"]=="missing"]
           print("errors:",bad,"missing:",miss)
           assert not bad and not miss
