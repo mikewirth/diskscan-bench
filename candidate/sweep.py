@@ -22,6 +22,9 @@ if PROBE and os.path.exists(PROBE):
         for t in (os.environ.get("PROBE_THREADS") or "1,3,6").split(","):
             cfgs.append((f"probe-s{st}-t{t}", [PROBE, st, t, "{path}"]))
 for e in EXTRA: cfgs.append((f"nd[{e}]", base + e.split()))
+# SWEEP_RAW: "name=shell command;..." timed like the others ({path} is substituted); for startup probes.
+for e in [x for x in (os.environ.get("SWEEP_RAW") or "").split(";") if "=" in x]:
+    n, c = e.split("=", 1); cfgs.append((n.strip(), ["sh", "-c", c.strip()]))
 prep = run.cold_prepare()
 out, tmp = {}, tempfile.mkdtemp()
 ORDER = os.environ.get("SWEEP_ORDER")

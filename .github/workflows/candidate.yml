@@ -38,7 +38,7 @@ jobs:
           echo "DATASETS=${DATASETS:-}" >> $GITHUB_ENV
           echo "TOOLS=${!T:-}" >> $GITHUB_ENV
           echo "SWEEP=${SWEEP:-0}" >> $GITHUB_ENV
-          for v in SWEEP_DATASETS SWEEP_JOBS SWEEP_EXTRA SWEEP_WARM SWEEP_COLD SWEEP_ORDER PROBE_STRATS PROBE_THREADS DSB_SPLIT_PHASES; do [ -n "${!v:-}" ] && echo "$v=${!v}" >> $GITHUB_ENV; done
+          for v in SWEEP_DATASETS SWEEP_JOBS SWEEP_EXTRA SWEEP_WARM SWEEP_COLD SWEEP_ORDER SWEEP_RAW PROBE_STRATS PROBE_THREADS DSB_SPLIT_PHASES; do [ -n "${!v:-}" ] && echo "$v=${!v}" >> $GITHUB_ENV; done
           true
           cat candidate/config.env
       - name: Prepare (Linux)
