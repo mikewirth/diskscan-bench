@@ -1,0 +1,5036 @@
+{
+ "schema": 1,
+ "generated_utc": "2026-11-09T11:44:30+00:00",
+ "profile": "full",
+ "runner": {
+  "platform": "linux",
+  "os": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "cpus": 4,
+  "python": "3.12.16",
+  "image": "ubuntu26",
+  "image_version": "20261101.186.1",
+  "runner_name": "GitHub Actions 1000000288",
+  "runner_environment": "github-hosted",
+  "label": "gh-ubuntu-latest-x64",
+  "github_run": "42611334490",
+  "commit": "624e9d4c1cacbcd729ff4dac0b7c767ecbbe102b",
+  "cpu_model": "AMD EPYC 7763 64-Core Processor",
+  "mem_bytes": 16759439360,
+  "filesystem": "ext4",
+  "kernel": "7.0.0-1019-azure"
+ },
+ "cache_modes": {
+  "warm": true,
+  "cold": true
+ },
+ "cold_method": "sync + echo 3 > /proc/sys/vm/drop_caches before every run",
+ "tools": {
+  "du": {
+   "name": "du (system)",
+   "homepage": "https://www.gnu.org/software/coreutils/",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": null,
+   "status": "active",
+   "version": "du (uutils coreutils) 0.10.0",
+   "cmd": [
+    "du",
+    "-sk",
+    "{path}"
+   ],
+   "notes": "GNU coreutils on Linux, BSD du on macOS (version = OS build).",
+   "method": null
+  },
+  "diskus": {
+   "name": "diskus",
+   "homepage": "https://github.com/sharkdp/diskus",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "0.9.0",
+   "status": "active",
+   "version": "diskus 0.9.0",
+   "cmd": [
+    "diskus",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "dust": {
+   "name": "dust",
+   "homepage": "https://github.com/bootandy/dust",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "1.2.6",
+   "status": "active",
+   "version": "Dust 1.2.6",
+   "cmd": [
+    "dust",
+    "-d",
+    "0",
+    "-b",
+    "-o",
+    "b",
+    "-P",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "dua": {
+   "name": "dua-cli",
+   "homepage": "https://github.com/Byron/dua-cli",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "2.45.1",
+   "status": "active",
+   "version": "dua 2.45.1",
+   "cmd": [
+    "dua",
+    "-f",
+    "bytes",
+    "aggregate",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "gdu": {
+   "name": "gdu",
+   "homepage": "https://github.com/dundee/gdu",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "5.38.0",
+   "status": "active",
+   "version": "Version:\t v5.38.0",
+   "cmd": [
+    "gdu",
+    "-n",
+    "-s",
+    "-p",
+    "--no-prefix",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "ncdu": {
+   "name": "ncdu (JSON export)",
+   "homepage": "https://dev.yorhel.nl/ncdu",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "2.9.1",
+   "status": "active",
+   "version": "ncdu 2.9.1",
+   "cmd": [
+    "ncdu",
+    "-0",
+    "-x",
+    "-o",
+    "{out}",
+    "{path}"
+   ],
+   "notes": "Non-interactive export mode (-o); includes writing the JSON export.",
+   "method": null
+  },
+  "pdu": {
+   "name": "pdu (parallel-disk-usage)",
+   "homepage": "https://github.com/KSXGitHub/parallel-disk-usage",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "0.24.0",
+   "status": "active",
+   "version": "pdu 0.24.0",
+   "cmd": [
+    "pdu",
+    "--quantity=block-size",
+    "--bytes-format=plain",
+    "--max-depth=1",
+    "{path}"
+   ],
+   "notes": null,
+   "method": null
+  },
+  "erdtree": {
+   "name": "erdtree (erd)",
+   "homepage": "https://github.com/solidiquis/erdtree",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "3.1.2",
+   "status": "active",
+   "version": "erdtree 3.1.2",
+   "cmd": [
+    "erd",
+    "-i",
+    "--hidden",
+    "-d",
+    "physical",
+    "-L",
+    "1",
+    "-y",
+    "iflat",
+    "--color",
+    "none",
+    "{path}"
+   ],
+   "notes": "-i/--hidden so .gitignore'd and hidden files are counted like every other tool.",
+   "method": null
+  },
+  "nulldisk": {
+   "name": "NullDisk CLI",
+   "homepage": "https://nulldisk.app",
+   "track": "cli",
+   "metric": "allocated",
+   "pin": "manifest latest.json",
+   "status": "active",
+   "version": "nulldisk 1.2.3",
+   "cmd": [
+    "nulldisk",
+    "scan",
+    "{path}",
+    "--json",
+    "--depth",
+    "0"
+   ],
+   "notes": "Maintainer's own tool (see disclosure). Installed from the public manifest https://assets.nulldisk.app/releases/cli/latest.json (override with NULLDISK_CLI_MANIFEST); listed as pending while the download is not published. '--depth 0' prints only the root total (like du -s); 'size' is allocated bytes with hard links counted once (per `nulldisk scan --help`). Not available for Windows.",
+   "method": null
+  },
+  "qdirstat": {
+   "name": "QDirStat",
+   "homepage": "https://github.com/shundhammer/qdirstat",
+   "track": "gui",
+   "metric": "allocated",
+   "pin": "apt (Ubuntu 24.04)",
+   "status": "active",
+   "version": "2.0-1",
+   "cmd": [
+    "/usr/bin/python3",
+    "{gui}/linux_atspi.py",
+    "qdirstat",
+    "{path}"
+   ],
+   "notes": null,
+   "method": "`qdirstat <dir>` under Xvfb. Completion: the app's own log (/tmp/qdirstat-$USER/qdirstat.log) gets 'Reading finished' for this process. Total: the root row's Size column, read via AT-SPI (human-readable)."
+  },
+  "k4dirstat": {
+   "name": "K4DirStat",
+   "homepage": "https://github.com/jeromerobert/k4dirstat",
+   "track": "gui",
+   "metric": "allocated",
+   "pin": "apt (Ubuntu 24.04)",
+   "status": "active",
+   "version": "3.4.3-1build3",
+   "cmd": [
+    "/usr/bin/python3",
+    "{gui}/linux_atspi.py",
+    "k4dirstat",
+    "{path}"
+   ],
+   "notes": null,
+   "method": "`k4dirstat <dir>` under Xvfb. Completion: status bar text becomes 'Finished. Elapsed time: \u2026' (AT-SPI). Total: the root row's Subtree Total column, read via AT-SPI (human-readable)."
+  }
+ },
+ "datasets": {
+  "tiny": {
+   "files": 150000,
+   "dirs": 2408,
+   "symlinks": 0,
+   "entries": 152408,
+   "logical": 307072848,
+   "logical_dedup": 307072848,
+   "logical_with_dirs": 316940112,
+   "logical_with_dirs_dedup": 316940112,
+   "alloc_du": 624111616,
+   "alloc_files_dedup": 614244352,
+   "alloc_nodedup": 624111616,
+   "alloc_files_nodedup": 614244352,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "3711ca3f4a185e3a7c47e16a5eb67d978c11396bdd06762c9daf6b00a9f7e74f"
+  },
+  "deep": {
+   "files": 800,
+   "dirs": 400,
+   "symlinks": 0,
+   "entries": 1200,
+   "logical": 804985,
+   "logical_dedup": 804985,
+   "logical_with_dirs": 2447481,
+   "logical_with_dirs_dedup": 2447481,
+   "alloc_du": 4919296,
+   "alloc_files_dedup": 3276800,
+   "alloc_nodedup": 4919296,
+   "alloc_files_nodedup": 3276800,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "511f3be6d3b3edd9ab5e1f03b701dd88b7f9d4a5d65426667a1a611bf5807f3a"
+  },
+  "wide": {
+   "files": 50000,
+   "dirs": 1,
+   "symlinks": 0,
+   "entries": 50001,
+   "logical": 12787907,
+   "logical_dedup": 12787907,
+   "logical_with_dirs": 13893827,
+   "logical_with_dirs_dedup": 13893827,
+   "alloc_du": 205398016,
+   "alloc_files_dedup": 204292096,
+   "alloc_nodedup": 205398016,
+   "alloc_files_nodedup": 204292096,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "58e5155c70835b871958d906bdeeefc7b62b43e016ad8409963e8302a076122e"
+  },
+  "mixed": {
+   "files": 13217,
+   "dirs": 149,
+   "symlinks": 204,
+   "entries": 13366,
+   "logical": 10199247904,
+   "logical_dedup": 9806031904,
+   "logical_with_dirs": 10200124448,
+   "logical_with_dirs_dedup": 9806908448,
+   "alloc_du": 1227255808,
+   "alloc_files_dedup": 1226375168,
+   "alloc_nodedup": 1620471808,
+   "alloc_files_nodedup": 1619591168,
+   "hardlinked_inodes": 2000,
+   "manifest_sha256": "d94b3439ba6a320d28cc108306db28c064ec0f0c4e2160b70e407b361fd2c21c"
+  },
+  "node_modules": {
+   "files": 11351,
+   "dirs": 1628,
+   "symlinks": 37,
+   "entries": 12979,
+   "logical": 111167506,
+   "logical_dedup": 111167506,
+   "logical_with_dirs": 117958674,
+   "logical_with_dirs_dedup": 117958674,
+   "alloc_du": 150851584,
+   "alloc_files_dedup": 144056320,
+   "alloc_nodedup": 150851584,
+   "alloc_files_nodedup": 144056320,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "8b62583695b0378af24cdbd51fee78c7e85ec1a1cb99a3c71796a79df33c6591"
+  },
+  "linux_kernel": {
+   "files": 81766,
+   "dirs": 5317,
+   "symlinks": 63,
+   "entries": 87083,
+   "logical": 1353528289,
+   "logical_dedup": 1353528289,
+   "logical_with_dirs": 1375892449,
+   "logical_with_dirs_dedup": 1375892449,
+   "alloc_du": 1570390016,
+   "alloc_files_dedup": 1548017664,
+   "alloc_nodedup": 1570390016,
+   "alloc_files_nodedup": 1548017664,
+   "hardlinked_inodes": 0,
+   "manifest_sha256": "d6422c2eb33771485e75802d3c23455be15e271663d410c8b08537ae1317ac3e"
+  }
+ },
+ "results": [
+  {
+   "tool": "du",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 20877312,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "609484\t/mnt/dsb/tiny/tree\n",
+   "warm": {
+    "median_s": 0.39774110700000004,
+    "mean_s": 0.4015625466,
+    "stddev_s": 0.009131431286219339,
+    "min_s": 0.39214186,
+    "max_s": 0.416913262,
+    "runs": 10,
+    "times_s": [
+     0.412989052,
+     0.39471116,
+     0.412751069,
+     0.394565108,
+     0.39214186,
+     0.39515582800000004,
+     0.39910654700000003,
+     0.416913262,
+     0.400915913,
+     0.39637566700000004
+    ],
+    "user_s": 0.0989677,
+    "system_s": 0.3131246,
+    "peak_rss_median_bytes": 21000192.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.662892674,
+    "mean_s": 1.6453823292000003,
+    "stddev_s": 0.03795516802372203,
+    "min_s": 1.585372763,
+    "max_s": 1.682437033,
+    "runs": 5,
+    "times_s": [
+     1.585372763,
+     1.663381146,
+     1.682437033,
+     1.662892674,
+     1.63282803
+    ],
+    "user_s": 0.1073432,
+    "system_s": 1.1436480000000002,
+    "peak_rss_median_bytes": 20324352.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1589248,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "624111616\n",
+   "warm": {
+    "median_s": 0.212316942,
+    "mean_s": 0.21255265310000002,
+    "stddev_s": 0.0018891103011138735,
+    "min_s": 0.20940666300000002,
+    "max_s": 0.21703207300000002,
+    "runs": 10,
+    "times_s": [
+     0.21295144000000002,
+     0.21299494900000002,
+     0.21703207300000002,
+     0.211691453,
+     0.212950624,
+     0.20940666300000002,
+     0.211974821,
+     0.211890624,
+     0.21241230500000002,
+     0.21222157900000002
+    ],
+    "user_s": 0.2254743,
+    "system_s": 0.6117937999999998,
+    "peak_rss_median_bytes": 1667072.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.44511110800000003,
+    "mean_s": 0.4443090634000001,
+    "stddev_s": 0.002640181673003831,
+    "min_s": 0.44069972300000004,
+    "max_s": 0.44739923400000003,
+    "runs": 5,
+    "times_s": [
+     0.442647353,
+     0.44511110800000003,
+     0.44069972300000004,
+     0.44739923400000003,
+     0.44568789900000005
+    ],
+    "user_s": 0.1603632,
+    "system_s": 1.5789892,
+    "peak_rss_median_bytes": 1589248.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 34365440,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "624111616B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.39654463400000006,
+    "mean_s": 0.4235948512,
+    "stddev_s": 0.05019799335453697,
+    "min_s": 0.38613320100000004,
+    "max_s": 0.523575388,
+    "runs": 10,
+    "times_s": [
+     0.391268008,
+     0.39587667600000004,
+     0.39601544400000005,
+     0.38613320100000004,
+     0.38757968400000004,
+     0.46465078400000004,
+     0.523575388,
+     0.49123836000000004,
+     0.397073824,
+     0.40253714300000004
+    ],
+    "user_s": 0.40417689999999995,
+    "system_s": 0.8511513999999998,
+    "peak_rss_median_bytes": 34508800.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.718136573,
+    "mean_s": 0.718276825,
+    "stddev_s": 0.0014293525209756615,
+    "min_s": 0.7166539110000001,
+    "max_s": 0.7205234930000001,
+    "runs": 5,
+    "times_s": [
+     0.718136573,
+     0.718455948,
+     0.7166539110000001,
+     0.7176142000000001,
+     0.7205234930000001
+    ],
+    "user_s": 0.3119108,
+    "system_s": 1.7858002,
+    "peak_rss_median_bytes": 34344960.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3461120,
+   "reported_bytes": 624107520,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": -0.001,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "   9580544 b d2c\n   9580544 b d31\n   9580544 b d38\n   9584640 b d2a\n   9584640 b d2d\n   9584640 b d2e\n   9584640 b d32\n   9584640 b d33\n   9584640 b d36\n   9584640 b d37\n   9584640 b d39\n   9584640 b d3a\n   9584640 b d3d\n   9584640 b d3f\n   9588736 b d28\n   9588736 b d29\n   9588736 b d2b\n   9588736 ",
+   "warm": {
+    "median_s": 0.325430598,
+    "mean_s": 0.33007573910000004,
+    "stddev_s": 0.017505170857774442,
+    "min_s": 0.31638968300000003,
+    "max_s": 0.378349041,
+    "runs": 10,
+    "times_s": [
+     0.32119770200000003,
+     0.32118229400000003,
+     0.33116958300000005,
+     0.31638968300000003,
+     0.32477827600000003,
+     0.327104752,
+     0.32973808400000004,
+     0.324765056,
+     0.32608292,
+     0.378349041
+    ],
+    "user_s": 0.48053989999999996,
+    "system_s": 0.6891627999999999,
+    "peak_rss_median_bytes": 3604480.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.707317206,
+    "mean_s": 0.7021260846,
+    "stddev_s": 0.020961769736188608,
+    "min_s": 0.677337806,
+    "max_s": 0.726126781,
+    "runs": 5,
+    "times_s": [
+     0.677337806,
+     0.6836386210000001,
+     0.7162100090000001,
+     0.726126781,
+     0.707317206
+    ],
+    "user_s": 0.38214699999999996,
+    "system_s": 1.6915362000000003,
+    "peak_rss_median_bytes": 3489792.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 21082112,
+   "reported_bytes": 612147200,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": -1.917,
+    "closest_semantics": null
+   },
+   "stdout_head": "612147200 tree\n",
+   "warm": {
+    "median_s": 0.18620713700000002,
+    "mean_s": 0.18619177270000004,
+    "stddev_s": 0.002256902156117002,
+    "min_s": 0.18277906000000002,
+    "max_s": 0.19084034300000002,
+    "runs": 10,
+    "times_s": [
+     0.18716164600000001,
+     0.18733838800000002,
+     0.186439343,
+     0.185885672,
+     0.18304161800000002,
+     0.19084034300000002,
+     0.18277906000000002,
+     0.18590968600000002,
+     0.18654704000000003,
+     0.185974931
+    ],
+    "user_s": 0.18067509999999998,
+    "system_s": 0.4762232,
+    "peak_rss_median_bytes": 22024192.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.5905519,
+    "mean_s": 0.5977897416,
+    "stddev_s": 0.016239676061913105,
+    "min_s": 0.58161162,
+    "max_s": 0.622244356,
+    "runs": 5,
+    "times_s": [
+     0.605703173,
+     0.622244356,
+     0.58161162,
+     0.5905519,
+     0.5888376590000001
+    ],
+    "user_s": 0.2272666,
+    "system_s": 1.5773664,
+    "peak_rss_median_bytes": 21233664.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 573440,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.3135561665,
+    "mean_s": 0.3132783535,
+    "stddev_s": 0.001747919690492495,
+    "min_s": 0.309535043,
+    "max_s": 0.315613028,
+    "runs": 10,
+    "times_s": [
+     0.313861434,
+     0.313497748,
+     0.31337349600000003,
+     0.313358899,
+     0.314304959,
+     0.313614585,
+     0.315613028,
+     0.314548353,
+     0.309535043,
+     0.31107599
+    ],
+    "user_s": 0.034657600000000004,
+    "system_s": 0.2778963,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.511501687,
+    "mean_s": 1.5151627116,
+    "stddev_s": 0.011883034483207346,
+    "min_s": 1.50544707,
+    "max_s": 1.534966266,
+    "runs": 5,
+    "times_s": [
+     1.50544707,
+     1.51665012,
+     1.511501687,
+     1.507248415,
+     1.534966266
+    ],
+    "user_s": 0.045050599999999996,
+    "system_s": 1.0825748000000002,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1585152,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "624111616 \u250c\u2500\u2500/mnt/dsb/tiny/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.21314553600000002,
+    "mean_s": 0.2137035388,
+    "stddev_s": 0.004686824627345911,
+    "min_s": 0.20805292800000003,
+    "max_s": 0.221775198,
+    "runs": 10,
+    "times_s": [
+     0.21827311600000002,
+     0.221775198,
+     0.20811378100000003,
+     0.217494039,
+     0.21401472400000002,
+     0.212061413,
+     0.208858497,
+     0.20805292800000003,
+     0.212276348,
+     0.21611534400000001
+    ],
+    "user_s": 0.2116402,
+    "system_s": 0.5638967,
+    "peak_rss_median_bytes": 1826816.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.560335926,
+    "mean_s": 0.5664893936000001,
+    "stddev_s": 0.016093248427730543,
+    "min_s": 0.554896933,
+    "max_s": 0.5948607690000001,
+    "runs": 5,
+    "times_s": [
+     0.5948607690000001,
+     0.5622572410000001,
+     0.560335926,
+     0.560096099,
+     0.554896933
+    ],
+    "user_s": 0.17560399999999998,
+    "system_s": 1.5778788000000001,
+    "peak_rss_median_bytes": 1847296.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 102641664,
+   "reported_bytes": 614244352,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": -1.581,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "614244352 B   tree\n  9699328 B   d06\n  9699328 B   d03\n  9699328 B   d26\n  9699328 B   d00\n  9699328 B   d19\n  9699328 B   d0f\n  9699328 B   d0b\n  9699328 B   d11\n  9699328 B   d10\n  9699328 B   d07\n  9699328 B   d14\n  9699328 B   d21\n  9699328 B   d1b\n  9699328 B   d25\n  9699328 B   d20\n  9699328 B",
+   "warm": {
+    "median_s": 0.3724403515,
+    "mean_s": 0.3714109045000001,
+    "stddev_s": 0.004725690116692616,
+    "min_s": 0.363828195,
+    "max_s": 0.37719587800000004,
+    "runs": 10,
+    "times_s": [
+     0.372916735,
+     0.373286192,
+     0.36521131900000003,
+     0.37698132500000003,
+     0.37719587800000004,
+     0.375607591,
+     0.36801505900000003,
+     0.36910278300000005,
+     0.363828195,
+     0.37196396800000003
+    ],
+    "user_s": 0.6109502,
+    "system_s": 0.5696382999999999,
+    "peak_rss_median_bytes": 102727680.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.815098312,
+    "mean_s": 0.8180148319999999,
+    "stddev_s": 0.010334255970645316,
+    "min_s": 0.8048398630000001,
+    "max_s": 0.8327550060000001,
+    "runs": 5,
+    "times_s": [
+     0.8327550060000001,
+     0.822358986,
+     0.815021993,
+     0.815098312,
+     0.8048398630000001
+    ],
+    "user_s": 0.573504,
+    "system_s": 1.8104926,
+    "peak_rss_median_bytes": 102711296.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "tiny",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3710976,
+   "reported_bytes": 624111616,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/tiny/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":624111616,\"fileCount\":150000,\"modificationDate\":\"2026-11-09T11:44:",
+   "warm": {
+    "median_s": 0.104791376,
+    "mean_s": 0.10466781600000001,
+    "stddev_s": 0.00107949395142508,
+    "min_s": 0.103044598,
+    "max_s": 0.106714079,
+    "runs": 10,
+    "times_s": [
+     0.106714079,
+     0.105127358,
+     0.105225675,
+     0.104565639,
+     0.10501711300000001,
+     0.103044598,
+     0.10413849500000001,
+     0.10356707100000001,
+     0.105510108,
+     0.103768024
+    ],
+    "user_s": 0.0296924,
+    "system_s": 0.35292589999999996,
+    "peak_rss_median_bytes": 3829760.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.383165348,
+    "mean_s": 0.4084811826000001,
+    "stddev_s": 0.052430132784190356,
+    "min_s": 0.37897322,
+    "max_s": 0.5015839000000001,
+    "runs": 5,
+    "times_s": [
+     0.383165348,
+     0.37897322,
+     0.395795795,
+     0.5015839000000001,
+     0.38288765
+    ],
+    "user_s": 0.0381896,
+    "system_s": 1.3931189999999998,
+    "peak_rss_median_bytes": 3751936.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "tiny",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 86429696,
+   "reported_bytes": 624112435,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 624112435, \"elapsed_s\": 2.564317, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 86429696, \"poll_s\": 0.02, \"displayed\": \"  595.2 MB\"}\n",
+   "harness": {
+    "elapsed_s": 2.564317,
+    "signal": "log: Reading finished",
+    "displayed": "  595.2 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.9672475,
+    "mean_s": 0.9691986,
+    "stddev_s": 0.006276883873034115,
+    "min_s": 0.966893,
+    "max_s": 0.987056,
+    "runs": 10,
+    "times_s": [
+     0.967207,
+     0.967436,
+     0.966893,
+     0.987056,
+     0.967404,
+     0.967062,
+     0.967042,
+     0.96724,
+     0.967391,
+     0.967255
+    ],
+    "user_s": 0.16350589999999998,
+    "system_s": 0.0629135,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.5837842229999999,
+     "mean_s": 1.5855759722,
+     "stddev_s": 0.014448691458968203,
+     "min_s": 1.559517083,
+     "max_s": 1.6041003310000002,
+     "times_s": [
+      1.58596808,
+      1.6041003310000002,
+      1.559517083,
+      1.603269601,
+      1.580401449,
+      1.596122742,
+      1.596693871,
+      1.5741097050000001,
+      1.573976494,
+      1.581600366
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 3.648298,
+    "mean_s": 3.6385075999999996,
+    "stddev_s": 0.01610474788067181,
+    "min_s": 3.613965,
+    "max_s": 3.650526,
+    "runs": 5,
+    "times_s": [
+     3.649649,
+     3.648298,
+     3.650526,
+     3.6301,
+     3.613965
+    ],
+    "user_s": 0.1788062,
+    "system_s": 0.0770926,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 4.323614591,
+     "mean_s": 4.3362557244,
+     "stddev_s": 0.033934267040480276,
+     "min_s": 4.310766814,
+     "max_s": 4.393488991,
+     "times_s": [
+      4.339714527,
+      4.393488991,
+      4.323614591,
+      4.310766814,
+      4.313693699
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "tiny",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 130379776,
+   "reported_bytes": 624112435,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 624111616,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 624112435, \"elapsed_s\": 1.408592, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.803\", \"peak_rss_bytes\": 130379776, \"poll_s\": 0.02, \"displayed\": \" 595.2 MB\"}\n",
+   "harness": {
+    "elapsed_s": 1.408592,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.803",
+    "displayed": " 595.2 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.9589099999999999,
+    "mean_s": 0.959573,
+    "stddev_s": 0.0025355990745121243,
+    "min_s": 0.956766,
+    "max_s": 0.965435,
+    "runs": 10,
+    "times_s": [
+     0.958191,
+     0.958706,
+     0.960854,
+     0.965435,
+     0.961561,
+     0.958885,
+     0.957035,
+     0.959362,
+     0.956766,
+     0.958935
+    ],
+    "user_s": 0.1386196,
+    "system_s": 0.0442414,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.3845135325,
+     "mean_s": 1.3884938036,
+     "stddev_s": 0.016117945139283843,
+     "min_s": 1.3655972140000001,
+     "max_s": 1.41964884,
+     "times_s": [
+      1.387871511,
+      1.384454925,
+      1.41964884,
+      1.39913459,
+      1.382692499,
+      1.372461832,
+      1.4073078780000001,
+      1.38457214,
+      1.3811966070000001,
+      1.3655972140000001
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 2.649862,
+    "mean_s": 2.6466994,
+    "stddev_s": 0.011346383578039338,
+    "min_s": 2.632209,
+    "max_s": 2.657258,
+    "runs": 5,
+    "times_s": [
+     2.656655,
+     2.637513,
+     2.657258,
+     2.632209,
+     2.649862
+    ],
+    "user_s": 0.1426682,
+    "system_s": 0.061293799999999996,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 3.148512677,
+     "mean_s": 3.1553740267999997,
+     "stddev_s": 0.012055924286060005,
+     "min_s": 3.143562633,
+     "max_s": 3.170485949,
+     "times_s": [
+      3.170485949,
+      3.148207813,
+      3.148512677,
+      3.143562633,
+      3.166101062
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 9830400,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "4804\t/mnt/dsb/deep/tree\n",
+   "warm": {
+    "median_s": 0.03175873,
+    "mean_s": 0.0316594541,
+    "stddev_s": 0.0019265228999085628,
+    "min_s": 0.028675930000000002,
+    "max_s": 0.034225705,
+    "runs": 10,
+    "times_s": [
+     0.033743407,
+     0.033006976,
+     0.033151696,
+     0.032775617,
+     0.030177924000000002,
+     0.030741843,
+     0.034225705,
+     0.028675930000000002,
+     0.030210154000000003,
+     0.029885289000000002
+    ],
+    "user_s": 0.0027809999999999996,
+    "system_s": 0.0088924,
+    "peak_rss_median_bytes": 10162176.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.09127017100000001,
+    "mean_s": 0.08452771360000001,
+    "stddev_s": 0.016715274577709154,
+    "min_s": 0.054733228,
+    "max_s": 0.094216723,
+    "runs": 5,
+    "times_s": [
+     0.054733228,
+     0.09200529900000001,
+     0.090413147,
+     0.09127017100000001,
+     0.094216723
+    ],
+    "user_s": 0.0029946,
+    "system_s": 0.0268878,
+    "peak_rss_median_bytes": 10153984.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3817472,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "4919296\n",
+   "warm": {
+    "median_s": 0.037400444500000005,
+    "mean_s": 0.037267502200000004,
+    "stddev_s": 0.000598344780975504,
+    "min_s": 0.035878697,
+    "max_s": 0.037873551000000005,
+    "runs": 10,
+    "times_s": [
+     0.03699136,
+     0.035878697,
+     0.037567093,
+     0.037482734000000004,
+     0.036854585,
+     0.037873551000000005,
+     0.037813980000000004,
+     0.037318155000000006,
+     0.037745162000000006,
+     0.037149705000000005
+    ],
+    "user_s": 0.023256699999999998,
+    "system_s": 0.11486129999999999,
+    "peak_rss_median_bytes": 3764224.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.101126244,
+    "mean_s": 0.10241712580000002,
+    "stddev_s": 0.005060364352543076,
+    "min_s": 0.09747404400000001,
+    "max_s": 0.110362231,
+    "runs": 5,
+    "times_s": [
+     0.09747404400000001,
+     0.099138745,
+     0.101126244,
+     0.10398436500000001,
+     0.110362231
+    ],
+    "user_s": 0.037136199999999994,
+    "system_s": 0.1886254,
+    "peak_rss_median_bytes": 3817472.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3264512,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "4919296B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.043010628,
+    "mean_s": 0.0431947659,
+    "stddev_s": 0.0010272812859628243,
+    "min_s": 0.041812492,
+    "max_s": 0.044800669,
+    "runs": 10,
+    "times_s": [
+     0.043098268,
+     0.042922988,
+     0.044800669,
+     0.043671127000000004,
+     0.042645777,
+     0.041812492,
+     0.044252776,
+     0.042546187,
+     0.041907434,
+     0.044289941
+    ],
+    "user_s": 0.0155066,
+    "system_s": 0.0986223,
+    "peak_rss_median_bytes": 3485696.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.11958112600000001,
+    "mean_s": 0.1195197828,
+    "stddev_s": 0.002762058702665406,
+    "min_s": 0.115970628,
+    "max_s": 0.12241574300000001,
+    "runs": 5,
+    "times_s": [
+     0.11958112600000001,
+     0.115970628,
+     0.117653085,
+     0.12241574300000001,
+     0.12197833200000001
+    ],
+    "user_s": 0.021723799999999998,
+    "system_s": 0.1325594,
+    "peak_rss_median_bytes": 3395584.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2916352,
+   "reported_bytes": 4915200,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": -0.083,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "   4915200 b d\n",
+   "warm": {
+    "median_s": 0.787586098,
+    "mean_s": 0.7888825202,
+    "stddev_s": 0.005607939788283995,
+    "min_s": 0.784199752,
+    "max_s": 0.803909176,
+    "runs": 10,
+    "times_s": [
+     0.7890532840000001,
+     0.788290673,
+     0.787826597,
+     0.785357563,
+     0.786472858,
+     0.784199752,
+     0.787345599,
+     0.7857099390000001,
+     0.790659761,
+     0.803909176
+    ],
+    "user_s": 0.025278600000000002,
+    "system_s": 0.7755095,
+    "peak_rss_median_bytes": 3080192.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.885850024,
+    "mean_s": 0.8850207286,
+    "stddev_s": 0.0019440409516120985,
+    "min_s": 0.8825688700000001,
+    "max_s": 0.8868135370000001,
+    "runs": 5,
+    "times_s": [
+     0.8868135370000001,
+     0.8825688700000001,
+     0.8865463800000001,
+     0.883324832,
+     0.885850024
+    ],
+    "user_s": 0.026374599999999998,
+    "system_s": 0.7994703999999999,
+    "peak_rss_median_bytes": 3051520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 18210816,
+   "reported_bytes": 3276800,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": -33.389,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "  3276800 tree\n",
+   "warm": {
+    "median_s": 0.025909048500000004,
+    "mean_s": 0.0262868875,
+    "stddev_s": 0.001074915360293932,
+    "min_s": 0.025110972000000002,
+    "max_s": 0.028279858,
+    "runs": 10,
+    "times_s": [
+     0.025534974000000002,
+     0.026082299000000003,
+     0.028019915000000003,
+     0.026238741000000003,
+     0.026681755,
+     0.025534097000000002,
+     0.028279858,
+     0.025110972000000002,
+     0.025650466,
+     0.025735798
+    ],
+    "user_s": 0.0070465,
+    "system_s": 0.035189200000000004,
+    "peak_rss_median_bytes": 17381376.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.136709624,
+    "mean_s": 0.1364125578,
+    "stddev_s": 0.0013844979394001251,
+    "min_s": 0.134979015,
+    "max_s": 0.138289504,
+    "runs": 5,
+    "times_s": [
+     0.13697156200000002,
+     0.138289504,
+     0.13511308400000002,
+     0.136709624,
+     0.134979015
+    ],
+    "user_s": 0.012586,
+    "system_s": 0.0616538,
+    "peak_rss_median_bytes": 17543168.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1228800,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.005873884,
+    "mean_s": 0.0060630437,
+    "stddev_s": 0.00048689352939016464,
+    "min_s": 0.005742995000000001,
+    "max_s": 0.007036903000000001,
+    "runs": 10,
+    "times_s": [
+     0.005871224,
+     0.007036903000000001,
+     0.005805221,
+     0.005901191,
+     0.005876544,
+     0.005827373,
+     0.005762993,
+     0.005742995000000001,
+     0.006923478,
+     0.0058825150000000005
+    ],
+    "user_s": 0.00048319999999999993,
+    "system_s": 0.0050818999999999994,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.072884791,
+    "mean_s": 0.07336057500000001,
+    "stddev_s": 0.0020009661685284705,
+    "min_s": 0.070978675,
+    "max_s": 0.07638114600000001,
+    "runs": 5,
+    "times_s": [
+     0.07638114600000001,
+     0.073978606,
+     0.072884791,
+     0.072579657,
+     0.070978675
+    ],
+    "user_s": 0.0005575999999999999,
+    "system_s": 0.020457799999999998,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3026944,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "4919296 \u250c\u2500\u2500/mnt/dsb/deep/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.030659696,
+    "mean_s": 0.031083730999999996,
+    "stddev_s": 0.0013085191663720049,
+    "min_s": 0.029583013000000002,
+    "max_s": 0.034466549,
+    "runs": 10,
+    "times_s": [
+     0.030456759000000003,
+     0.030539372000000002,
+     0.031176618000000003,
+     0.03078002,
+     0.029583013000000002,
+     0.031388673,
+     0.030476906,
+     0.030513924,
+     0.034466549,
+     0.031455476
+    ],
+    "user_s": 0.0120419,
+    "system_s": 0.07430830000000001,
+    "peak_rss_median_bytes": 3137536.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.10259430900000001,
+    "mean_s": 0.10363625840000001,
+    "stddev_s": 0.002252253969919313,
+    "min_s": 0.10237457000000001,
+    "max_s": 0.10763143400000001,
+    "runs": 5,
+    "times_s": [
+     0.10259430900000001,
+     0.103122903,
+     0.10763143400000001,
+     0.10245807600000001,
+     0.10237457000000001
+    ],
+    "user_s": 0.0139534,
+    "system_s": 0.1065156,
+    "peak_rss_median_bytes": 3026944.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5488640,
+   "reported_bytes": 3276800,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": -33.389,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "3276800 B   tree\n3276800 B   d\n\n400 directories, 800 files\n",
+   "warm": {
+    "median_s": 0.048078587000000006,
+    "mean_s": 0.0482356523,
+    "stddev_s": 0.0009969797506556213,
+    "min_s": 0.046707973,
+    "max_s": 0.050303566,
+    "runs": 10,
+    "times_s": [
+     0.048697638,
+     0.048769482,
+     0.047303454,
+     0.050303566,
+     0.048890817,
+     0.047935329000000006,
+     0.047796511,
+     0.047729908,
+     0.046707973,
+     0.048221845000000006
+    ],
+    "user_s": 0.017279799999999994,
+    "system_s": 0.0567776,
+    "peak_rss_median_bytes": 5410816.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.125063064,
+    "mean_s": 0.1245534382,
+    "stddev_s": 0.0031861375122161167,
+    "min_s": 0.119308748,
+    "max_s": 0.127648279,
+    "runs": 5,
+    "times_s": [
+     0.12635237300000002,
+     0.119308748,
+     0.127648279,
+     0.125063064,
+     0.12439472700000001
+    ],
+    "user_s": 0.021015,
+    "system_s": 0.08071959999999999,
+    "peak_rss_median_bytes": 5488640.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "deep",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2039808,
+   "reported_bytes": 4919296,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/deep/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":4919296,\"fileCount\":800,\"modificationDate\":\"2026-11-09T11:47:36Z\",",
+   "warm": {
+    "median_s": 0.0059468715,
+    "mean_s": 0.006376575899999999,
+    "stddev_s": 0.0009065629926371422,
+    "min_s": 0.005626489,
+    "max_s": 0.007860516,
+    "runs": 10,
+    "times_s": [
+     0.005977418,
+     0.005626489,
+     0.007860516,
+     0.007277581000000001,
+     0.005916325,
+     0.00564305,
+     0.007822683,
+     0.005856658000000001,
+     0.006093529,
+     0.00569151
+    ],
+    "user_s": 0.0006101,
+    "system_s": 0.005336199999999999,
+    "peak_rss_median_bytes": 2293760.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.07982360100000001,
+    "mean_s": 0.07900840620000002,
+    "stddev_s": 0.003452481550123287,
+    "min_s": 0.075417543,
+    "max_s": 0.083695586,
+    "runs": 5,
+    "times_s": [
+     0.083695586,
+     0.075417543,
+     0.07578074800000001,
+     0.080324553,
+     0.07982360100000001
+    ],
+    "user_s": 0.0008952,
+    "system_s": 0.0203428,
+    "peak_rss_median_bytes": 3055616.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "deep",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 44113920,
+   "reported_bytes": 4928307,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.183,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 4928307, \"elapsed_s\": 1.57748, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 44113920, \"poll_s\": 0.02, \"displayed\": \"  4.7 MB\"}\n",
+   "harness": {
+    "elapsed_s": 1.57748,
+    "signal": "log: Reading finished",
+    "displayed": "  4.7 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.201951,
+    "mean_s": 0.20395500000000003,
+    "stddev_s": 0.006387704856467096,
+    "min_s": 0.201836,
+    "max_s": 0.222134,
+    "runs": 10,
+    "times_s": [
+     0.20201,
+     0.201962,
+     0.20194,
+     0.202,
+     0.201925,
+     0.201858,
+     0.201836,
+     0.201905,
+     0.222134,
+     0.20198
+    ],
+    "user_s": 0.09046839999999998,
+    "system_s": 0.026527100000000005,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.388249652,
+     "mean_s": 0.38910233780000003,
+     "stddev_s": 0.004300183734220393,
+     "min_s": 0.384951867,
+     "max_s": 0.39980689500000005,
+     "times_s": [
+      0.388524547,
+      0.387974757,
+      0.386206832,
+      0.387964635,
+      0.38893855400000005,
+      0.384963795,
+      0.391061788,
+      0.390629708,
+      0.39980689500000005,
+      0.384951867
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 1.63911,
+    "mean_s": 1.6344192,
+    "stddev_s": 0.017457682512292478,
+    "min_s": 1.617344,
+    "max_s": 1.658905,
+    "runs": 5,
+    "times_s": [
+     1.617581,
+     1.63911,
+     1.617344,
+     1.658905,
+     1.639156
+    ],
+    "user_s": 0.106994,
+    "system_s": 0.030345999999999995,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.895543194,
+     "mean_s": 1.89173007,
+     "stddev_s": 0.020179786485296322,
+     "min_s": 1.870017207,
+     "max_s": 1.92003531,
+     "times_s": [
+      1.870017207,
+      1.8985186280000002,
+      1.874536011,
+      1.92003531,
+      1.895543194
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "deep",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 101568512,
+   "reported_bytes": 4928307,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 4919296,
+    "diff_pct": 0.183,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 4928307, \"elapsed_s\": 0.523195, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.073\", \"peak_rss_bytes\": 101568512, \"poll_s\": 0.02, \"displayed\": \" 4.7 MB\"}\n",
+   "harness": {
+    "elapsed_s": 0.523195,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.073",
+    "displayed": " 4.7 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.2302415,
+    "mean_s": 0.23028810000000002,
+    "stddev_s": 0.0003598927154954163,
+    "min_s": 0.229818,
+    "max_s": 0.230981,
+    "runs": 10,
+    "times_s": [
+     0.230025,
+     0.230113,
+     0.230981,
+     0.229961,
+     0.230332,
+     0.230758,
+     0.229818,
+     0.230406,
+     0.230151,
+     0.230336
+    ],
+    "user_s": 0.08221229999999999,
+    "system_s": 0.019036899999999995,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.347822567,
+     "mean_s": 0.3473534895,
+     "stddev_s": 0.0010275858358281893,
+     "min_s": 0.34515092,
+     "max_s": 0.348532903,
+     "times_s": [
+      0.348075487,
+      0.347936169,
+      0.347868897,
+      0.34639279,
+      0.34661403900000004,
+      0.34777623700000004,
+      0.34515092,
+      0.34802427900000005,
+      0.347163174,
+      0.348532903
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 0.673651,
+    "mean_s": 0.6776052,
+    "stddev_s": 0.010023004125510502,
+    "min_s": 0.66755,
+    "max_s": 0.691941,
+    "runs": 5,
+    "times_s": [
+     0.673651,
+     0.66755,
+     0.671136,
+     0.683748,
+     0.691941
+    ],
+    "user_s": 0.0893714,
+    "system_s": 0.029381400000000002,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.864878781,
+     "mean_s": 0.8687876320000001,
+     "stddev_s": 0.010521094563784484,
+     "min_s": 0.8565354770000001,
+     "max_s": 0.883711943,
+     "times_s": [
+      0.864215626,
+      0.8565354770000001,
+      0.864878781,
+      0.8745963330000001,
+      0.883711943
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 13172736,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "200584\t/mnt/dsb/wide/tree\n",
+   "warm": {
+    "median_s": 0.11735498700000001,
+    "mean_s": 0.11766571799999999,
+    "stddev_s": 0.001764729378464143,
+    "min_s": 0.114901522,
+    "max_s": 0.12036292300000001,
+    "runs": 10,
+    "times_s": [
+     0.117336853,
+     0.116570027,
+     0.12036292300000001,
+     0.11948120300000001,
+     0.118833568,
+     0.119327126,
+     0.11737312100000001,
+     0.11655696200000001,
+     0.114901522,
+     0.11591387500000001
+    ],
+    "user_s": 0.024632899999999996,
+    "system_s": 0.0928071,
+    "peak_rss_median_bytes": 13219840.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.592100767,
+    "mean_s": 0.579360089,
+    "stddev_s": 0.02891041113889496,
+    "min_s": 0.52766336,
+    "max_s": 0.593502502,
+    "runs": 5,
+    "times_s": [
+     0.52766336,
+     0.593502502,
+     0.592100767,
+     0.591264582,
+     0.5922692340000001
+    ],
+    "user_s": 0.0314844,
+    "system_s": 0.48797379999999996,
+    "peak_rss_median_bytes": 13021184.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 6004736,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "205398016\n",
+   "warm": {
+    "median_s": 0.074903416,
+    "mean_s": 0.07453558010000001,
+    "stddev_s": 0.0011673421487004329,
+    "min_s": 0.07240449,
+    "max_s": 0.076128552,
+    "runs": 10,
+    "times_s": [
+     0.073676904,
+     0.07297742800000001,
+     0.075005823,
+     0.07240449,
+     0.07538534300000001,
+     0.074801009,
+     0.075415825,
+     0.074543864,
+     0.076128552,
+     0.07501656300000001
+    ],
+    "user_s": 0.0435378,
+    "system_s": 0.1455923,
+    "peak_rss_median_bytes": 5984256.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.24878164400000002,
+    "mean_s": 0.2499252862,
+    "stddev_s": 0.002841322379467467,
+    "min_s": 0.246800127,
+    "max_s": 0.254175335,
+    "runs": 5,
+    "times_s": [
+     0.24867871200000002,
+     0.24878164400000002,
+     0.254175335,
+     0.246800127,
+     0.251190613
+    ],
+    "user_s": 0.042035,
+    "system_s": 0.6837795999999999,
+    "peak_rss_median_bytes": 5898240.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 13930496,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "205398016B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.130782028,
+    "mean_s": 0.1320628329,
+    "stddev_s": 0.0043283819091567794,
+    "min_s": 0.129551038,
+    "max_s": 0.14409354500000002,
+    "runs": 10,
+    "times_s": [
+     0.14409354500000002,
+     0.13133429100000002,
+     0.13022856900000002,
+     0.130407812,
+     0.129859272,
+     0.131156244,
+     0.129551038,
+     0.131750651,
+     0.12982104,
+     0.132425867
+    ],
+    "user_s": 0.10730619999999999,
+    "system_s": 0.23282989999999998,
+    "peak_rss_median_bytes": 14082048.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.30164201700000004,
+    "mean_s": 0.3019139408,
+    "stddev_s": 0.003636841015028735,
+    "min_s": 0.296701055,
+    "max_s": 0.306603134,
+    "runs": 5,
+    "times_s": [
+     0.306603134,
+     0.30164201700000004,
+     0.296701055,
+     0.301016895,
+     0.30360660300000003
+    ],
+    "user_s": 0.09152039999999999,
+    "system_s": 0.7232582000000001,
+    "peak_rss_median_bytes": 13946880.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3047424,
+   "reported_bytes": 205393920,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": -0.002,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": " 205393920 b wide\n",
+   "warm": {
+    "median_s": 0.11439138500000001,
+    "mean_s": 0.114021475,
+    "stddev_s": 0.0029925860923759214,
+    "min_s": 0.10866588,
+    "max_s": 0.11820453400000001,
+    "runs": 10,
+    "times_s": [
+     0.10866588,
+     0.11257975,
+     0.11454850400000001,
+     0.114234266,
+     0.113100502,
+     0.11667753300000001,
+     0.11005888200000001,
+     0.11820453400000001,
+     0.11608197,
+     0.11606292900000001
+    ],
+    "user_s": 0.1468131,
+    "system_s": 0.24116619999999997,
+    "peak_rss_median_bytes": 3211264.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.280218005,
+    "mean_s": 0.27936710119999997,
+    "stddev_s": 0.00244764943901884,
+    "min_s": 0.275025935,
+    "max_s": 0.28083969200000003,
+    "runs": 5,
+    "times_s": [
+     0.280067581,
+     0.28083969200000003,
+     0.28068429300000003,
+     0.275025935,
+     0.280218005
+    ],
+    "user_s": 0.117753,
+    "system_s": 0.7888904,
+    "peak_rss_median_bytes": 3047424.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 26447872,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": -0.538,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "204292096 tree\n",
+   "warm": {
+    "median_s": 0.1557981055,
+    "mean_s": 0.15669534580000005,
+    "stddev_s": 0.003528107830139419,
+    "min_s": 0.15160366,
+    "max_s": 0.16301169000000001,
+    "runs": 10,
+    "times_s": [
+     0.155719759,
+     0.16233150500000001,
+     0.155876452,
+     0.15160366,
+     0.15412677600000002,
+     0.15501408700000002,
+     0.157458216,
+     0.16301169000000001,
+     0.155021231,
+     0.156790082
+    ],
+    "user_s": 0.06117,
+    "system_s": 0.12282980000000002,
+    "peak_rss_median_bytes": 26499072.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.673694569,
+    "mean_s": 0.6714708694,
+    "stddev_s": 0.009540768328417408,
+    "min_s": 0.6554117340000001,
+    "max_s": 0.6807571560000001,
+    "runs": 5,
+    "times_s": [
+     0.672215432,
+     0.6554117340000001,
+     0.6807571560000001,
+     0.675275456,
+     0.673694569
+    ],
+    "user_s": 0.068395,
+    "system_s": 0.5523266,
+    "peak_rss_median_bytes": 26132480.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 573440,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.0969153425,
+    "mean_s": 0.0970312132,
+    "stddev_s": 0.0014295947222915063,
+    "min_s": 0.094953085,
+    "max_s": 0.099216019,
+    "runs": 10,
+    "times_s": [
+     0.09536757700000001,
+     0.09798652000000001,
+     0.099216019,
+     0.098759789,
+     0.09669638900000001,
+     0.09712967600000001,
+     0.095691419,
+     0.094953085,
+     0.097810649,
+     0.096701009
+    ],
+    "user_s": 0.0105274,
+    "system_s": 0.0860139,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.560951286,
+    "mean_s": 0.5625041044000001,
+    "stddev_s": 0.004130891111992029,
+    "min_s": 0.5593176280000001,
+    "max_s": 0.569617538,
+    "runs": 5,
+    "times_s": [
+     0.569617538,
+     0.5593176280000001,
+     0.5602509760000001,
+     0.560951286,
+     0.5623830940000001
+    ],
+    "user_s": 0.0110072,
+    "system_s": 0.48792159999999996,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3792896,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "205398016 \u250c\u2500\u2500/mnt/dsb/wide/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.069035787,
+    "mean_s": 0.0692833711,
+    "stddev_s": 0.001088866255643347,
+    "min_s": 0.06795683300000001,
+    "max_s": 0.071065293,
+    "runs": 10,
+    "times_s": [
+     0.070904644,
+     0.071065293,
+     0.069382462,
+     0.068841185,
+     0.06795683300000001,
+     0.06808399600000001,
+     0.070083216,
+     0.068653847,
+     0.06863184600000001,
+     0.069230389
+    ],
+    "user_s": 0.05082559999999999,
+    "system_s": 0.14715870000000003,
+    "peak_rss_median_bytes": 3792896.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.245774754,
+    "mean_s": 0.2460619094,
+    "stddev_s": 0.002849494780038608,
+    "min_s": 0.24281190300000002,
+    "max_s": 0.24942591900000002,
+    "runs": 5,
+    "times_s": [
+     0.248439984,
+     0.24942591900000002,
+     0.245774754,
+     0.24385698700000003,
+     0.24281190300000002
+    ],
+    "user_s": 0.046207,
+    "system_s": 0.6596574,
+    "peak_rss_median_bytes": 3682304.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 36552704,
+   "reported_bytes": 204292096,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": -0.538,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "204292096 B   tree\n204292096 B   wide\n\n1 directory, 50000 files\n",
+   "warm": {
+    "median_s": 0.1002787825,
+    "mean_s": 0.1008114085,
+    "stddev_s": 0.001666481412381473,
+    "min_s": 0.099303864,
+    "max_s": 0.10395125000000001,
+    "runs": 10,
+    "times_s": [
+     0.09983580600000001,
+     0.099622416,
+     0.10395125000000001,
+     0.099534623,
+     0.10367380400000001,
+     0.100348484,
+     0.099303864,
+     0.10103759000000001,
+     0.100209081,
+     0.100597167
+    ],
+    "user_s": 0.1287514,
+    "system_s": 0.18944449999999996,
+    "peak_rss_median_bytes": 35799040.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.285889388,
+    "mean_s": 0.2831889316,
+    "stddev_s": 0.009271634862733882,
+    "min_s": 0.269803803,
+    "max_s": 0.292896995,
+    "runs": 5,
+    "times_s": [
+     0.28927524200000004,
+     0.27807923,
+     0.292896995,
+     0.269803803,
+     0.285889388
+    ],
+    "user_s": 0.12572679999999997,
+    "system_s": 0.7825168,
+    "peak_rss_median_bytes": 37330944.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "wide",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3321856,
+   "reported_bytes": 205398016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/wide/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":205398016,\"fileCount\":50000,\"modificationDate\":\"2026-11-09T11:48:2",
+   "warm": {
+    "median_s": 0.039874506500000004,
+    "mean_s": 0.039285727000000006,
+    "stddev_s": 0.001979648317392594,
+    "min_s": 0.035328782,
+    "max_s": 0.042299849,
+    "runs": 10,
+    "times_s": [
+     0.040589616,
+     0.037825322,
+     0.042299849,
+     0.040229265,
+     0.039974975,
+     0.035328782,
+     0.040585398,
+     0.03872015,
+     0.037529875000000004,
+     0.039774038000000005
+    ],
+    "user_s": 0.007796699999999999,
+    "system_s": 0.11134039999999998,
+    "peak_rss_median_bytes": 3465216.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.18261601100000002,
+    "mean_s": 0.18243587020000002,
+    "stddev_s": 0.0006998120908613258,
+    "min_s": 0.18137192900000002,
+    "max_s": 0.18326008900000001,
+    "runs": 5,
+    "times_s": [
+     0.18261601100000002,
+     0.182703794,
+     0.18137192900000002,
+     0.182227528,
+     0.18326008900000001
+    ],
+    "user_s": 0.011210599999999998,
+    "system_s": 0.6393614,
+    "peak_rss_median_bytes": 4874240.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "wide",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 58023936,
+   "reported_bytes": 205416038,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.009,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 205416038, \"elapsed_s\": 1.677933, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 58023936, \"poll_s\": 0.02, \"displayed\": \"  195.9 MB\"}\n",
+   "harness": {
+    "elapsed_s": 1.677933,
+    "signal": "log: Reading finished",
+    "displayed": "  195.9 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.302578,
+    "mean_s": 0.302587,
+    "stddev_s": 0.00011033383685685815,
+    "min_s": 0.302436,
+    "max_s": 0.302757,
+    "runs": 10,
+    "times_s": [
+     0.302584,
+     0.302581,
+     0.302575,
+     0.302572,
+     0.302757,
+     0.302506,
+     0.302436,
+     0.302738,
+     0.302676,
+     0.302445
+    ],
+    "user_s": 0.0934226,
+    "system_s": 0.023666399999999997,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.48356696350000006,
+     "mean_s": 0.4848204848,
+     "stddev_s": 0.005030670971630607,
+     "min_s": 0.47743605600000005,
+     "max_s": 0.49518507400000006,
+     "times_s": [
+      0.49518507400000006,
+      0.48384429100000004,
+      0.488774702,
+      0.48229624800000004,
+      0.480087584,
+      0.48304338700000005,
+      0.483289636,
+      0.47743605600000005,
+      0.488597045,
+      0.485650825
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 2.120187,
+    "mean_s": 2.1127476,
+    "stddev_s": 0.01053862328769748,
+    "min_s": 2.100629,
+    "max_s": 2.120781,
+    "runs": 5,
+    "times_s": [
+     2.1018,
+     2.100629,
+     2.120341,
+     2.120781,
+     2.120187
+    ],
+    "user_s": 0.0958698,
+    "system_s": 0.04213199999999999,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 2.374705751,
+     "mean_s": 2.3695104049999998,
+     "stddev_s": 0.011222494944846442,
+     "min_s": 2.35493322,
+     "max_s": 2.380235131,
+     "times_s": [
+      2.35493322,
+      2.360225884,
+      2.377452039,
+      2.380235131,
+      2.374705751
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "wide",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 108576768,
+   "reported_bytes": 205416038,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 205398016,
+    "diff_pct": 0.009,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 205416038, \"elapsed_s\": 0.606555, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.155\", \"peak_rss_bytes\": 108576768, \"poll_s\": 0.02, \"displayed\": \" 195.9 MB\"}\n",
+   "harness": {
+    "elapsed_s": 0.606555,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.155",
+    "displayed": " 195.9 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.30782600000000004,
+    "mean_s": 0.308019,
+    "stddev_s": 0.003183132175145171,
+    "min_s": 0.303643,
+    "max_s": 0.315396,
+    "runs": 10,
+    "times_s": [
+     0.315396,
+     0.303643,
+     0.308592,
+     0.30763,
+     0.308054,
+     0.305113,
+     0.306412,
+     0.310289,
+     0.307039,
+     0.308022
+    ],
+    "user_s": 0.08106889999999997,
+    "system_s": 0.020444,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.42434724850000005,
+     "mean_s": 0.4251073115,
+     "stddev_s": 0.002690267789746887,
+     "min_s": 0.42238529,
+     "max_s": 0.432215408,
+     "times_s": [
+      0.432215408,
+      0.42238529,
+      0.424072867,
+      0.42465740900000004,
+      0.424771127,
+      0.42384199300000003,
+      0.42398753600000005,
+      0.42442746600000003,
+      0.424267031,
+      0.426446988
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 1.166453,
+    "mean_s": 1.1591408,
+    "stddev_s": 0.012958473837609105,
+    "min_s": 1.138384,
+    "max_s": 1.168695,
+    "runs": 5,
+    "times_s": [
+     1.167739,
+     1.154433,
+     1.166453,
+     1.168695,
+     1.138384
+    ],
+    "user_s": 0.08611640000000001,
+    "system_s": 0.031209999999999998,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.3525800220000002,
+     "mean_s": 1.3457949144,
+     "stddev_s": 0.01315216901000837,
+     "min_s": 1.32579821,
+     "max_s": 1.35631425,
+     "times_s": [
+      1.355256825,
+      1.339025265,
+      1.3525800220000002,
+      1.35631425,
+      1.32579821
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 8167424,
+   "reported_bytes": 1227255808,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1198492\t/mnt/dsb/mixed/tree\n",
+   "warm": {
+    "median_s": 0.0327361555,
+    "mean_s": 0.0326606784,
+    "stddev_s": 0.00031701633312959323,
+    "min_s": 0.032135794,
+    "max_s": 0.03306341,
+    "runs": 10,
+    "times_s": [
+     0.03306341,
+     0.032755467,
+     0.032716844,
+     0.033061446,
+     0.032516151,
+     0.032818855,
+     0.032861564,
+     0.032351776,
+     0.032135794,
+     0.032325477000000005
+    ],
+    "user_s": 0.0079627,
+    "system_s": 0.0248341,
+    "peak_rss_median_bytes": 8368128.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.148264214,
+    "mean_s": 0.144927557,
+    "stddev_s": 0.01054629761045055,
+    "min_s": 0.1263758,
+    "max_s": 0.152337766,
+    "runs": 5,
+    "times_s": [
+     0.1263758,
+     0.152337766,
+     0.147376172,
+     0.148264214,
+     0.150283833
+    ],
+    "user_s": 0.007358399999999999,
+    "system_s": 0.10389319999999999,
+    "peak_rss_median_bytes": 8241152.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2113536,
+   "reported_bytes": 1227255808,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1227255808\n",
+   "warm": {
+    "median_s": 0.023585336,
+    "mean_s": 0.0236944735,
+    "stddev_s": 0.0007113120546472555,
+    "min_s": 0.022455309,
+    "max_s": 0.02476686,
+    "runs": 10,
+    "times_s": [
+     0.023357327,
+     0.023554564,
+     0.023159068,
+     0.02317061,
+     0.023616108,
+     0.022455309,
+     0.02476686,
+     0.024558823,
+     0.024150503,
+     0.024155563
+    ],
+    "user_s": 0.017055,
+    "system_s": 0.05781309999999999,
+    "peak_rss_median_bytes": 2060288.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.057317085000000004,
+    "mean_s": 0.057784238200000004,
+    "stddev_s": 0.0011025194157372937,
+    "min_s": 0.056541947,
+    "max_s": 0.058984889000000006,
+    "runs": 5,
+    "times_s": [
+     0.057164084000000004,
+     0.057317085000000004,
+     0.058913186000000006,
+     0.056541947,
+     0.058984889000000006
+    ],
+    "user_s": 0.0165172,
+    "system_s": 0.1551948,
+    "peak_rss_median_bytes": 2113536.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5201920,
+   "reported_bytes": 1227255808,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1227255808B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.044680619500000004,
+    "mean_s": 0.0443353176,
+    "stddev_s": 0.0010413606195899241,
+    "min_s": 0.042103994000000006,
+    "max_s": 0.045878999000000004,
+    "runs": 10,
+    "times_s": [
+     0.044551128,
+     0.042103994000000006,
+     0.045878999000000004,
+     0.044913603,
+     0.043466370000000004,
+     0.044774654000000004,
+     0.044665711000000004,
+     0.044695528000000005,
+     0.044769104000000004,
+     0.043534085
+    ],
+    "user_s": 0.0352291,
+    "system_s": 0.0887812,
+    "peak_rss_median_bytes": 5197824.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.07939083000000001,
+    "mean_s": 0.0800505642,
+    "stddev_s": 0.0024375801943956,
+    "min_s": 0.07812213900000001,
+    "max_s": 0.084033729,
+    "runs": 5,
+    "times_s": [
+     0.080530876,
+     0.07939083000000001,
+     0.078175247,
+     0.07812213900000001,
+     0.084033729
+    ],
+    "user_s": 0.0261664,
+    "system_s": 0.1744332,
+    "peak_rss_median_bytes": 5054464.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3198976,
+   "reported_bytes": 1227251712,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": -0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "     36864 b sparse\n   1056768 b symlinks\n  21069824 b misc\n 131342336 b hardlinks\n1073745920 b large\n1227251712 b total\n",
+   "warm": {
+    "median_s": 0.0281307855,
+    "mean_s": 0.028182858299999995,
+    "stddev_s": 0.0007226140679634443,
+    "min_s": 0.027178479000000002,
+    "max_s": 0.029933325,
+    "runs": 10,
+    "times_s": [
+     0.028316536000000003,
+     0.029933325,
+     0.02778649,
+     0.028532467000000002,
+     0.028115672,
+     0.027720336,
+     0.027857141000000002,
+     0.028145899000000002,
+     0.028242238000000003,
+     0.027178479000000002
+    ],
+    "user_s": 0.034582299999999996,
+    "system_s": 0.056641800000000006,
+    "peak_rss_median_bytes": 3211264.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.075463756,
+    "mean_s": 0.0755436782,
+    "stddev_s": 0.003578901678043238,
+    "min_s": 0.07225698800000001,
+    "max_s": 0.08089639500000001,
+    "runs": 5,
+    "times_s": [
+     0.076764395,
+     0.075463756,
+     0.072336857,
+     0.07225698800000001,
+     0.08089639500000001
+    ],
+    "user_s": 0.0281466,
+    "system_s": 0.161041,
+    "peak_rss_median_bytes": 3141632.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 19243008,
+   "reported_bytes": 1226375168,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": -0.072,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "1226375168 tree\n",
+   "warm": {
+    "median_s": 0.0346680155,
+    "mean_s": 0.0347789132,
+    "stddev_s": 0.0011897203709033475,
+    "min_s": 0.033377515,
+    "max_s": 0.037177987,
+    "runs": 10,
+    "times_s": [
+     0.03396615,
+     0.035280816,
+     0.0350465,
+     0.033637668,
+     0.034411899,
+     0.033377515,
+     0.03609984,
+     0.037177987,
+     0.034924132000000004,
+     0.033866625000000004
+    ],
+    "user_s": 0.019032,
+    "system_s": 0.0462681,
+    "peak_rss_median_bytes": 20080640.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.14029291100000002,
+    "mean_s": 0.140905693,
+    "stddev_s": 0.0025542685043220244,
+    "min_s": 0.13735809300000001,
+    "max_s": 0.143623789,
+    "runs": 5,
+    "times_s": [
+     0.143623789,
+     0.14029291100000002,
+     0.140092554,
+     0.143161118,
+     0.13735809300000001
+    ],
+    "user_s": 0.0223742,
+    "system_s": 0.14248699999999997,
+    "peak_rss_median_bytes": 19607552.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 573440,
+   "reported_bytes": 1227255808,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.026909765500000002,
+    "mean_s": 0.02691122330000001,
+    "stddev_s": 0.0004349127884267397,
+    "min_s": 0.026333328000000003,
+    "max_s": 0.027578746,
+    "runs": 10,
+    "times_s": [
+     0.027500780000000002,
+     0.026815395000000002,
+     0.026519775000000002,
+     0.026614652000000003,
+     0.026458781,
+     0.026333328000000003,
+     0.027186746,
+     0.027578746,
+     0.027099894000000003,
+     0.027004136
+    ],
+    "user_s": 0.0029226999999999994,
+    "system_s": 0.0235791,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.14063993700000002,
+    "mean_s": 0.1405366012,
+    "stddev_s": 0.0019584075334737414,
+    "min_s": 0.13829443400000002,
+    "max_s": 0.14263076200000002,
+    "runs": 5,
+    "times_s": [
+     0.14063993700000002,
+     0.142278957,
+     0.138838916,
+     0.14263076200000002,
+     0.13829443400000002
+    ],
+    "user_s": 0.0052968,
+    "system_s": 0.09677559999999999,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1978368,
+   "reported_bytes": 1620471808,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 32.04,
+    "closest_semantics": "alloc_nodedup"
+   },
+   "stdout_head": "1620471808 \u250c\u2500\u2500/mnt/dsb/mixed/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.024427181,
+    "mean_s": 0.024178756900000004,
+    "stddev_s": 0.0017313004121758656,
+    "min_s": 0.021930165,
+    "max_s": 0.026531035,
+    "runs": 10,
+    "times_s": [
+     0.025503865,
+     0.026531035,
+     0.024737178000000002,
+     0.021930165,
+     0.021968576,
+     0.025538409,
+     0.026006661,
+     0.022843765000000002,
+     0.022610731000000002,
+     0.024117184
+    ],
+    "user_s": 0.0200493,
+    "system_s": 0.05745779999999999,
+    "peak_rss_median_bytes": 2088960.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.059591882000000006,
+    "mean_s": 0.059890599600000004,
+    "stddev_s": 0.0015320962073480581,
+    "min_s": 0.058003667,
+    "max_s": 0.06151124300000001,
+    "runs": 5,
+    "times_s": [
+     0.059591882000000006,
+     0.058957902000000006,
+     0.06151124300000001,
+     0.058003667,
+     0.061388304000000005
+    ],
+    "user_s": 0.018942399999999998,
+    "system_s": 0.14280759999999998,
+    "peak_rss_median_bytes": 1978368.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 11255808,
+   "reported_bytes": 1226375168,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": -0.072,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "1226375168 B   tree\n1073741824 B   large\n 131072000 B   hardlinks\n  20480000 B   misc\n   1048576 B   symlinks\n     32768 B   sparse\n\n149 directories, 13013 files, 204 links\n",
+   "warm": {
+    "median_s": 0.029511986000000004,
+    "mean_s": 0.029459953900000002,
+    "stddev_s": 0.0005307522244704419,
+    "min_s": 0.028726765,
+    "max_s": 0.030533453000000002,
+    "runs": 10,
+    "times_s": [
+     0.029665358000000003,
+     0.028929498,
+     0.028968393000000002,
+     0.029513483000000004,
+     0.029899674,
+     0.030533453000000002,
+     0.029227393,
+     0.029510489,
+     0.028726765,
+     0.029625033000000002
+    ],
+    "user_s": 0.0376075,
+    "system_s": 0.0517238,
+    "peak_rss_median_bytes": 11231232.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.082609465,
+    "mean_s": 0.08303804480000002,
+    "stddev_s": 0.004569693171212834,
+    "min_s": 0.078447653,
+    "max_s": 0.08798792500000001,
+    "runs": 5,
+    "times_s": [
+     0.078447653,
+     0.08798792500000001,
+     0.07872694300000001,
+     0.08741823800000001,
+     0.082609465
+    ],
+    "user_s": 0.044782600000000006,
+    "system_s": 0.1648352,
+    "peak_rss_median_bytes": 11255808.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "mixed",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2793472,
+   "reported_bytes": 1227255808,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/mixed/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":1227255808,\"fileCount\":13013,\"modificationDate\":\"2026-11-09T11:49",
+   "warm": {
+    "median_s": 0.012970654500000001,
+    "mean_s": 0.012870183100000002,
+    "stddev_s": 0.001045697691642544,
+    "min_s": 0.010490249,
+    "max_s": 0.014106003,
+    "runs": 10,
+    "times_s": [
+     0.01195648,
+     0.013278938,
+     0.012863816,
+     0.013532884,
+     0.013931072000000001,
+     0.010490249,
+     0.013077493,
+     0.014106003,
+     0.01276755,
+     0.012697346
+    ],
+    "user_s": 0.0036518999999999996,
+    "system_s": 0.0311846,
+    "peak_rss_median_bytes": 2975744.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.051807137,
+    "mean_s": 0.0516883152,
+    "stddev_s": 0.0013367499934657566,
+    "min_s": 0.050384530000000004,
+    "max_s": 0.053770714000000004,
+    "runs": 5,
+    "times_s": [
+     0.051807137,
+     0.051828897000000006,
+     0.053770714000000004,
+     0.050650298,
+     0.050384530000000004
+    ],
+    "user_s": 0.004635599999999999,
+    "system_s": 0.13072840000000002,
+    "peak_rss_median_bytes": 3985408.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "mixed",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 47067136,
+   "reported_bytes": 1181116006,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": -3.76,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "{\"total_bytes\": 1181116006, \"elapsed_s\": 1.59697, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 47067136, \"poll_s\": 0.02, \"displayed\": \"  1.1 GB\"}\n",
+   "harness": {
+    "elapsed_s": 1.59697,
+    "signal": "log: Reading finished",
+    "displayed": "  1.1 GB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.20193650000000002,
+    "mean_s": 0.2019657,
+    "stddev_s": 0.00010409509541226411,
+    "min_s": 0.201862,
+    "max_s": 0.202143,
+    "runs": 10,
+    "times_s": [
+     0.202143,
+     0.201937,
+     0.202131,
+     0.2019,
+     0.201888,
+     0.201862,
+     0.201936,
+     0.202042,
+     0.201952,
+     0.201866
+    ],
+    "user_s": 0.09759949999999998,
+    "system_s": 0.026264799999999998,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.41313500700000005,
+     "mean_s": 0.415236655,
+     "stddev_s": 0.007598366174082451,
+     "min_s": 0.402907932,
+     "max_s": 0.42802381100000003,
+     "times_s": [
+      0.42802381100000003,
+      0.412780018,
+      0.402907932,
+      0.413489996,
+      0.41101447900000004,
+      0.41403843500000004,
+      0.41234512500000003,
+      0.425795207,
+      0.410751605,
+      0.421219942
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 1.697532,
+    "mean_s": 1.6896896,
+    "stddev_s": 0.011431874750013681,
+    "min_s": 1.676605,
+    "max_s": 1.698318,
+    "runs": 5,
+    "times_s": [
+     1.697532,
+     1.677753,
+     1.676605,
+     1.69824,
+     1.698318
+    ],
+    "user_s": 0.102569,
+    "system_s": 0.041059799999999994,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.978852136,
+     "mean_s": 1.9731330374000002,
+     "stddev_s": 0.009536983698019037,
+     "min_s": 1.961818735,
+     "max_s": 1.980768683,
+     "times_s": [
+      1.980768683,
+      1.961818735,
+      1.96366563,
+      1.978852136,
+      1.980560003
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "mixed",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 103497728,
+   "reported_bytes": 1224065679,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1227255808,
+    "diff_pct": -0.26,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "{\"total_bytes\": 1224065679, \"elapsed_s\": 0.512488, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.059\", \"peak_rss_bytes\": 103497728, \"poll_s\": 0.02, \"displayed\": \" 1.14 GB\"}\n",
+   "harness": {
+    "elapsed_s": 0.512488,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.059",
+    "displayed": " 1.14 GB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.21051399999999998,
+    "mean_s": 0.2104057,
+    "stddev_s": 0.0014010406489463499,
+    "min_s": 0.208218,
+    "max_s": 0.212559,
+    "runs": 10,
+    "times_s": [
+     0.208528,
+     0.212559,
+     0.211347,
+     0.210752,
+     0.209957,
+     0.208218,
+     0.211494,
+     0.20939,
+     0.210276,
+     0.211536
+    ],
+    "user_s": 0.08721799999999999,
+    "system_s": 0.0186815,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.3460140165,
+     "mean_s": 0.34683166600000004,
+     "stddev_s": 0.0027897455743513466,
+     "min_s": 0.343779926,
+     "max_s": 0.35149951700000004,
+     "times_s": [
+      0.343779926,
+      0.34612849700000003,
+      0.346651506,
+      0.35044604500000004,
+      0.35149951700000004,
+      0.345899536,
+      0.345051665,
+      0.345036836,
+      0.3439049,
+      0.349918232
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 0.709555,
+    "mean_s": 0.7109742000000001,
+    "stddev_s": 0.009085762582194196,
+    "min_s": 0.698539,
+    "max_s": 0.72201,
+    "runs": 5,
+    "times_s": [
+     0.72201,
+     0.707495,
+     0.698539,
+     0.709555,
+     0.717272
+    ],
+    "user_s": 0.0918352,
+    "system_s": 0.0308002,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.9215616080000001,
+     "mean_s": 0.9203070294,
+     "stddev_s": 0.007790209434516581,
+     "min_s": 0.90938995,
+     "max_s": 0.927986006,
+     "times_s": [
+      0.927986006,
+      0.915773441,
+      0.90938995,
+      0.9215616080000001,
+      0.9268241420000001
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 8228864,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "147316\t/mnt/dsb/node_modules/tree\n",
+   "warm": {
+    "median_s": 0.053555088,
+    "mean_s": 0.05524680230000001,
+    "stddev_s": 0.005204777723265167,
+    "min_s": 0.051545554,
+    "max_s": 0.067443427,
+    "runs": 10,
+    "times_s": [
+     0.052154337,
+     0.051913519000000005,
+     0.051545554,
+     0.051666419000000005,
+     0.053772848000000005,
+     0.054720382000000005,
+     0.053337328,
+     0.054278109000000005,
+     0.067443427,
+     0.061636100000000006
+    ],
+    "user_s": 0.015534599999999999,
+    "system_s": 0.044891799999999996,
+    "peak_rss_median_bytes": 8290304.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.397619787,
+    "mean_s": 0.345208877,
+    "stddev_s": 0.11596901035999303,
+    "min_s": 0.137853963,
+    "max_s": 0.400812859,
+    "runs": 5,
+    "times_s": [
+     0.137853963,
+     0.400812859,
+     0.397619787,
+     0.39850234,
+     0.391255436
+    ],
+    "user_s": 0.0172616,
+    "system_s": 0.1480664,
+    "peak_rss_median_bytes": 8183808.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1851392,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "150851584\n",
+   "warm": {
+    "median_s": 0.0356469965,
+    "mean_s": 0.03630279170000001,
+    "stddev_s": 0.0020185623590642174,
+    "min_s": 0.033917523000000005,
+    "max_s": 0.041240003000000004,
+    "runs": 10,
+    "times_s": [
+     0.035636943000000004,
+     0.041240003000000004,
+     0.035601627000000004,
+     0.038190895,
+     0.035475469,
+     0.033917523000000005,
+     0.03565705,
+     0.035530665,
+     0.036069948000000004,
+     0.035707794
+    ],
+    "user_s": 0.0290889,
+    "system_s": 0.10307220000000002,
+    "peak_rss_median_bytes": 1798144.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.08660535700000001,
+    "mean_s": 0.08736350880000002,
+    "stddev_s": 0.004879183856202766,
+    "min_s": 0.082000212,
+    "max_s": 0.095159692,
+    "runs": 5,
+    "times_s": [
+     0.08516541500000001,
+     0.082000212,
+     0.08660535700000001,
+     0.095159692,
+     0.087886868
+    ],
+    "user_s": 0.0333684,
+    "system_s": 0.23528699999999997,
+    "peak_rss_median_bytes": 1851392.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 5492736,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "150851584B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.069415372,
+    "mean_s": 0.0693436667,
+    "stddev_s": 0.0007618546702608264,
+    "min_s": 0.068103256,
+    "max_s": 0.070732404,
+    "runs": 10,
+    "times_s": [
+     0.068435564,
+     0.069344179,
+     0.069453678,
+     0.068103256,
+     0.068776554,
+     0.06949838600000001,
+     0.069377066,
+     0.070006994,
+     0.069708586,
+     0.070732404
+    ],
+    "user_s": 0.0453957,
+    "system_s": 0.140613,
+    "peak_rss_median_bytes": 5713920.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.146804918,
+    "mean_s": 0.1468305588,
+    "stddev_s": 0.002135613984310536,
+    "min_s": 0.143653003,
+    "max_s": 0.14924484600000001,
+    "runs": 5,
+    "times_s": [
+     0.14822648700000002,
+     0.14622354,
+     0.146804918,
+     0.14924484600000001,
+     0.143653003
+    ],
+    "user_s": 0.03921399999999999,
+    "system_s": 0.23183060000000003,
+    "peak_rss_median_bytes": 5492736.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3313664,
+   "reported_bytes": 150847488,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": -0.003,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "      4096 b package.json\n    290816 b package-lock.json\n 150552576 b node_modules\n 150847488 b total\n",
+   "warm": {
+    "median_s": 0.046935976000000004,
+    "mean_s": 0.04651183800000001,
+    "stddev_s": 0.0015675953521384989,
+    "min_s": 0.043887295,
+    "max_s": 0.048409459,
+    "runs": 10,
+    "times_s": [
+     0.04695483,
+     0.046917122000000006,
+     0.047682278,
+     0.044033978,
+     0.043887295,
+     0.046014961,
+     0.047685866,
+     0.047766811000000006,
+     0.048409459,
+     0.045765780000000006
+    ],
+    "user_s": 0.0504747,
+    "system_s": 0.10242899999999999,
+    "peak_rss_median_bytes": 3211264.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.137189987,
+    "mean_s": 0.1360146954,
+    "stddev_s": 0.002510483070477725,
+    "min_s": 0.13326891500000002,
+    "max_s": 0.138929948,
+    "runs": 5,
+    "times_s": [
+     0.13326891500000002,
+     0.138929948,
+     0.137197925,
+     0.137189987,
+     0.133486702
+    ],
+    "user_s": 0.0403248,
+    "system_s": 0.23432020000000003,
+    "peak_rss_median_bytes": 3067904.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 19787776,
+   "reported_bytes": 144056320,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": -4.505,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "144056320 tree\n",
+   "warm": {
+    "median_s": 0.027539505000000002,
+    "mean_s": 0.027760805399999998,
+    "stddev_s": 0.0011449413909473659,
+    "min_s": 0.026173359,
+    "max_s": 0.029512697,
+    "runs": 10,
+    "times_s": [
+     0.026799899000000002,
+     0.026173359,
+     0.028447819000000003,
+     0.02820013,
+     0.029512697,
+     0.027178283,
+     0.027875219000000003,
+     0.029471550000000003,
+     0.027203791,
+     0.026745307000000003
+    ],
+    "user_s": 0.0211743,
+    "system_s": 0.0631143,
+    "peak_rss_median_bytes": 20551680.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.148492342,
+    "mean_s": 0.146612806,
+    "stddev_s": 0.0056608685181340716,
+    "min_s": 0.13927002100000002,
+    "max_s": 0.153209744,
+    "runs": 5,
+    "times_s": [
+     0.13927002100000002,
+     0.153209744,
+     0.14240107700000001,
+     0.148492342,
+     0.14969084600000002
+    ],
+    "user_s": 0.0326664,
+    "system_s": 0.2157184,
+    "peak_rss_median_bytes": 20041728.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 573440,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.0415774825,
+    "mean_s": 0.0414348754,
+    "stddev_s": 0.00045824690725008305,
+    "min_s": 0.040558290000000004,
+    "max_s": 0.042049655000000005,
+    "runs": 10,
+    "times_s": [
+     0.042049655000000005,
+     0.041855003,
+     0.041635995,
+     0.041534738,
+     0.041620227,
+     0.041018086,
+     0.040558290000000004,
+     0.041020320000000006,
+     0.041284011,
+     0.041772429
+    ],
+    "user_s": 0.004473299999999999,
+    "system_s": 0.0366289,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.363004072,
+    "mean_s": 0.3624075168,
+    "stddev_s": 0.0075093808014682975,
+    "min_s": 0.350914486,
+    "max_s": 0.371285823,
+    "runs": 5,
+    "times_s": [
+     0.360941047,
+     0.363004072,
+     0.371285823,
+     0.350914486,
+     0.365892156
+    ],
+    "user_s": 0.007926399999999998,
+    "system_s": 0.14382159999999997,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1585152,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "150851584 \u250c\u2500\u2500/mnt/dsb/node_modules/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.04380918,
+    "mean_s": 0.0441105344,
+    "stddev_s": 0.0016797970571483525,
+    "min_s": 0.042367417000000004,
+    "max_s": 0.047311487000000006,
+    "runs": 10,
+    "times_s": [
+     0.042800883000000005,
+     0.042367417000000004,
+     0.04401332,
+     0.044803840000000004,
+     0.044984567,
+     0.047311487000000006,
+     0.046111644,
+     0.043605040000000005,
+     0.042682884000000004,
+     0.042424262000000004
+    ],
+    "user_s": 0.0286751,
+    "system_s": 0.10299969999999999,
+    "peak_rss_median_bytes": 1826816.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.12076181200000001,
+    "mean_s": 0.12181035260000002,
+    "stddev_s": 0.002577379060221311,
+    "min_s": 0.11894758100000001,
+    "max_s": 0.12458018700000001,
+    "runs": 5,
+    "times_s": [
+     0.12458018700000001,
+     0.120265298,
+     0.11894758100000001,
+     0.12076181200000001,
+     0.124496885
+    ],
+    "user_s": 0.0247644,
+    "system_s": 0.192514,
+    "peak_rss_median_bytes": 1716224.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 12132352,
+   "reported_bytes": 144056320,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": -4.505,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "144056320 B   tree\n143761408 B   node_modules\n   290816 B   package-lock.json\n     4096 B   package.json\n\n1628 directories, 11314 files, 37 links\n",
+   "warm": {
+    "median_s": 0.046931005,
+    "mean_s": 0.046751240000000006,
+    "stddev_s": 0.0015442963017685424,
+    "min_s": 0.043281137000000004,
+    "max_s": 0.048663827,
+    "runs": 10,
+    "times_s": [
+     0.048663827,
+     0.046792931,
+     0.046600653000000006,
+     0.047351155000000006,
+     0.046739652,
+     0.048436459,
+     0.047291459,
+     0.045286048,
+     0.047069079,
+     0.043281137000000004
+    ],
+    "user_s": 0.059304100000000005,
+    "system_s": 0.08233030000000001,
+    "peak_rss_median_bytes": 12060672.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.153890006,
+    "mean_s": 0.1543482182,
+    "stddev_s": 0.0017216237136715488,
+    "min_s": 0.152618319,
+    "max_s": 0.157119946,
+    "runs": 5,
+    "times_s": [
+     0.153423692,
+     0.152618319,
+     0.153890006,
+     0.154689128,
+     0.157119946
+    ],
+    "user_s": 0.0689162,
+    "system_s": 0.2532276,
+    "peak_rss_median_bytes": 12169216.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "node_modules",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2912256,
+   "reported_bytes": 150851584,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/node_modules/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":150851584,\"fileCount\":11314,\"modificationDate\":\"2026-11-09",
+   "warm": {
+    "median_s": 0.017366940000000004,
+    "mean_s": 0.017121567100000002,
+    "stddev_s": 0.0009277537610895889,
+    "min_s": 0.015136856,
+    "max_s": 0.018263096,
+    "runs": 10,
+    "times_s": [
+     0.017912171,
+     0.017147455000000002,
+     0.016988592,
+     0.016625209000000002,
+     0.017733715,
+     0.018263096,
+     0.016227275,
+     0.017594877000000002,
+     0.015136856,
+     0.017586425000000003
+    ],
+    "user_s": 0.0031186,
+    "system_s": 0.04494769999999999,
+    "peak_rss_median_bytes": 2844672.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.092964737,
+    "mean_s": 0.0945832912,
+    "stddev_s": 0.012691342892457607,
+    "min_s": 0.077735249,
+    "max_s": 0.11098097200000001,
+    "runs": 5,
+    "times_s": [
+     0.089030627,
+     0.11098097200000001,
+     0.092964737,
+     0.077735249,
+     0.102204871
+    ],
+    "user_s": 0.0097282,
+    "system_s": 0.1692292,
+    "peak_rss_median_bytes": 3842048.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "node_modules",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 47075328,
+   "reported_bytes": 150890086,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.026,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 150890086, \"elapsed_s\": 1.578133, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 47075328, \"poll_s\": 0.02, \"displayed\": \"  143.9 MB\"}\n",
+   "harness": {
+    "elapsed_s": 1.578133,
+    "signal": "log: Reading finished",
+    "displayed": "  143.9 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.222092,
+    "mean_s": 0.2221106,
+    "stddev_s": 8.207476266591722e-05,
+    "min_s": 0.222018,
+    "max_s": 0.222236,
+    "runs": 10,
+    "times_s": [
+     0.222028,
+     0.222018,
+     0.222205,
+     0.222236,
+     0.222018,
+     0.222092,
+     0.222112,
+     0.222092,
+     0.222215,
+     0.22209
+    ],
+    "user_s": 0.0946875,
+    "system_s": 0.023691499999999997,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.4104868635,
+     "mean_s": 0.41106620150000006,
+     "stddev_s": 0.006150012860100199,
+     "min_s": 0.40281644400000005,
+     "max_s": 0.42388862000000005,
+     "times_s": [
+      0.41037000900000004,
+      0.40646088100000005,
+      0.410603718,
+      0.412334554,
+      0.40281644400000005,
+      0.41708738100000003,
+      0.409721422,
+      0.404502954,
+      0.42388862000000005,
+      0.412876032
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 1.899149,
+    "mean_s": 1.9030200000000002,
+    "stddev_s": 0.009282243721213094,
+    "min_s": 1.898092,
+    "max_s": 1.919592,
+    "runs": 5,
+    "times_s": [
+     1.919592,
+     1.899648,
+     1.899149,
+     1.898092,
+     1.898619
+    ],
+    "user_s": 0.10433379999999999,
+    "system_s": 0.032183,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 2.16167093,
+     "mean_s": 2.1627893574000003,
+     "stddev_s": 0.01060539000534867,
+     "min_s": 2.150870363,
+     "max_s": 2.179317276,
+     "times_s": [
+      2.179317276,
+      2.16167093,
+      2.150870363,
+      2.164740053,
+      2.157348165
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "node_modules",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 105443328,
+   "reported_bytes": 150890086,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 150851584,
+    "diff_pct": 0.026,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 150890086, \"elapsed_s\": 0.556803, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.083\", \"peak_rss_bytes\": 105443328, \"poll_s\": 0.02, \"displayed\": \" 143.9 MB\"}\n",
+   "harness": {
+    "elapsed_s": 0.556803,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.083",
+    "displayed": " 143.9 MB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.2359835,
+    "mean_s": 0.2440889,
+    "stddev_s": 0.014535382810003088,
+    "min_s": 0.235256,
+    "max_s": 0.276086,
+    "runs": 10,
+    "times_s": [
+     0.235445,
+     0.236005,
+     0.236248,
+     0.235256,
+     0.260159,
+     0.255064,
+     0.276086,
+     0.235359,
+     0.235962,
+     0.235305
+    ],
+    "user_s": 0.0844543,
+    "system_s": 0.0189302,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.36760560500000006,
+     "mean_s": 0.3745788657000001,
+     "stddev_s": 0.014406393319438071,
+     "min_s": 0.365107014,
+     "max_s": 0.409284947,
+     "times_s": [
+      0.365107014,
+      0.36618983000000005,
+      0.36782855600000003,
+      0.36694685200000005,
+      0.38840606,
+      0.38076154,
+      0.409284947,
+      0.36783247,
+      0.36604873400000004,
+      0.36738265400000003
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 0.95964,
+    "mean_s": 0.959516,
+    "stddev_s": 0.013283557072561535,
+    "min_s": 0.943355,
+    "max_s": 0.976329,
+    "runs": 5,
+    "times_s": [
+     0.976329,
+     0.943355,
+     0.950138,
+     0.95964,
+     0.968118
+    ],
+    "user_s": 0.0881404,
+    "system_s": 0.0327598,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 1.1649370110000001,
+     "mean_s": 1.1628896132,
+     "stddev_s": 0.013672178635960593,
+     "min_s": 1.143374787,
+     "max_s": 1.180963106,
+     "times_s": [
+      1.180963106,
+      1.143374787,
+      1.1649370110000001,
+      1.158352269,
+      1.166820893
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "du",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 13905920,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1533584\t/mnt/dsb/linux_kernel/tree\n",
+   "warm": {
+    "median_s": 0.2970440675,
+    "mean_s": 0.2960386969,
+    "stddev_s": 0.01190764263528764,
+    "min_s": 0.278293136,
+    "max_s": 0.31226167200000005,
+    "runs": 10,
+    "times_s": [
+     0.287888676,
+     0.282898509,
+     0.304943988,
+     0.29679946300000004,
+     0.29728867200000003,
+     0.302464216,
+     0.31226167200000005,
+     0.311448118,
+     0.286100519,
+     0.278293136
+    ],
+    "user_s": 0.07773179999999999,
+    "system_s": 0.2394885,
+    "peak_rss_median_bytes": 13885440.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.585171983,
+    "mean_s": 1.5321282058,
+    "stddev_s": 0.10657714035208092,
+    "min_s": 1.3439037790000001,
+    "max_s": 1.592645968,
+    "runs": 5,
+    "times_s": [
+     1.3439037790000001,
+     1.58873395,
+     1.592645968,
+     1.550185349,
+     1.585171983
+    ],
+    "user_s": 0.0937958,
+    "system_s": 0.7809535999999999,
+    "peak_rss_median_bytes": 13758464.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "diskus",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 2375680,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1570390016\n",
+   "warm": {
+    "median_s": 0.18954016900000004,
+    "mean_s": 0.18933743270000003,
+    "stddev_s": 0.002505460149153352,
+    "min_s": 0.18598661500000002,
+    "max_s": 0.194438203,
+    "runs": 10,
+    "times_s": [
+     0.18996074400000001,
+     0.18850744400000002,
+     0.18598661500000002,
+     0.194438203,
+     0.190863421,
+     0.18735416100000002,
+     0.18970725000000002,
+     0.19090043,
+     0.18628297100000002,
+     0.18937308800000002
+    ],
+    "user_s": 0.16655859999999997,
+    "system_s": 0.5565599999999999,
+    "peak_rss_median_bytes": 2451456.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.37502759,
+    "mean_s": 0.37455844600000004,
+    "stddev_s": 0.007955246103676043,
+    "min_s": 0.36130925900000005,
+    "max_s": 0.380996881,
+    "runs": 5,
+    "times_s": [
+     0.37502759,
+     0.380996881,
+     0.38054183500000005,
+     0.37491666500000004,
+     0.36130925900000005
+    ],
+    "user_s": 0.1555472,
+    "system_s": 1.2494044,
+    "peak_rss_median_bytes": 2506752.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dust",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 26152960,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1570390016B \u250c\u2500\u2500 tree\n",
+   "warm": {
+    "median_s": 0.3830350145,
+    "mean_s": 0.38274905560000005,
+    "stddev_s": 0.004614067003786481,
+    "min_s": 0.374651752,
+    "max_s": 0.389443411,
+    "runs": 10,
+    "times_s": [
+     0.38391500500000003,
+     0.37890358500000004,
+     0.382155024,
+     0.389443411,
+     0.381224037,
+     0.374651752,
+     0.388807165,
+     0.385554848,
+     0.378745518,
+     0.384090211
+    ],
+    "user_s": 0.2766993,
+    "system_s": 0.7621524,
+    "peak_rss_median_bytes": 26181632.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.644041704,
+    "mean_s": 0.6445322376,
+    "stddev_s": 0.0026671165483007327,
+    "min_s": 0.6422851310000001,
+    "max_s": 0.648728529,
+    "runs": 5,
+    "times_s": [
+     0.6423043730000001,
+     0.648728529,
+     0.6422851310000001,
+     0.645301451,
+     0.644041704
+    ],
+    "user_s": 0.21923499999999999,
+    "system_s": 1.2912358,
+    "peak_rss_median_bytes": 26099712.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "dua",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 3440640,
+   "reported_bytes": 1570385920,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": -0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1570385920 b linux-6.6\n",
+   "warm": {
+    "median_s": 0.235291089,
+    "mean_s": 0.234860424,
+    "stddev_s": 0.006183339959536736,
+    "min_s": 0.224114578,
+    "max_s": 0.244938272,
+    "runs": 10,
+    "times_s": [
+     0.229999374,
+     0.224114578,
+     0.239035562,
+     0.233779646,
+     0.234776488,
+     0.23580569,
+     0.244938272,
+     0.241036818,
+     0.22836397100000003,
+     0.23675384100000002
+    ],
+    "user_s": 0.2681429999999999,
+    "system_s": 0.5364655999999999,
+    "peak_rss_median_bytes": 3473408.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.5665711290000001,
+    "mean_s": 0.5669473218000001,
+    "stddev_s": 0.01132994916945233,
+    "min_s": 0.553104243,
+    "max_s": 0.5833597770000001,
+    "runs": 5,
+    "times_s": [
+     0.553104243,
+     0.570846975,
+     0.5665711290000001,
+     0.560854485,
+     0.5833597770000001
+    ],
+    "user_s": 0.2353142,
+    "system_s": 1.2316134,
+    "peak_rss_median_bytes": 3440640.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "gdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 20439040,
+   "reported_bytes": 1548017664,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": -1.425,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "1548017664 tree\n",
+   "warm": {
+    "median_s": 0.129464718,
+    "mean_s": 0.1301130696,
+    "stddev_s": 0.004665403394299678,
+    "min_s": 0.12462294,
+    "max_s": 0.137449595,
+    "runs": 10,
+    "times_s": [
+     0.13179759700000002,
+     0.130029258,
+     0.12783475800000002,
+     0.13699492900000002,
+     0.137449595,
+     0.124896449,
+     0.132944894,
+     0.12462294,
+     0.128900178,
+     0.125660098
+    ],
+    "user_s": 0.1345841,
+    "system_s": 0.3257624,
+    "peak_rss_median_bytes": 21602304.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.48177669700000003,
+    "mean_s": 0.5072202338,
+    "stddev_s": 0.03700817875273883,
+    "min_s": 0.477731491,
+    "max_s": 0.5528723560000001,
+    "runs": 5,
+    "times_s": [
+     0.48177669700000003,
+     0.477731491,
+     0.48157595400000003,
+     0.5528723560000001,
+     0.5421446710000001
+    ],
+    "user_s": 0.16765499999999997,
+    "system_s": 1.1134856,
+    "peak_rss_median_bytes": 20848640.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "ncdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 573440,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "",
+   "warm": {
+    "median_s": 0.22517596300000003,
+    "mean_s": 0.22483562260000003,
+    "stddev_s": 0.0008516928834489555,
+    "min_s": 0.22357710200000003,
+    "max_s": 0.22605972300000002,
+    "runs": 10,
+    "times_s": [
+     0.22357710200000003,
+     0.225493419,
+     0.225479864,
+     0.22502934500000002,
+     0.224100767,
+     0.224166319,
+     0.22379293400000003,
+     0.22532258100000002,
+     0.22605972300000002,
+     0.22533417200000003
+    ],
+    "user_s": 0.0248143,
+    "system_s": 0.1992503,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 1.493226141,
+    "mean_s": 1.4878873236,
+    "stddev_s": 0.020254608155202476,
+    "min_s": 1.454687393,
+    "max_s": 1.509283222,
+    "runs": 5,
+    "times_s": [
+     1.509283222,
+     1.493226141,
+     1.487146628,
+     1.495093234,
+     1.454687393
+    ],
+    "user_s": 0.0370512,
+    "system_s": 0.7452621999999998,
+    "peak_rss_median_bytes": 1515520.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "pdu",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 1978368,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "1570390016 \u250c\u2500\u2500/mnt/dsb/linux_kernel/tree\u2502\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2502100%\n",
+   "warm": {
+    "median_s": 0.19910763250000002,
+    "mean_s": 0.19897347780000002,
+    "stddev_s": 0.005609311554755374,
+    "min_s": 0.19025909500000002,
+    "max_s": 0.20686806500000002,
+    "runs": 10,
+    "times_s": [
+     0.203873091,
+     0.20024413800000002,
+     0.197529376,
+     0.19605597300000002,
+     0.20432017300000002,
+     0.19061113000000002,
+     0.20200261,
+     0.19797112700000002,
+     0.20686806500000002,
+     0.19025909500000002
+    ],
+    "user_s": 0.15071669999999998,
+    "system_s": 0.49759349999999997,
+    "peak_rss_median_bytes": 1957888.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.50176718,
+    "mean_s": 0.5011738592,
+    "stddev_s": 0.004033835140738461,
+    "min_s": 0.49625727300000005,
+    "max_s": 0.506531638,
+    "runs": 5,
+    "times_s": [
+     0.506531638,
+     0.49625727300000005,
+     0.49827736400000006,
+     0.503035841,
+     0.50176718
+    ],
+    "user_s": 0.1318974,
+    "system_s": 1.0657818,
+    "peak_rss_median_bytes": 1847296.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "erdtree",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 66064384,
+   "reported_bytes": 1548017664,
+   "correctness": {
+    "status": "disagrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": -1.425,
+    "closest_semantics": "alloc_files_dedup"
+   },
+   "stdout_head": "1548017664 B   tree\n1548017664 B   linux-6.6\n\n5317 directories, 81703 files, 63 links\n",
+   "warm": {
+    "median_s": 0.2518093025,
+    "mean_s": 0.2523648274,
+    "stddev_s": 0.007295603627111639,
+    "min_s": 0.24475074400000002,
+    "max_s": 0.265559437,
+    "runs": 10,
+    "times_s": [
+     0.24475074400000002,
+     0.265559437,
+     0.25524287300000004,
+     0.25249071100000003,
+     0.26186111300000003,
+     0.24582794900000002,
+     0.245275669,
+     0.255694975,
+     0.24581690900000003,
+     0.251127894
+    ],
+    "user_s": 0.35315470000000004,
+    "system_s": 0.4385392,
+    "peak_rss_median_bytes": 66002944.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.6923706430000001,
+    "mean_s": 0.6915225882000001,
+    "stddev_s": 0.007828660150711137,
+    "min_s": 0.6799622620000001,
+    "max_s": 0.701333763,
+    "runs": 5,
+    "times_s": [
+     0.6799622620000001,
+     0.6923706430000001,
+     0.701333763,
+     0.689315487,
+     0.6946307860000001
+    ],
+    "user_s": 0.383754,
+    "system_s": 1.3526432,
+    "peak_rss_median_bytes": 66076672.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "nulldisk",
+   "dataset": "linux_kernel",
+   "track": "cli",
+   "exit_code": 0,
+   "peak_rss_bytes": 4767744,
+   "reported_bytes": 1570390016,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 0.0,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"schemaVersion\":1,\"command\":\"scan\",\"status\":\"complete\",\"stopReason\":null,\"scanLimits\":{\"compactFilesPerDirectory\":null,\"maxDepth\":512,\"timeoutSeconds\":null},\"tree\":{\"path\":\"/mnt/dsb/linux_kernel/tree\",\"name\":\"tree\",\"kind\":\"directory\",\"size\":1570390016,\"fileCount\":81703,\"modificationDate\":\"2026-11-0",
+   "warm": {
+    "median_s": 0.075165325,
+    "mean_s": 0.07455719620000001,
+    "stddev_s": 0.0014831823289902903,
+    "min_s": 0.07215671600000001,
+    "max_s": 0.076147172,
+    "runs": 10,
+    "times_s": [
+     0.075897795,
+     0.07553905000000001,
+     0.07409404500000001,
+     0.07315015400000001,
+     0.075771423,
+     0.072484957,
+     0.07531441900000001,
+     0.075016231,
+     0.076147172,
+     0.07215671600000001
+    ],
+    "user_s": 0.0251926,
+    "system_s": 0.23417349999999998,
+    "peak_rss_median_bytes": 4907008.0,
+    "exit_codes": [
+     0
+    ]
+   },
+   "cold": {
+    "median_s": 0.324167876,
+    "mean_s": 0.3236251518,
+    "stddev_s": 0.0018802697730374298,
+    "min_s": 0.321349792,
+    "max_s": 0.32598259100000004,
+    "runs": 5,
+    "times_s": [
+     0.32598259100000004,
+     0.321349792,
+     0.324520462,
+     0.322105038,
+     0.324167876
+    ],
+    "user_s": 0.025086999999999998,
+    "system_s": 0.9236175999999998,
+    "peak_rss_median_bytes": 4870144.0,
+    "exit_codes": [
+     0
+    ]
+   }
+  },
+  {
+   "tool": "qdirstat",
+   "dataset": "linux_kernel",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 64745472,
+   "reported_bytes": 1610612736,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": 2.561,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 1610612736, \"elapsed_s\": 1.799618, \"signal\": \"log: Reading finished\", \"peak_rss_bytes\": 64745472, \"poll_s\": 0.02, \"displayed\": \"  1.5 GB\"}\n",
+   "harness": {
+    "elapsed_s": 1.799618,
+    "signal": "log: Reading finished",
+    "displayed": "  1.5 GB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.46354799999999996,
+    "mean_s": 0.4635644,
+    "stddev_s": 0.0001111457501561753,
+    "min_s": 0.463397,
+    "max_s": 0.463751,
+    "runs": 10,
+    "times_s": [
+     0.46362,
+     0.463751,
+     0.463534,
+     0.463483,
+     0.463397,
+     0.463593,
+     0.463459,
+     0.463525,
+     0.46372,
+     0.463562
+    ],
+    "user_s": 0.0945409,
+    "system_s": 0.0224629,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.645234495,
+     "mean_s": 0.6449537449000001,
+     "stddev_s": 0.00329577025227685,
+     "min_s": 0.640496489,
+     "max_s": 0.6502699860000001,
+     "times_s": [
+      0.640496489,
+      0.646996224,
+      0.647114327,
+      0.6479531660000001,
+      0.6406996770000001,
+      0.644142301,
+      0.646326689,
+      0.6436661920000001,
+      0.6502699860000001,
+      0.6418723980000001
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 3.090504,
+    "mean_s": 3.0880978,
+    "stddev_s": 0.023616861681857722,
+    "min_s": 3.050065,
+    "max_s": 3.108634,
+    "runs": 5,
+    "times_s": [
+     3.050065,
+     3.108634,
+     3.090504,
+     3.084617,
+     3.106669
+    ],
+    "user_s": 0.1022354,
+    "system_s": 0.0390772,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 3.350770935,
+     "mean_s": 3.3438300664,
+     "stddev_s": 0.02757592664846027,
+     "min_s": 3.301982614,
+     "max_s": 3.371805309,
+     "times_s": [
+      3.301982614,
+      3.362055582,
+      3.350770935,
+      3.332535892,
+      3.371805309
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  },
+  {
+   "tool": "k4dirstat",
+   "dataset": "linux_kernel",
+   "track": "gui",
+   "exit_code": 0,
+   "peak_rss_bytes": 118542336,
+   "reported_bytes": 1567663063,
+   "correctness": {
+    "status": "agrees",
+    "reference": "alloc_du",
+    "reference_value": 1570390016,
+    "diff_pct": -0.174,
+    "closest_semantics": "alloc_du"
+   },
+   "stdout_head": "{\"total_bytes\": 1567663063, \"elapsed_s\": 0.899035, \"signal\": \"status bar: Finished. Elapsed time: 00:00:00.422\", \"peak_rss_bytes\": 118542336, \"poll_s\": 0.02, \"displayed\": \" 1.46 GB\"}\n",
+   "harness": {
+    "elapsed_s": 0.899035,
+    "signal": "status bar: Finished. Elapsed time: 00:00:00.422",
+    "displayed": " 1.46 GB",
+    "poll_s": 0.02
+   },
+   "warm": {
+    "median_s": 0.5614444999999999,
+    "mean_s": 0.5593657000000001,
+    "stddev_s": 0.00708232292479742,
+    "min_s": 0.539385,
+    "max_s": 0.563594,
+    "runs": 10,
+    "times_s": [
+     0.562105,
+     0.560964,
+     0.562066,
+     0.56166,
+     0.563594,
+     0.559992,
+     0.561002,
+     0.539385,
+     0.56146,
+     0.561429
+    ],
+    "user_s": 0.0827535,
+    "system_s": 0.019389299999999998,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 0.6796466155,
+     "mean_s": 0.6792597113000001,
+     "stddev_s": 0.002074447205283261,
+     "min_s": 0.676250063,
+     "max_s": 0.682762395,
+     "times_s": [
+      0.68059899,
+      0.681083958,
+      0.680310784,
+      0.677913157,
+      0.682762395,
+      0.6793680820000001,
+      0.679925149,
+      0.676250063,
+      0.6776168260000001,
+      0.676767709
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   },
+   "cold": {
+    "median_s": 2.277324,
+    "mean_s": 2.2763702,
+    "stddev_s": 0.018631598500933787,
+    "min_s": 2.248651,
+    "max_s": 2.300456,
+    "runs": 5,
+    "times_s": [
+     2.248651,
+     2.273493,
+     2.281927,
+     2.300456,
+     2.277324
+    ],
+    "user_s": 0.092495,
+    "system_s": 0.0317834,
+    "peak_rss_median_bytes": null,
+    "exit_codes": [
+     0
+    ],
+    "wrapper_wall": {
+     "median_s": 2.472534572,
+     "mean_s": 2.4716380578,
+     "stddev_s": 0.016511606962517814,
+     "min_s": 2.448018198,
+     "max_s": 2.494446051,
+     "times_s": [
+      2.448018198,
+      2.469185028,
+      2.472534572,
+      2.494446051,
+      2.47400644
+     ]
+    },
+    "timing": "harness: process launch -> completion signal"
+   }
+  }
+ ],
+ "planned_gui": [
+  {
+   "platform": "macos",
+   "name": "OmniDiskSweeper",
+   "reason": "Runs on macos-14, but scans of the benchmark's disk-image dataset volume are 50-75x slower than the same tree on the runner's boot disk (~115 s for the 150k-file tree vs a few seconds on the boot disk). Not caused by mount options (-nobrowse and case-sensitivity tested) or by TCC (Full Disk Access / removable-volume grants tested). Timing would measure the runner's disk-image layer rather than the app, and doesn't fit the 300-minute job budget. The harness (bench/gui/macos_app.py) and pinned install are kept for dedicated machines."
+  },
+  {
+   "platform": "macos",
+   "name": "GrandPerspective",
+   "reason": "Runs on macos-14, but scans of the benchmark's disk-image dataset volume are 50-75x slower than the same tree on the runner's boot disk (~50-70 s for the 150k-file tree vs a few seconds on the boot disk). Not caused by mount options (-nobrowse and case-sensitivity tested) or by TCC (Full Disk Access / removable-volume grants tested). Timing would measure the runner's disk-image layer rather than the app, and doesn't fit the 300-minute job budget. The harness (bench/gui/macos_app.py) and pinned install are kept for dedicated machines."
+  },
+  {
+   "platform": "macos",
+   "name": "Disk Inventory X",
+   "reason": "Runs on macos-14, but scans of the benchmark's disk-image dataset volume are 50-75x slower than the same tree on the runner's boot disk (~190 s for the 150k-file tree vs a few seconds on the boot disk). Not caused by mount options (-nobrowse and case-sensitivity tested) or by TCC (Full Disk Access / removable-volume grants tested). Timing would measure the runner's disk-image layer rather than the app, and doesn't fit the 300-minute job budget. The harness (bench/gui/macos_app.py) and pinned install are kept for dedicated machines."
+  },
+  {
+   "platform": "macos",
+   "name": "DaisyDisk",
+   "reason": "Commercial (trial). No CLI/AppleScript scan dictionary; would need UI automation + a licence for CI. Planned for dedicated machines with the vendor's OK."
+  },
+  {
+   "platform": "macos",
+   "name": "SquirrelDisk",
+   "reason": "Open source (Tauri) and scans by spawning pdu internally, so its engine time is approximately pdu's; GUI has no completion signal. Planned."
+  },
+  {
+   "platform": "windows",
+   "name": "WizTree",
+   "reason": "Has a proper CLI export (/export=... /admin=1, MFT scan) and would be easy to automate, but the EULA allows free use for personal use only; running it on CI for a public benchmark needs a supporter licence or the vendor's permission. Planned pending permission."
+  },
+  {
+   "platform": "windows",
+   "name": "TreeSize Free",
+   "reason": "Blocked on hosted runners by its licence: TreeSize Free 4.8.1 (current download) opens a modal 'Windows Server is not supported' dialog at launch (\"TreeSize Free is no longer supported on a Windows Server as of version 4.7.3\") and never scans; windows-latest is Windows Server 2025. Running an older build would sidestep the vendor's terms. Planned for a Windows 10/11 (desktop) runner."
+  },
+  {
+   "platform": "linux",
+   "name": "Baobab (GNOME Disk Usage Analyzer)",
+   "reason": "Ubuntu 24.04 ships Baobab 46.0 on GTK 4.14: under Xvfb + AT-SPI the end of the scan is visible (the charts appear) but the folder list exposes no rows to AT-SPI (only its column headers) and the total is only painted in the ring chart, so the total can't be read from the app. Baobab 48 / GTK 4.18 exposes the rows and works with bench/gui/linux_atspi.py; enable when ubuntu-latest ships it."
+  },
+  {
+   "platform": "linux",
+   "name": "Filelight",
+   "reason": "Ubuntu 24.04 ships Filelight 23.08 (KF5): the status bar shows 'N files' when the scan ends, but the total size is only painted in the radial map (no accessible text, no export or CLI); under Xvfb the window even stayed on its Overview page. Planned."
+  },
+  {
+   "platform": "all",
+   "name": "dua / gdu / ncdu interactive TUIs",
+   "reason": "Excluded: interactive mode renders to a terminal; their non-interactive modes are measured in the CLI track instead."
+  }
+ ]
+}
